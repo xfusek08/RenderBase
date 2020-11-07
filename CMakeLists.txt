@@ -32,7 +32,7 @@ set(SOURCES
 #     ${IMGUI_DIR}/examples/imgui_impl_opengl3.cpp
 # )
 
-add_subdirectory(src/vendor/glad)
+add_subdirectory(vendor/glad)
 
 add_library(${PROJECT_NAME}
     ${SOURCES}

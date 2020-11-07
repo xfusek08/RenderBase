@@ -1,8 +1,8 @@
 #include <stdexcept>
 #include <fstream>
 
-#include <rb/graphics.h>
-#include <rb/platform/platform.h>
+#include <RenderBase/graphics.h>
+#include <RenderBase/platform/platform.h>
 
 using namespace std;
 using namespace glm;

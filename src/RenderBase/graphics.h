@@ -5,7 +5,7 @@
 #include <memory>
 
 #include <glm/glm.hpp>
-#include <rb/platform/platform.h>
+#include <RenderBase/platform/platform.h>
 
 namespace rb {
 

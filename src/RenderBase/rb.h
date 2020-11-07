@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rb/graphics.h>
-#include <rb/window.h>
-#include <rb/event.h>
-#include <rb/scene.h>
-#include <rb/application.h>
+#include <RenderBase/graphics.h>
+#include <RenderBase/window.h>
+#include <RenderBase/event.h>
+#include <RenderBase/scene.h>
+#include <RenderBase/application.h>

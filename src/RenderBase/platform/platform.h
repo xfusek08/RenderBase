@@ -9,10 +9,10 @@
 #endif // else another openGL or migrate to GPUEngine
 
 #if __has_include (<SDL.h>)
-    #include <rb/platform/sdl.h>
+    #include <RenderBase/platform/sdl.h>
     #define PLATFORM_WINDOW_SDL
 #else
-    #include <rb/window.h>
+    #include <RenderBase/window.h>
 #endif // else another window lib
 
 namespace rb {

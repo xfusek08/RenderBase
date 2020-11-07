@@ -7,19 +7,15 @@ find_package(SDL2 REQUIRED)
 find_package(glm REQUIRED)
 
 set(SOURCES
-    src/main.cpp
+    src/RenderBase/rb.h
+    src/RenderBase/event.h
+    src/RenderBase/scene.h
+    src/RenderBase/window.h             src/RenderBase/window.cpp
+    src/RenderBase/application.h        src/RenderBase/application.cpp
+    src/RenderBase/graphics.h           src/RenderBase/graphics.cpp
 
-    # namespace rb
-    src/rb/rb.h
-    src/rb/event.h
-    src/rb/scene.h
-    src/rb/window.h             src/rb/window.cpp
-    src/rb/application.h        src/rb/application.cpp
-    src/rb/graphics.h           src/rb/graphics.cpp
-
-    # namespace platform
-    src/rb/platform/platform.h  src/rb/platform/platform.cpp
-    src/rb/platform/sdl.h       src/rb/platform/sdl.cpp
+    src/RenderBase/platform/platform.h  src/RenderBase/platform/platform.cpp
+    src/RenderBase/platform/sdl.h       src/RenderBase/platform/sdl.cpp
 )
 
 # # find imgui sources
@@ -38,7 +34,7 @@ set(SOURCES
 
 add_subdirectory(src/vendor/glad)
 
-add_executable(${PROJECT_NAME}
+add_library(${PROJECT_NAME}
     ${SOURCES}
     # ${IMGUI_HEADERS}
     # ${IMGUI_SOURCES}

@@ -16,3 +16,5 @@ This is list of want-to features and known issues (later maybe moved to github i
   [build] LINK : warning LNK4098: Výchozí knihovna MSVCRT je v konfliktu s použitím jiných knihoven. Použijte /NODEFAULTLIB:library.
   ```
 * maybe migrate from CMake to [Premake](https://premake.github.io/)?
+* Dynamic window size changing
+* CAP FPS to value option to main window

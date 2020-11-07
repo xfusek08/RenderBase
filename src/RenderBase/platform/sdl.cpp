@@ -78,3 +78,15 @@ void SDLWindow::onEventVirtual(const eventCallback_t& callback) {
 void SDLWindow::onDrawVirtual(const drawCallback_t& callback) {
     drawCallback = callback;
 }
+
+uint32_t SDLWindow::getWidth() const {
+    int w,h;
+    SDL_GetWindowSize(this->sdlWindow, &w, &h);
+    return w;
+}
+
+uint32_t SDLWindow::getHeight() const {
+    int w,h;
+    SDL_GetWindowSize(this->sdlWindow, &w, &h);
+    return h;
+}

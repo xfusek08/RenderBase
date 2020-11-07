@@ -1,7 +1,7 @@
 
 #include <memory>
 #include <iostream>
-#include <engine/platform/platform.h>
+#include <rb/platform/platform.h>
 
 using namespace std;
 
@@ -16,14 +16,14 @@ void *getGlProcAddressFunction() {
     return nullptr;
 }
 
-unique_ptr<engine::Window> engine::platform::createWindow(const string &title, uint32_t width, uint32_t height) {
+unique_ptr<rb::Window> rb::platform::createWindow(const string &title, uint32_t width, uint32_t height) {
     #ifdef PLATFORM_WINDOW_SDL
         return make_unique<sdl::SDLWindow>(title, width, height);
     #endif // try another window lib
     return nullptr;
 }
 
-bool engine::platform::loadOpenGlFunctions() {
+bool rb::platform::loadOpenGlFunctions() {
     #ifdef PLATFORM_GL_GLAD
         auto functionPointer = getGlProcAddressFunction();
         if (functionPointer != nullptr) {

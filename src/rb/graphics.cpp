@@ -1,12 +1,12 @@
 #include <stdexcept>
 #include <fstream>
 
-#include <engine/graphics.h>
-#include <engine/platform/platform.h>
+#include <rb/graphics.h>
+#include <rb/platform/platform.h>
 
 using namespace std;
 using namespace glm;
-using namespace engine;
+using namespace rb;
 
 Graphics::Graphics() {
     if (!platform::loadOpenGlFunctions()) {

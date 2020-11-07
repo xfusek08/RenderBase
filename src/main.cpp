@@ -2,10 +2,10 @@
 #include <stdexcept>
 #include <iostream>
 
-#include <engine/engine.h>
+#include <rb/rb.h>
 
 using namespace std;
-using namespace engine;
+using namespace rb;
 
 class App : public Application
 {
@@ -30,7 +30,7 @@ class App : public Application
         return true;
     }
 
-    bool update(const engine::Event &event) {
+    bool update(const rb::Event &event) {
         return true;
     }
 

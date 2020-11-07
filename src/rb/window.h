@@ -4,7 +4,7 @@
 #include <functional>
 #include <chrono>
 
-namespace engine {
+namespace rb {
 
     class Event;
 

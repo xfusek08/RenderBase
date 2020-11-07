@@ -1,6 +1,6 @@
 #pragma once
 
-namespace engine {
+namespace rb {
 
     class Scene
     {

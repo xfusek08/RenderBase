@@ -1,16 +1,16 @@
 
-#include <engine/platform/sdl.h>
+#include <rb/platform/sdl.h>
 
-#include <engine/event.h>
+#include <rb/event.h>
 
 using namespace std;
-using namespace engine::platform::sdl;
+using namespace rb::platform::sdl;
 
 // #########################################################################
 // Helper functions
 // #########################################################################
-void parseEvent(const SDL_Event &sdlEvent, engine::Event *event) {
-    // transform sdl event to engine event
+void parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
+    // transform sdl event to rb event
 }
 
 tuple<int, int> getScreenSize() {

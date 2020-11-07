@@ -9,17 +9,17 @@ find_package(glm REQUIRED)
 set(SOURCES
     src/main.cpp
 
-    # namespace engine
-    src/engine/engine.h
-    src/engine/event.h
-    src/engine/scene.h
-    src/engine/window.h             src/engine/window.cpp
-    src/engine/application.h        src/engine/application.cpp
-    src/engine/graphics.h           src/engine/graphics.cpp
+    # namespace rb
+    src/rb/rb.h
+    src/rb/event.h
+    src/rb/scene.h
+    src/rb/window.h             src/rb/window.cpp
+    src/rb/application.h        src/rb/application.cpp
+    src/rb/graphics.h           src/rb/graphics.cpp
 
     # namespace platform
-    src/engine/platform/platform.h  src/engine/platform/platform.cpp
-    src/engine/platform/sdl.h       src/engine/platform/sdl.cpp
+    src/rb/platform/platform.h  src/rb/platform/platform.cpp
+    src/rb/platform/sdl.h       src/rb/platform/sdl.cpp
 )
 
 # # find imgui sources

@@ -1,13 +1,13 @@
 #pragma once
 
-#include <engine/Window.h>
+#include <rb/Window.h>
 #include <SDL.h>
 
-namespace engine {
+namespace rb {
     namespace platform {
         namespace sdl {
 
-            class SDLWindow : public engine::Window
+            class SDLWindow : public rb::Window
             {
                 public:
                     SDLWindow(const std::string &title, uint32_t width, uint32_t height);
@@ -15,11 +15,11 @@ namespace engine {
                     int showVirtual() override;
 
                 protected:
-                    void onEventVirtual(const engine::eventCallback_t& callback) override;
-                    void onDrawVirtual(const engine::drawCallback_t& callback) override;
+                    void onEventVirtual(const rb::eventCallback_t& callback) override;
+                    void onDrawVirtual(const rb::drawCallback_t& callback) override;
 
-                    engine::eventCallback_t eventCallback = nullptr;
-                    engine::drawCallback_t  drawCallback  = nullptr;
+                    rb::eventCallback_t eventCallback = nullptr;
+                    rb::drawCallback_t  drawCallback  = nullptr;
                     SDL_Window*             sdlWindow     = nullptr;
                     SDL_GLContext           sdlGlContext  = nullptr;
             };

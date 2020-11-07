@@ -5,9 +5,9 @@
 #include <memory>
 
 #include <glm/glm.hpp>
-#include <engine/platform/platform.h>
+#include <rb/platform/platform.h>
 
-namespace engine {
+namespace rb {
 
     class Graphics
     {
@@ -24,6 +24,6 @@ namespace engine {
 }
 
 template <typename... ARGS>
-GLuint engine::Graphics::createProgram(ARGS const&... ids) {
+GLuint rb::Graphics::createProgram(ARGS const&... ids) {
     return createProgram({ids...});
 }

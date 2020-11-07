@@ -1,10 +1,10 @@
 #include <iostream>
 #include <functional>
 
-#include <engine/engine.h>
-#include <engine/platform/platform.h>
+#include <rb/rb.h>
+#include <rb/platform/platform.h>
 
-using namespace engine;
+using namespace rb;
 
 Application::Application(Configuration config) {
 

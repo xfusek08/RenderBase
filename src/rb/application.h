@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-namespace engine {
+namespace rb {
 
     class Event;
     class Scene;

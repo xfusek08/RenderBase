@@ -7,12 +7,14 @@ if(NOT DEFINED ${${PROJECT_NAME}_RESOURCES})
     set(${PROJECT_NAME}_RESOURCES  "${DEFAULT_RESOERCES_PATH}" CACHE PATH "Relative or absolute path to Application resources.")
 endif()
 
+message(${${PROJECT_NAME}_RESOURCES}/shaders/)
+
 # generate shader definitions from SHADER_FILES based on their location
 set(SHADER_DEBUG_COMPILE_DEFINITIONS )
 set(SHADER_RELEASE_COMPILE_DEFINITIONS )
 foreach(relative_file_name ${SHADER_FILES})
 
-   unset(shader_file CACHE)
+    unset(shader_file CACHE)
 
     # find full name of shader
     find_file(shader_file

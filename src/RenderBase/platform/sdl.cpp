@@ -9,9 +9,6 @@ using namespace rb::platform::sdl;
 // #########################################################################
 // Helper functions
 // #########################################################################
-void parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
-    // transform sdl event to rb event
-}
 
 tuple<int, int> getScreenSize() {
     SDL_DisplayMode DM;
@@ -58,7 +55,7 @@ int SDLWindow::showVirtual() {
             if (sdlEvent.type == SDL_QUIT) {
                 open = false;
             }
-            auto event = Event();
+            rb::Event event;
             parseEvent(sdlEvent, &event);
             eventCallback(event);
         }
@@ -89,4 +86,31 @@ uint32_t SDLWindow::getHeight() const {
     int w,h;
     SDL_GetWindowSize(this->sdlWindow, &w, &h);
     return h;
+}
+
+void SDLWindow::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
+    switch (sdlEvent.type)
+    {
+        case SDL_MOUSEMOTION: {
+            auto w = float(getWidth());
+            auto h = float(getHeight());
+
+            event->mouseMoveData = {
+                EventType::MouseMove,
+                float(sdlEvent.motion.x)    / w,
+                float(sdlEvent.motion.y)    / h,
+                float(sdlEvent.motion.xrel) / w,
+                float(sdlEvent.motion.yrel) / h,
+                {
+                    bool(sdlEvent.motion.state & SDL_BUTTON_LEFT),
+                    bool(sdlEvent.motion.state & SDL_BUTTON_RIGHT),
+                    bool(sdlEvent.motion.state & SDL_BUTTON_MIDDLE),
+                }
+            };
+        } break;
+
+        default: {
+            event->type = EventType::Unknown;
+        } break;
+    }
 }

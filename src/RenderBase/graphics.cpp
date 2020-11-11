@@ -1,20 +1,93 @@
+#include <RenderBase/graphics.h>
+#include <RenderBase/logging.h>
+#include <RenderBase/platform/platform.h>
+
 #include <stdexcept>
 #include <fstream>
 
-#include <RenderBase/graphics.h>
-#include <RenderBase/platform/platform.h>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 using namespace glm;
 using namespace rb;
 
-Graphics::Graphics() {
-    if (!platform::loadOpenGlFunctions()) {
-        throw std::runtime_error("Failed to initialize graphics");
+//////////////////////////////////////////
+// Program class
+//////////////////////////////////////////
+
+Program::Program(Program::shaderArray shaders) {
+
+    // create program
+    glId = glCreateProgram();
+
+    // attach shaders
+    for (auto const& shader : shaders) {
+        if (!shader->getErrorMessage().empty()) {
+            errorMessage = "A shader was not compiled properly and cannot be attached to program:\n" + shader->getErrorMessage() + "\n";
+            break;
+        }
+        glAttachShader(glId, shader->getGlId());
     }
+
+    attachedShaders = shaders;
+
+    // link program
+    GLint status;
+    glLinkProgram(glId);
+    glGetProgramiv(glId, GL_LINK_STATUS, &status);
+    if (status != GL_TRUE) {
+        GLint errLen = 0;
+        glGetProgramiv(glId, GL_INFO_LOG_LENGTH, &errLen);
+        errorMessage = std::string(" ", errLen);
+        glGetProgramInfoLog(glId, errorMessage.size(), &errLen, (char*)errorMessage.data());
+    }
+    LOG_DEBUG("Program created");
 }
 
-GLuint Graphics::createShader(GLenum type, string const& src) {
+Program::~Program() {
+    // detach shaders
+    for (auto const& shader : attachedShaders) {
+        glDetachShader(glId, shader->getGlId());
+    }
+    glDeleteProgram(glId);
+    LOG_DEBUG("Program deleted");
+}
+
+void Program::use() {
+    glUseProgram(glId);
+}
+
+void Program::uniform(const std::string& name, int value) {
+    GLuint location = glGetUniformLocation(glId, name.data());
+    glProgramUniform1i(glId, location, value);
+}
+
+void Program::uniform(const std::string& name, float value) {
+    GLuint location = glGetUniformLocation(glId, name.data());
+    glProgramUniform1f(glId, location, value);
+}
+
+void Program::uniform(const std::string& name, glm::vec3 value) {
+    GLuint location = glGetUniformLocation(glId, name.data());
+    glProgramUniform3fv(glId, location, 1, glm::value_ptr(value));
+}
+
+void Program::uniform(const std::string& name, glm::mat3 value) {
+    GLuint location = glGetUniformLocation(glId, name.data());
+    glProgramUniformMatrix3fv(glId, location, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void Program::uniform(const std::string& name, glm::mat4 value) {
+    GLuint location = glGetUniformLocation(glId, name.data());
+    glProgramUniformMatrix4fv(glId, location, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+//////////////////////////////////////////
+// Shader
+//////////////////////////////////////////
+
+Shader::Shader(GLenum type, const std::string& src) : GlObject() {
+    // Source loading - from file or src is actual source code
     string source = "";
     std::ifstream stream(src);
     if (stream.good()) {
@@ -26,37 +99,36 @@ GLuint Graphics::createShader(GLenum type, string const& src) {
         source = src;
     }
 
-    auto id = glCreateShader(type);
-    char const* srcs[] = { source.data() };
-    glShaderSource(id, 1, srcs, nullptr);
-    glCompileShader(id);
+    // Compile
+    glId = glCreateShader(type);
+    char const* rawSource = source.c_str();
+    glShaderSource(glId, 1, &rawSource, nullptr);
+    glCompileShader(glId);
+
+    // Get status and possible errors
     GLint status;
-    glGetShaderiv(id, GL_COMPILE_STATUS, &status);
+    glGetShaderiv(glId, GL_COMPILE_STATUS, &status);
     if (status != GL_TRUE) {
         GLint errLen = 0;
-        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &errLen);
-        auto buf = std::string(" ", errLen);
-        glGetShaderInfoLog(id, buf.size(), &errLen, (char*)buf.data());
-        throw std::runtime_error("Compilation failed: " + buf);
+        glGetShaderiv(glId, GL_INFO_LOG_LENGTH, &errLen);
+        errorMessage = std::string(" ", errLen);
+        glGetShaderInfoLog(glId, errorMessage.size(), &errLen, (char*)errorMessage.data());
+        errorMessage = "Shader error: " + errorMessage;
     }
-    return id;
+    LOG_DEBUG("Shader created");
 }
 
-GLuint Graphics::createProgram(vector<GLuint> shaders) {
-    GLint status;
-    auto id = glCreateProgram();
+Shader::~Shader() {
+    glDeleteShader(glId);
+    LOG_DEBUG("shader deleted");
+}
 
-    for (auto shader : shaders) {
-        glAttachShader(id, shader);
+//////////////////////////////////////////
+// GraphicsContext
+//////////////////////////////////////////
+
+GraphicsContext::GraphicsContext() {
+    if (!platform::loadOpenGlFunctions()) {
+        throw std::runtime_error("Failed to initialize graphics");
     }
-    glLinkProgram(id);
-    glGetProgramiv(id, GL_LINK_STATUS, &status);
-    if (status != GL_TRUE) {
-        GLint errLen = 0;
-        glGetProgramiv(id, GL_INFO_LOG_LENGTH, &errLen);
-        auto buf = std::string(" ", errLen);
-        glGetProgramInfoLog(id, buf.size(), &errLen, (char*)buf.data());
-        throw std::runtime_error("Linking failed: " + buf);
-    }
-    return id;
 }

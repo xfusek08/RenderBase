@@ -22,8 +22,8 @@ Application::Application(Configuration config) {
     this->mainWindow->onEvent([=](const Event &event) { return this->update(event); });
     this->mainWindow->onDraw([=]() { this->draw(); });
 
-    this->graphics = std::make_unique<Graphics>();
-    this->scene    = std::make_unique<Scene>();
+    this->mainGraphicsContext = std::make_unique<GraphicsContext>();
+    this->scene               = std::make_unique<Scene>();
 
     state = ApplicationState::valid;
 }

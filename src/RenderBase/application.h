@@ -3,9 +3,10 @@
 #include <string>
 #include <memory>
 
+#include <RenderBase/event.h>
+
 namespace rb {
 
-    class Event;
     class Scene;
     class Graphics;
     class Window;
@@ -46,10 +47,10 @@ namespace rb {
 
             void addErrorMessage(const std::string& message);
 
-            Configuration             config     = {};
-            std::unique_ptr<Window>   mainWindow = nullptr;
-            std::unique_ptr<Graphics> graphics   = nullptr;
-            std::unique_ptr<Scene>    scene      = nullptr;
+            Configuration                    config              = {};
+            std::unique_ptr<Window>          mainWindow          = nullptr;
+            std::unique_ptr<Scene>           scene               = nullptr;
+            std::unique_ptr<GraphicsContext> mainGraphicsContext = nullptr;
     };
 
 }

@@ -10,6 +10,7 @@ set(SOURCES
     src/RenderBase/rb.h
     src/RenderBase/event.h
     src/RenderBase/scene.h
+    src/RenderBase/logging.h
     src/RenderBase/window.h             src/RenderBase/window.cpp
     src/RenderBase/application.h        src/RenderBase/application.cpp
     src/RenderBase/graphics.h           src/RenderBase/graphics.cpp
@@ -52,10 +53,19 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     # ${IMGUI_DIR}
 )
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC
-    "PROJECT_NAME=\"${PROJECT_NAME}\""
-    $<$<CONFIG:DEBUG>:
-        "DEBUG"
-    >
-    $<$<CONFIG:RELEASE>: >
-)
+if (NOT DEFINED COMPILE_DEFINITIONS)
+    set(COMPILE_DEFINITIONS
+        "PROJECT_NAME=\"${PROJECT_NAME}\""
+        $<$<CONFIG:Debug>:
+            "DEBUG"
+        >
+        $<$<CONFIG:Release>: >
+    )
+endif()
+
+message(" ")
+message("====== ${PROJECT_NAME} compile definitions =======")
+message(${COMPILE_DEFINITIONS})
+message("==================================================")
+message(" ")
+target_compile_definitions(${PROJECT_NAME} PUBLIC ${COMPILE_DEFINITIONS})

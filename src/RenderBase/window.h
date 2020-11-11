@@ -4,9 +4,9 @@
 #include <functional>
 #include <chrono>
 
-namespace rb {
+#include <RenderBase/event.h>
 
-    class Event;
+namespace rb {
 
     struct FrameStat
     {

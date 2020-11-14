@@ -18,3 +18,5 @@ This is list of want-to features and known issues (later maybe moved to github i
 * maybe migrate from CMake to [Premake](https://premake.github.io/)?
 * Dynamic window size changing
 * CAP FPS to value option to main window
+* add camera - recycle code from geoPlanetLib
+* better logging (levels) and destinations

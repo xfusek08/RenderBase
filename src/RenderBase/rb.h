@@ -1,7 +1,6 @@
 #pragma once
 
-#include <RenderBase/graphics.h>
-#include <RenderBase/window.h>
-#include <RenderBase/event.h>
-#include <RenderBase/scene.h>
-#include <RenderBase/application.h>
+#include <RenderBase/core/graphics.h>
+#include <RenderBase/core/event.h>
+#include <RenderBase/core/application.h>
+#include <RenderBase/core/window.h>

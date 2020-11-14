@@ -8,15 +8,20 @@ find_package(glm REQUIRED)
 
 set(SOURCES
     src/RenderBase/rb.h
-    src/RenderBase/event.h
-    src/RenderBase/scene.h
-    src/RenderBase/logging.h
-    src/RenderBase/window.h             src/RenderBase/window.cpp
-    src/RenderBase/application.h        src/RenderBase/application.cpp
-    src/RenderBase/graphics.h           src/RenderBase/graphics.cpp
 
+    # core
+    src/RenderBase/core/application.h   src/RenderBase/core/application.cpp
+    src/RenderBase/core/event.h
+    src/RenderBase/core/graphics.h      src/RenderBase/core/graphics.cpp
+    src/RenderBase/core/window.h        src/RenderBase/core/window.cpp
+
+    # platform
     src/RenderBase/platform/platform.h  src/RenderBase/platform/platform.cpp
     src/RenderBase/platform/sdl.h       src/RenderBase/platform/sdl.cpp
+
+    # tools
+    src/RenderBase/tools/logging.h
+    src/RenderBase/tools/camera.h       src/RenderBase/tools/camera.cpp
 )
 
 # # find imgui sources

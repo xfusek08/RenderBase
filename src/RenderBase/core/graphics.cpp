@@ -1,6 +1,5 @@
-#include <RenderBase/graphics.h>
-#include <RenderBase/logging.h>
-#include <RenderBase/platform/platform.h>
+#include <RenderBase/core/graphics.h>
+#include <RenderBase/tools/logging.h>
 
 #include <stdexcept>
 #include <fstream>
@@ -70,6 +69,11 @@ void Program::uniform(const std::string& name, float value) {
 void Program::uniform(const std::string& name, glm::vec3 value) {
     GLuint location = glGetUniformLocation(glId, name.data());
     glProgramUniform3fv(glId, location, 1, glm::value_ptr(value));
+}
+
+void Program::uniform(const std::string& name, glm::vec4 value) {
+    GLuint location = glGetUniformLocation(glId, name.data());
+    glProgramUniform4fv(glId, location, 1, glm::value_ptr(value));
 }
 
 void Program::uniform(const std::string& name, glm::mat3 value) {

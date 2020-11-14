@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-#include <RenderBase/event.h>
+#include <RenderBase/core/event.h>
 
 namespace rb {
 
@@ -49,7 +49,6 @@ namespace rb {
 
             Configuration                    config              = {};
             std::unique_ptr<Window>          mainWindow          = nullptr;
-            std::unique_ptr<Scene>           scene               = nullptr;
             std::unique_ptr<GraphicsContext> mainGraphicsContext = nullptr;
     };
 

@@ -23,7 +23,6 @@ Application::Application(Configuration config) {
     this->mainWindow->onDraw([=]() { this->draw(); });
 
     this->mainGraphicsContext = std::make_unique<GraphicsContext>();
-    this->scene               = std::make_unique<Scene>();
 
     state = ApplicationState::valid;
 }

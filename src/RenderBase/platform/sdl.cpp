@@ -1,7 +1,7 @@
 
 #include <RenderBase/platform/sdl.h>
 
-#include <RenderBase/event.h>
+#include <RenderBase/core/event.h>
 
 using namespace std;
 using namespace rb::platform::sdl;
@@ -95,6 +95,18 @@ void SDLWindow::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
             auto w = float(getWidth());
             auto h = float(getHeight());
 
+            // if (sdlEvent.motion.state) {
+            //     w++;
+            // }
+
+            // if (sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+            //     w++;
+            // }
+
+            // if (sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT)) {
+            //     w++;
+            // }
+
             event->mouseMoveData = {
                 EventType::MouseMove,
                 float(sdlEvent.motion.x)    / w,
@@ -102,9 +114,9 @@ void SDLWindow::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
                 float(sdlEvent.motion.xrel) / w,
                 float(sdlEvent.motion.yrel) / h,
                 {
-                    bool(sdlEvent.motion.state & SDL_BUTTON_LEFT),
-                    bool(sdlEvent.motion.state & SDL_BUTTON_RIGHT),
-                    bool(sdlEvent.motion.state & SDL_BUTTON_MIDDLE),
+                    bool(sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)),
+                    bool(sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT)),
+                    bool(sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_MIDDLE)),
                 }
             };
         } break;

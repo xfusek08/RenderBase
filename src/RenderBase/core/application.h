@@ -48,7 +48,7 @@ namespace rb {
             void addErrorMessage(const std::string& message);
 
             Configuration                    config              = {};
-            std::unique_ptr<Window>          mainWindow          = nullptr;
+            std::shared_ptr<Window>          mainWindow          = nullptr;
             std::unique_ptr<GraphicsContext> mainGraphicsContext = nullptr;
     };
 

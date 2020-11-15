@@ -14,6 +14,7 @@ set(SOURCES
     src/RenderBase/core/event.h
     src/RenderBase/core/graphics.h      src/RenderBase/core/graphics.cpp
     src/RenderBase/core/window.h        src/RenderBase/core/window.cpp
+    src/RenderBase/core/performance.h   src/RenderBase/core/performance.cpp
 
     # platform
     src/RenderBase/platform/platform.h  src/RenderBase/platform/platform.cpp

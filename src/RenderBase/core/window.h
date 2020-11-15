@@ -2,30 +2,24 @@
 
 #include <memory>
 #include <functional>
-#include <chrono>
 
 #include <RenderBase/core/event.h>
+#include <RenderBase/core/performance.h>
 
 namespace rb {
 
-    struct FrameStat
-    {
-        std::chrono::steady_clock::time_point startTime;
-        std::chrono::microseconds duration;
-        uint32_t frames = 0;
-        bool isFinished  = false;
-    };
-
-    using eventCallback_t    = std::function<bool(const Event&)>;
-    using drawCallback_t     = std::function<void()>;
-    using fpsCountCallback_t = std::function<void(FrameStat)>;
+    using eventCallback_t = std::function<bool(const Event&)>;
+    using drawCallback_t  = std::function<void()>;
 
     class Window
     {
         public:
             void onEvent(const eventCallback_t& callback);
             void onDraw(const drawCallback_t& callback);
-            void onFPSCount(const fpsCountCallback_t& callback);
+
+            void setPerformanceAnalyzer(std::shared_ptr<PerformenceAnalyzer> analyzer) { this->analyzer = analyzer; }
+            inline std::shared_ptr<PerformenceAnalyzer> getPerformanceAnalyzer() const { return analyzer; }
+
             int  show();
 
             virtual std::string getTitle()  const = 0;
@@ -33,14 +27,10 @@ namespace rb {
             virtual uint32_t    getHeight() const = 0;
 
         protected:
+            std::shared_ptr<PerformenceAnalyzer> analyzer = nullptr;
+
             virtual int  showVirtual() = 0;
             virtual void onEventVirtual(const eventCallback_t& callback) = 0;
             virtual void onDrawVirtual(const drawCallback_t& callback) = 0;
-
-            FrameStat frame();
-            void      resetFrameCounter();
-
-            fpsCountCallback_t callbackFPSCount = nullptr;
-            FrameStat actFrameStat = {};
     };
 }

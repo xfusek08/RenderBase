@@ -17,7 +17,8 @@
 
 namespace rb {
     namespace platform {
-        std::unique_ptr<rb::Window> createWindow(const std::string& title, uint32_t width, uint32_t height);
         bool loadOpenGlFunctions();
+        std::shared_ptr<rb::Window>          createWindow(const std::string& title, uint32_t width, uint32_t height);
+        std::shared_ptr<PerformenceAnalyzer> createPerformanceAnalyzer();
     }
 }

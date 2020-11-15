@@ -1,0 +1,88 @@
+#pragma once
+
+#include <chrono>
+#include <functional>
+#include <vector>
+
+namespace rb {
+
+    struct TimeDiference {
+        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point end;
+
+        inline std::chrono::microseconds duration() const { return std::chrono::duration_cast<std::chrono::microseconds>(end - begin); }
+    };
+
+    struct FrameReport : TimeDiference {
+    };
+
+    struct IntervalPerformanceReport : TimeDiference {
+        std::chrono::microseconds averageFrameTime = std::chrono::microseconds::zero();
+        std::chrono::microseconds maxFrameTime     = std::chrono::microseconds::min();
+        std::chrono::microseconds minFrameTime     = std::chrono::microseconds::max();
+        uint32_t                  frames           = 0;
+
+        void accountFrameReport(const FrameReport& report) {
+            auto duration = report.duration();
+            maxFrameTime = max(maxFrameTime, duration);
+            minFrameTime = min(minFrameTime, duration);
+            averageFrameTime = (frames > 0)
+                ? averageFrameTime + ((duration - averageFrameTime) / frames)
+                : duration;
+            ++frames;
+        }
+    };
+
+    using periodReportCallback_t = std::function<void(IntervalPerformanceReport)>;
+    using frameReportCallback_t = std::function<void(FrameReport)>;
+
+    /**
+     * This is an abstract class providing interface and factory method
+     * for platform dependent implementation.
+     */
+    class PerformenceAnalyzer
+    {
+        public:
+            uint32_t FPSCap = 30;
+
+            PerformenceAnalyzer();
+
+            FrameReport frame();
+
+            inline FrameReport getLastFrameReport() { return lastFrameReport; }
+
+            void perFrameReport(const periodReportCallback_t& callback);
+            void perPeriodReport(std::chrono::microseconds periodLength, const periodReportCallback_t& callback);
+
+            template<typename _rep, typename ratio>
+            inline void perPeriodReport(std::chrono::duration<_rep, ratio> periodLength, const periodReportCallback_t& callback) {
+                perPeriodReport(std::chrono::duration_cast<std::chrono::microseconds>(periodLength), callback);
+            }
+
+            // platform dependent implementation
+            virtual void delay(std::chrono::microseconds usDelay) = 0;
+
+        protected:
+            FrameReport               lastFrameReport = {};
+            frameReportCallback_t     frameReportCallback = nullptr;
+            std::chrono::microseconds usPerFrame;
+
+
+            struct PeriodReportItem {
+                std::chrono::steady_clock::time_point timeToPublish;
+                std::chrono::microseconds             periodLength;
+                IntervalPerformanceReport             report;
+                periodReportCallback_t                callback;
+
+                PeriodReportItem(std::chrono::microseconds periodLength, const periodReportCallback_t& callback) :
+                    periodLength(periodLength),
+                    callback(callback),
+                    timeToPublish(std::chrono::steady_clock::now() + periodLength),
+                    report(IntervalPerformanceReport()) {}
+
+                bool operator<(const PeriodReportItem& other) const { return other.timeToPublish < other.timeToPublish; }
+                bool operator==(const PeriodReportItem& other) const { return periodLength == other.periodLength; }
+            };
+            std::vector<std::shared_ptr<PeriodReportItem>> periodicReports = {};
+    };
+}

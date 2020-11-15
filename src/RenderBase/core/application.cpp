@@ -4,6 +4,7 @@
 #include <RenderBase/rb.h>
 #include <RenderBase/platform/platform.h>
 
+using namespace std;
 using namespace rb;
 
 Application::Application(Configuration config) {
@@ -21,8 +22,9 @@ Application::Application(Configuration config) {
     this->mainWindow = platform::createWindow(PROJECT_NAME, this->config.windowWidth, this->config.windowHeight);
     this->mainWindow->onEvent([=](const Event &event) { return this->update(event); });
     this->mainWindow->onDraw([=]() { this->draw(); });
+    this->mainWindow->setPerformanceAnalyzer(platform::createPerformanceAnalyzer());
 
-    this->mainGraphicsContext = std::make_unique<GraphicsContext>();
+    this->mainGraphicsContext = make_unique<GraphicsContext>();
 
     state = ApplicationState::valid;
 }

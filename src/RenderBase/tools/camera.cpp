@@ -17,7 +17,7 @@ Camera::Camera(
     glm::vec3 target,
     glm::vec3 up,
     float     aspectRatio,
-    float     fovDegrees,
+    float     fov,
     float     nearPlane,
     float     farPlane
 ) :
@@ -25,7 +25,7 @@ Camera::Camera(
     target(target),
     up(up),
     aspectRatio(aspectRatio),
-    fovDegrees(fovDegrees),
+    fov(fov),
     nearPlane(nearPlane),
     farPlane(farPlane)
 {
@@ -50,7 +50,7 @@ void Camera::updateViewMatrix()
 void Camera::updateProjectionMatrix()
 {
     projectionMatrix = glm::perspective(
-        glm::radians(fovDegrees),
+        fov,
         aspectRatio,
         nearPlane,
         farPlane
@@ -67,15 +67,17 @@ OrbitCameraController::OrbitCameraController(shared_ptr<Camera> camera) : Camera
     auto normalizedPosition = glm::normalize(camera->getPosition() - camera->getTargetPosition());
     auto xzShadow = normalizedPosition;
     xzShadow.y = 0.0f;
-    xzShadow = glm::normalize(xzShadow);
+    if (glm::length(xzShadow) > 0) {
+        xzShadow = glm::normalize(xzShadow);
 
-    phi = glm::angle(xzShadow, normalizedPosition) / glm::half_pi<float>();
-    if (signbit(normalizedPosition.y)) {
-        phi = -phi;
-    }
-    theta = glm::angle(glm::vec3(1.0, 0.0, 0.0), xzShadow) / glm::two_pi<float>();
-    if (signbit(normalizedPosition.z)) {
-        theta = 1 - theta;
+        phi = glm::angle(xzShadow, normalizedPosition) / glm::half_pi<float>();
+        if (signbit(normalizedPosition.y)) {
+            phi = -phi;
+        }
+        theta = glm::angle(glm::vec3(1.0, 0.0, 0.0), xzShadow) / glm::two_pi<float>();
+        if (signbit(normalizedPosition.z)) {
+            theta = 1 - theta;
+        }
     }
     setZoom(glm::length(camera->getTargetPosition() - camera->getPosition()));
 }
@@ -89,7 +91,11 @@ bool OrbitCameraController::processEvent(Event event) {
                 return true;
             }
             break;
+        case EventType::MouseWheel:
+            zoom(-event.mouseWheelData.scroll);
+            return true;
     }
+
     return false;
 }
 

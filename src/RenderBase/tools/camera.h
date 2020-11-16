@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
 #include <RenderBase/core/event.h>
 
 namespace rb
@@ -20,7 +21,7 @@ namespace rb
 
             // scalars
             inline float getAspectRatio()       const { return aspectRatio; }
-            inline float getFovDegrees()        const { return fovDegrees; }
+            inline float getFov()               const { return fov; }
             inline float getNearPlaneDistance() const { return nearPlane; }
             inline float getFarPlaneDistance()  const { return farPlane; }
             inline bool  hasViewChanged()       const { return viewChanged || !changeAccepted; }
@@ -30,7 +31,9 @@ namespace rb
             inline glm::vec3 getTargetPosition() const { return target; }
             inline glm::vec3 getUpVector()       const { return up; }
             inline glm::vec3 getDirection()      const { return glm::normalize(target - position);  }
-            inline glm::vec3 getLeftVector()     const { return glm::cross(up, getDirection()); }
+
+            inline glm::vec3 getOrientationLeft() const { return glm::normalize(glm::cross(up, getDirection())); }
+            inline glm::vec3 getOrientationUp()   const { return glm::normalize(glm::cross(getDirection(), getOrientationLeft())); }
 
             // matrices
             glm::mat4 getViewMatrix();
@@ -40,11 +43,11 @@ namespace rb
             inline void setViewChanged() { viewChanged = true; changeAccepted = false; }
             inline void acceptChange()   { changeAccepted = true; }
 
-            inline void setPosition(glm::vec3 position)       { this->position    = position;    setViewChanged(); }
-            inline void setTargetPosition(glm::vec3 target)   { this->target      = target;      setViewChanged(); }
-            inline void setUpVector(glm::vec3 up)             { this->up          = up;          setViewChanged(); }
-            inline void setAspectRatio(float aspectRatio)     { this->aspectRatio = aspectRatio; setViewChanged();  updateProjectionMatrix(); }
-            inline void setFovDegrees(float fovDegrees)       { this->fovDegrees  = glm::clamp(fovDegrees, 10.0f, 70.0f);  setViewChanged();  updateProjectionMatrix(); }
+            inline void setPosition(glm::vec3 position)     { this->position    = position;    setViewChanged(); }
+            inline void setTargetPosition(glm::vec3 target) { this->target      = target;      setViewChanged(); }
+            inline void setUpVector(glm::vec3 up)           { this->up          = up;          setViewChanged(); }
+            inline void setAspectRatio(float aspectRatio)   { this->aspectRatio = aspectRatio; setViewChanged();  updateProjectionMatrix(); }
+            inline void setFov(float fov)                   { this->fov         = glm::clamp(fov, glm::pi<float>() * 0.1f, glm::pi<float>() * 0.9f);  setViewChanged();  updateProjectionMatrix(); }
 
         protected:
             // flags
@@ -58,7 +61,7 @@ namespace rb
 
             // projection details
             float aspectRatio;
-            float fovDegrees;
+            float fov;
             float nearPlane;
             float farPlane;
 
@@ -86,12 +89,12 @@ namespace rb
             // configuration is by this procerties
             float sensitivityX    =  1.5;
             float sensitivityY    =  1.5;
-            float zoomSensitivity =  0.05;
+            float zoomSensitivity =  0.5;
             float speedX          =  0.1;
             float speedY          =  0.1;
             float zoomSpeed       =  0.01;
-            float maxZoom         = 10.0;
-            float minZoom         =  0.5;
+            float maxZoom         = 100.0;
+            float minZoom         =  2.0;
 
             // Default constructor from superclass
             OrbitCameraController(std::shared_ptr<Camera> camera);

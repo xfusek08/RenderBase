@@ -1,4 +1,4 @@
-#ifdef DEBUG
+#ifdef defined DEBUG && !defined DISABLE_LOGGING
 #include <iostream>
 #include <stdio.h>
 #include <glm/gtx/string_cast.hpp>

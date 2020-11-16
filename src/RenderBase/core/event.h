@@ -5,6 +5,7 @@ namespace rb {
     enum class EventType {
         Unknown,
         MouseMove,
+        MouseWheel,
     };
 
     struct MouseButtons {
@@ -21,10 +22,15 @@ namespace rb {
         float yMovedRel;
         MouseButtons buttons;
     };
+    struct MouseWheelEvent {
+        EventType type;
+        float scroll;
+    };
 
     union Event {
         EventType type = EventType::Unknown;
         MouseMoveEvent mouseMoveData;
+        MouseWheelEvent mouseWheelData;
     };
 
 }

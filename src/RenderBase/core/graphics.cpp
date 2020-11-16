@@ -28,6 +28,10 @@ Program::Program(Program::shaderArray shaders) {
         glAttachShader(glId, shader->getGlId());
     }
 
+    if (!getErrorMessage().empty()) {
+        return;
+    }
+
     attachedShaders = shaders;
 
     // link program
@@ -61,9 +65,15 @@ void Program::uniform(const std::string& name, int value) {
     glProgramUniform1i(glId, location, value);
 }
 
+
 void Program::uniform(const std::string& name, float value) {
     GLuint location = glGetUniformLocation(glId, name.data());
     glProgramUniform1f(glId, location, value);
+}
+
+void Program::uniform(const std::string& name, glm::uvec2 value) {
+    GLuint location = glGetUniformLocation(glId, name.data());
+    glProgramUniform2uiv(glId, location, 1, glm::value_ptr(value));
 }
 
 void Program::uniform(const std::string& name, glm::vec3 value) {

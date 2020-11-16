@@ -16,6 +16,14 @@ tuple<int, int> getScreenSize() {
     return {DM.w, DM.h};
 }
 
+rb::MouseButtons mouseButtonsFromSdlState(uint32_t state) {
+    return rb::MouseButtons{
+        bool(state & SDL_BUTTON(SDL_BUTTON_LEFT)),
+        bool(state & SDL_BUTTON(SDL_BUTTON_RIGHT)),
+        bool(state & SDL_BUTTON(SDL_BUTTON_MIDDLE)),
+    };
+}
+
 // #########################################################################
 // SDLWindow implementation
 // #########################################################################
@@ -89,35 +97,26 @@ uint32_t SDLWindow::getHeight() const {
 }
 
 void SDLWindow::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
+    auto w = float(getWidth());
+    auto h = float(getHeight());
+
     switch (sdlEvent.type)
     {
         case SDL_MOUSEMOTION: {
-            auto w = float(getWidth());
-            auto h = float(getHeight());
-
-            // if (sdlEvent.motion.state) {
-            //     w++;
-            // }
-
-            // if (sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)) {
-            //     w++;
-            // }
-
-            // if (sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT)) {
-            //     w++;
-            // }
-
             event->mouseMoveData = {
                 EventType::MouseMove,
                 float(sdlEvent.motion.x)    / w,
                 float(sdlEvent.motion.y)    / h,
                 float(sdlEvent.motion.xrel) / w,
                 float(sdlEvent.motion.yrel) / h,
-                {
-                    bool(sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)),
-                    bool(sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT)),
-                    bool(sdlEvent.motion.state & SDL_BUTTON(SDL_BUTTON_MIDDLE)),
-                }
+                mouseButtonsFromSdlState(sdlEvent.motion.state),
+            };
+        } break;
+
+        case SDL_MOUSEWHEEL: {
+            event->mouseWheelData = {
+                EventType::MouseWheel,
+                float(sdlEvent.wheel.y),
             };
         } break;
 

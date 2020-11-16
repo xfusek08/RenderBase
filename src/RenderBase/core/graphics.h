@@ -39,6 +39,7 @@ namespace rb {
 
             void uniform(const std::string& name, int value);
             void uniform(const std::string& name, float value);
+            void uniform(const std::string& name, glm::uvec2 value);
             void uniform(const std::string& name, glm::vec3 value);
             void uniform(const std::string& name, glm::vec4 value);
             void uniform(const std::string& name, glm::mat3 value);

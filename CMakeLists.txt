@@ -10,9 +10,9 @@ set(SOURCES
     src/RenderBase/rb.h
 
     # core
-    src/RenderBase/core/application.h   src/RenderBase/core/application.cpp
+    src/RenderBase/core/graphics.h
     src/RenderBase/core/event.h
-    src/RenderBase/core/graphics.h      src/RenderBase/core/graphics.cpp
+    src/RenderBase/core/application.h   src/RenderBase/core/application.cpp
     src/RenderBase/core/window.h        src/RenderBase/core/window.cpp
     src/RenderBase/core/performance.h   src/RenderBase/core/performance.cpp
 
@@ -23,6 +23,13 @@ set(SOURCES
     # tools
     src/RenderBase/tools/logging.h
     src/RenderBase/tools/camera.h       src/RenderBase/tools/camera.cpp
+
+    # graphics.h module components
+    src/RenderBase/core/graphics/GraphicsBaseObject.h
+    src/RenderBase/core/graphics/GraphicsContext.h      src/RenderBase/core/graphics/GraphicsContext.cpp
+    src/RenderBase/core/graphics/Program.h              src/RenderBase/core/graphics/Program.cpp
+    src/RenderBase/core/graphics/Shader.h               src/RenderBase/core/graphics/Shader.cpp
+    src/RenderBase/core/graphics/Buffer.h               src/RenderBase/core/graphics/Buffer.cpp
 )
 
 # # find imgui sources

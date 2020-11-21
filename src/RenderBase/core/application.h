@@ -7,7 +7,6 @@
 
 namespace rb {
 
-    class Scene;
     class Graphics;
     class Window;
 

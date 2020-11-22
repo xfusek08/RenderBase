@@ -32,8 +32,6 @@ namespace rb {
             {
                 public:
                     using PerformenceAnalyzer::PerformenceAnalyzer;
-
-                    void delay(std::chrono::microseconds usDelay) override;
             };
 
         }

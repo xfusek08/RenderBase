@@ -3,6 +3,7 @@
 #include <RenderBase/platform/platform.h>
 
 #include <algorithm>
+#include <thread>
 
 using namespace std;
 using namespace rb;
@@ -10,8 +11,16 @@ using namespace chrono;
 
 
 PerformenceAnalyzer::PerformenceAnalyzer() {
-    usPerFrame = 1s;
-    usPerFrame /= FPSCap;
+}
+
+void PerformenceAnalyzer::capFPS(uint32_t fpsCap) {
+    this->fpsCap = fpsCap;
+    if (fpsCap == 0) {
+        usPerFrame = 0s;
+    } else {
+        usPerFrame = 1s;
+        usPerFrame /= fpsCap;
+    }
 }
 
 void PerformenceAnalyzer::perPeriodReport(std::chrono::microseconds periodLength, const periodReportCallback_t& callback) {
@@ -33,7 +42,9 @@ FrameReport PerformenceAnalyzer::frame() {
     auto lastFrameDuration = lastFrameReport.duration();
 
     if (usPerFrame > lastFrameDuration) {
-        delay(usPerFrame - lastFrameDuration);
+        auto delayTime = usPerFrame - lastFrameDuration;
+        this_thread::sleep_for(delayTime);
+        // delay(delayTime);
     }
 
     for (auto item : periodicReports) {
@@ -45,6 +56,6 @@ FrameReport PerformenceAnalyzer::frame() {
         }
     }
 
-    lastFrameReport.begin = lastFrameReport.end;
+    lastFrameReport.begin = high_resolution_clock::now();
     return lastFrameReport;
 }

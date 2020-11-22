@@ -129,7 +129,3 @@ void SDLWindow::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
 // #########################################################################
 // SDLPerformenceAnalyzer implementation
 // #########################################################################
-
-void SDLPerformenceAnalyzer::delay(chrono::microseconds usDelay) {
-    SDL_Delay(chrono::duration_cast<chrono::microseconds>(usDelay).count() / 1000);
-}

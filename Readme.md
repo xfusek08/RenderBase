@@ -18,5 +18,3 @@ This is list of want-to features and known issues (later maybe moved to github i
 * maybe migrate from CMake to [Premake](https://premake.github.io/)?
 * Dynamic window size changing
 * better logging (levels) and destinations
-* FPS capping not working properly ...
-* More accurate measurement of frame time exclude delays

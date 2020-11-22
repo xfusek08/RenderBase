@@ -43,13 +43,15 @@ namespace rb {
     class PerformenceAnalyzer
     {
         public:
-            uint32_t FPSCap = 30;
-
             PerformenceAnalyzer();
 
             FrameReport frame();
 
             inline FrameReport getLastFrameReport() { return lastFrameReport; }
+
+            void            capFPS(uint32_t fpsCap = 60);
+            inline void     unCapFPS()        { capFPS(0); }
+            inline uint32_t getFPSCap() const { return fpsCap; }
 
             void perFrameReport(const periodReportCallback_t& callback);
             void perPeriodReport(std::chrono::microseconds periodLength, const periodReportCallback_t& callback);
@@ -59,11 +61,9 @@ namespace rb {
                 perPeriodReport(std::chrono::duration_cast<std::chrono::microseconds>(periodLength), callback);
             }
 
-            // platform dependent implementation
-            virtual void delay(std::chrono::microseconds usDelay) = 0;
-
         protected:
-            FrameReport               lastFrameReport = {};
+            uint32_t                  fpsCap              = 0;
+            FrameReport               lastFrameReport     = {};
             frameReportCallback_t     frameReportCallback = nullptr;
             std::chrono::microseconds usPerFrame;
 

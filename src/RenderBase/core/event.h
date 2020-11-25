@@ -6,6 +6,7 @@ namespace rb {
         Unknown,
         MouseMove,
         MouseWheel,
+        KeyPressed,
     };
 
     struct MouseButtons {
@@ -27,10 +28,16 @@ namespace rb {
         float scroll;
     };
 
+    struct KeyPressedEvent {
+        EventType   type;
+        int32_t keyCode;
+    };
+
     union Event {
         EventType type = EventType::Unknown;
         MouseMoveEvent mouseMoveData;
         MouseWheelEvent mouseWheelData;
+        KeyPressedEvent keyPressedData;
     };
 
 }

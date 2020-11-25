@@ -55,7 +55,7 @@ string SDLWindow::getTitle() const {
 
 int SDLWindow::showVirtual() {
     // run main loop
-    bool open = true;
+    open = true;
 
     while (open) {
         SDL_Event sdlEvent;
@@ -82,6 +82,10 @@ void SDLWindow::onEventVirtual(const eventCallback_t& callback) {
 
 void SDLWindow::onDrawVirtual(const drawCallback_t& callback) {
     drawCallback = callback;
+}
+
+void SDLWindow::close() {
+    open = false;
 }
 
 uint32_t SDLWindow::getWidth() const {
@@ -117,6 +121,13 @@ void SDLWindow::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
             event->mouseWheelData = {
                 EventType::MouseWheel,
                 float(sdlEvent.wheel.y),
+            };
+        } break;
+
+        case SDL_KEYDOWN: {
+            event->keyPressedData = {
+                EventType::KeyPressed,
+                sdlEvent.key.keysym.sym
             };
         } break;
 

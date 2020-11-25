@@ -22,6 +22,7 @@ set(SOURCES
 
     # tools
     src/RenderBase/tools/logging.h
+    src/RenderBase/tools/utils.h        src/RenderBase/tools/utils.cpp
     src/RenderBase/tools/camera.h       src/RenderBase/tools/camera.cpp
 
     # graphics.h module components
@@ -69,10 +70,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 if (NOT DEFINED COMPILE_DEFINITIONS)
     set(COMPILE_DEFINITIONS
         "PROJECT_NAME=\"${PROJECT_NAME}\""
-        $<$<CONFIG:Debug>:
-            "DEBUG"
-        >
-        $<$<CONFIG:Release>: >
+        "DEBUG"
+        # $<$<CONFIG:Debug>:
+        #     "DEBUG"
+        # >
+        # $<$<CONFIG:Release>: >
     )
 endif()
 

@@ -16,11 +16,14 @@ namespace rb {
                     uint32_t    getWidth()  const override;
                     uint32_t    getHeight() const override;
 
+                    void  close() override;
+
                 protected:
                     rb::eventCallback_t eventCallback = nullptr;
                     rb::drawCallback_t  drawCallback  = nullptr;
                     SDL_Window*         sdlWindow     = nullptr;
                     SDL_GLContext       sdlGlContext  = nullptr;
+                    bool                open = false;
 
                     int  showVirtual() override;
                     void onEventVirtual(const rb::eventCallback_t& callback) override;

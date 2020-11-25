@@ -36,6 +36,8 @@ namespace rb {
             // methods
             int run(); // todo: runResult struct
 
+            void exit();
+
             ApplicationState state        = ApplicationState::invalid;
             std::string      errorMessage = "";
 

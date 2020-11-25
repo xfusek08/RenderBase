@@ -11,7 +11,6 @@ using namespace rb;
 
 Program::Program(Program::shaderArray shaders) {
 
-
     // create program
     glId = glCreateProgram();
 

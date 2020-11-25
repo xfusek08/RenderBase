@@ -45,6 +45,7 @@ namespace rb {
              */
             Buffer(GLenum type = GL_ARRAY_BUFFER, GLenum usage = GL_DYNAMIC_DRAW);
 
+
             ~Buffer();
 
             void bind();
@@ -53,10 +54,15 @@ namespace rb {
             // void *mapData();
             // void *umapData();
 
+            void load(size_t size, void *data);
+
+            template<typename T>
+            Buffer(std::vector<T>& data, GLenum type = GL_ARRAY_BUFFER, GLenum usage = GL_DYNAMIC_DRAW) : Buffer(type, usage) {
+                load(data);
+            }
+
             template<typename T>
             inline void load(std::vector<T>& data) { load(sizeof(T) * data.size(), data.data()); }
-
-            void load(size_t size, void *data);
 
         protected:
             GLenum type;
@@ -66,8 +72,10 @@ namespace rb {
     class UniformBuffer : public Buffer
     {
         public:
-            UniformBuffer(GLenum usage = GL_STATIC_DRAW) :
-                Buffer(GL_UNIFORM_BUFFER, usage) {}
+            UniformBuffer(GLenum usage = GL_STATIC_DRAW) : Buffer(GL_UNIFORM_BUFFER, usage) {}
+
+            template<typename T>
+            UniformBuffer(std::vector<T>& data, GLenum usage = GL_STATIC_DRAW) : Buffer(data, GL_UNIFORM_BUFFER, usage) {}
     };
 }
 

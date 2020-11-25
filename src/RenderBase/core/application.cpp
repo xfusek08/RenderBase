@@ -48,6 +48,10 @@ int Application::run() {
     return res;
 }
 
+void Application::exit() {
+    this->mainWindow->close();
+}
+
 void Application::addErrorMessage(const std::string& message) {
     if (errorMessage != "") {
         errorMessage += "\n";

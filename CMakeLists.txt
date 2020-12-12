@@ -22,6 +22,7 @@ set(SOURCES
 
     # tools
     src/RenderBase/tools/logging.h
+    src/RenderBase/tools/macroUtils.h
     src/RenderBase/tools/utils.h        src/RenderBase/tools/utils.cpp
     src/RenderBase/tools/camera.h       src/RenderBase/tools/camera.cpp
 

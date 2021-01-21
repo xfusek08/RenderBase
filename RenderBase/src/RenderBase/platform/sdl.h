@@ -1,6 +1,6 @@
 #pragma once
 
-#include <RenderBase/core/Window.h>
+#include <RenderBase/Window.h>
 #include <SDL.h>
 
 namespace rb {

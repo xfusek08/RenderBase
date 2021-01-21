@@ -1,5 +1,5 @@
 
-#include <RenderBase/core/graphics/Program.h>
+#include <RenderBase/graphics/Program.h>
 
 #include <RenderBase/tools/logging.h>
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <RenderBase/core/graphics/GraphicsBaseObject.h>
-#include <RenderBase/core/graphics/Shader.h>
-#include <RenderBase/core/graphics/Buffer.h>
+#include <RenderBase/graphics/GraphicsBaseObject.h>
+#include <RenderBase/graphics/Shader.h>
+#include <RenderBase/graphics/Buffer.h>
 
 namespace rb {
 

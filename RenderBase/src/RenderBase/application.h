@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-#include <RenderBase/core/event.h>
+#include <RenderBase/event.h>
 
 namespace rb {
 

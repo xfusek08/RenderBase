@@ -2,7 +2,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
-#include <RenderBase/core/event.h>
+#include <RenderBase/event.h>
 
 namespace rb
 {

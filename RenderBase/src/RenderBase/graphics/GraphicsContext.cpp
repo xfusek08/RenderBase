@@ -1,5 +1,5 @@
 
-#include <RenderBase/core/graphics/GraphicsContext.h>
+#include <RenderBase/graphics/GraphicsContext.h>
 
 #include <RenderBase/platform/platform.h>
 

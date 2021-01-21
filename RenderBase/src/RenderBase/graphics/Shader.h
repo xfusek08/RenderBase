@@ -1,6 +1,6 @@
 #pragma once
 
-#include <RenderBase/core/graphics/GraphicsBaseObject.h>
+#include <RenderBase/graphics/GraphicsBaseObject.h>
 
 namespace rb {
 

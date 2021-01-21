@@ -1,5 +1,5 @@
 
-#include <RenderBase/core/window.h>
+#include <RenderBase/window.h>
 
 using namespace std;
 using namespace rb;

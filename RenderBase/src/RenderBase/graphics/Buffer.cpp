@@ -1,5 +1,5 @@
 
-#include <RenderBase/core/graphics/Buffer.h>
+#include <RenderBase/graphics/Buffer.h>
 
 using namespace rb;
 

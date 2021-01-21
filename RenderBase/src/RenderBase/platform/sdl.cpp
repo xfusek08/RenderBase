@@ -1,7 +1,7 @@
 
 #include <RenderBase/platform/sdl.h>
 
-#include <RenderBase/core/event.h>
+#include <RenderBase/event.h>
 
 using namespace std;
 using namespace rb::platform::sdl;

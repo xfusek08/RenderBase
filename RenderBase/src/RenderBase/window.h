@@ -3,8 +3,8 @@
 #include <memory>
 #include <functional>
 
-#include <RenderBase/core/event.h>
-#include <RenderBase/core/performance.h>
+#include <RenderBase/event.h>
+#include <RenderBase/performance.h>
 
 namespace rb {
 
@@ -20,7 +20,7 @@ namespace rb {
             void setPerformanceAnalyzer(std::shared_ptr<PerformenceAnalyzer> analyzer) { this->analyzer = analyzer; }
             inline std::shared_ptr<PerformenceAnalyzer> getPerformanceAnalyzer() const { return analyzer; }
 
-            int  show();
+            int show();
 
             virtual void close() = 0;
             virtual std::string getTitle()  const = 0;

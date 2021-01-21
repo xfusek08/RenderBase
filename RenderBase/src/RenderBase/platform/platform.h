@@ -12,7 +12,7 @@
     #include <RenderBase/platform/sdl.h>
     #define PLATFORM_WINDOW_SDL
 #else
-    #include <RenderBase/core/window.h>
+    #include <RenderBase/window.h>
 #endif // else another window lib
 
 namespace rb {

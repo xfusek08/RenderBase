@@ -1,5 +1,5 @@
 
-#include <RenderBase/core/graphics/Shader.h>
+#include <RenderBase/graphics/Shader.h>
 
 #include <RenderBase/tools/logging.h>
 

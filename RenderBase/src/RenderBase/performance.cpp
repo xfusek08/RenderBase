@@ -1,5 +1,5 @@
 
-#include <RenderBase/core/performance.h>
+#include <RenderBase/performance.h>
 #include <RenderBase/platform/platform.h>
 
 #include <algorithm>

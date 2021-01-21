@@ -2,6 +2,8 @@
 #include <RenderBase/platform/window/GLFW/glfw.h>
 #ifdef PLATFORM_WINDOW_GLFW
 
+#include <GLFW/glfw3.h>
+
 using namespace std;
 using namespace rb::platform::glfw;
 

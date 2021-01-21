@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 # resolve window platform to be linked with
 find_package(glfw3 QUIET)
 if (${glfw3_FOUND})
-    set(WINDOW_PLATFORM glfw3)
+    set(WINDOW_PLATFORM glfw)
 else()
     find_package(SDL2 QUIET)
     if (${SDL2_FOUND})
@@ -66,8 +66,6 @@ add_library(${PROJECT_NAME}
     # ${IMGUI_HEADERS}
     # ${IMGUI_SOURCES}
 )
-
-message(${WINDOW_PLATFORM})
 
 target_link_libraries(${PROJECT_NAME}
     ${WINDOW_PLATFORM}

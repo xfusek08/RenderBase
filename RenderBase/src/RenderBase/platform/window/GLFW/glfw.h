@@ -3,8 +3,6 @@
 #include <RenderBase/platform/platformWindow.h>
 #ifdef PLATFORM_WINDOW_GLFW
 
-#include <glfw3.h>
-
 namespace rb {
     namespace platform {
         namespace glfw {

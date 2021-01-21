@@ -2,7 +2,7 @@
 
 #include <RenderBase/window.h>
 
-#if __has_include (<glfw3.h>)
+#if __has_include (<GLFW/glfw3.h>)
     #define PLATFORM_WINDOW_GLFW
 #elif __has_include (<SDL.h>)
     #define PLATFORM_WINDOW_SDL

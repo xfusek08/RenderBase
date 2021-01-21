@@ -24,10 +24,10 @@ rb::MouseButtons mouseButtonsFromSdlState(uint32_t state) {
 }
 
 // #########################################################################
-// SDLWindow implementation
+// Window implementation
 // #########################################################################
 
-SDLWindow::SDLWindow(const string &title, uint32_t width, uint32_t height) {
+Window::Window(const string &title, uint32_t width, uint32_t height) {
     SDL_Init(SDL_INIT_EVERYTHING);
 
     // create window in the centre of the screen
@@ -48,11 +48,11 @@ SDLWindow::SDLWindow(const string &title, uint32_t width, uint32_t height) {
     sdlGlContext = SDL_GL_CreateContext(sdlWindow);
 }
 
-string SDLWindow::getTitle() const {
+string Window::getTitle() const {
     return SDL_GetWindowTitle(sdlWindow);
 }
 
-int SDLWindow::showVirtual() {
+int Window::showVirtual() {
     // run main loop
     open = true;
 
@@ -75,31 +75,31 @@ int SDLWindow::showVirtual() {
     return 0;
 }
 
-void SDLWindow::onEventVirtual(const eventCallback_t& callback) {
+void Window::onEventVirtual(const eventCallback_t& callback) {
     eventCallback = callback;
 }
 
-void SDLWindow::onDrawVirtual(const drawCallback_t& callback) {
+void Window::onDrawVirtual(const drawCallback_t& callback) {
     drawCallback = callback;
 }
 
-void SDLWindow::close() {
+void Window::close() {
     open = false;
 }
 
-uint32_t SDLWindow::getWidth() const {
+uint32_t Window::getWidth() const {
     int w,h;
     SDL_GetWindowSize(this->sdlWindow, &w, &h);
     return w;
 }
 
-uint32_t SDLWindow::getHeight() const {
+uint32_t Window::getHeight() const {
     int w,h;
     SDL_GetWindowSize(this->sdlWindow, &w, &h);
     return h;
 }
 
-void SDLWindow::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
+void Window::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
     auto w = float(getWidth());
     auto h = float(getHeight());
 

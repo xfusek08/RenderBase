@@ -1,0 +1,20 @@
+cmake_minimum_required (VERSION 3.18)
+
+function(list_column index list out)
+    set(res )
+    foreach(lib_tuple ${${list}})
+        list(GET lib_tuple ${index} item)
+        list(APPEND res ${item})
+    endforeach()
+    set(${out} ${res} PARENT_SCOPE)
+endfunction()
+
+
+function(list_format list format_string out)
+    set(res )
+    foreach(var ${${list}})
+        string(REPLACE "[var]" "${var}" item ${format_string})
+        list(APPEND res ${item})
+    endforeach()
+    set(${out} ${res} PARENT_SCOPE)
+endfunction()

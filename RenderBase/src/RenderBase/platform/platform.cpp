@@ -44,19 +44,19 @@ bool rb::platform::loadOpenGlFunctions() {
 shared_ptr<rb::Window> platform::createWindow(const string& title, uint32_t width, uint32_t height) {
     #if defined PLATFORM_WINDOW_GLFW
         LOG_DEBUG("Using GLFW as a window platform");
-        return make_shared<platform::glfw::GLFWWindow>(title, width, height);
+        return make_shared<platform::glfw::Window>(title, width, height);
     #elif defined PLATFORM_WINDOW_SDL
         LOG_DEBUG("Using SDL2 as window platform");
-        return make_shared<platform::sdl::SDLWindow>(title, width, height);
+        return make_shared<platform::sdl::Window>(title, width, height);
     #endif // try another window lib
     return nullptr;
 }
 
 shared_ptr<PerformenceAnalyzer> platform::createPerformanceAnalyzer() {
     #if defined PLATFORM_WINDOW_GLFW
-        return make_shared<platform::glfw::GLFWPerformenceAnalyzer>();
+        return make_shared<platform::glfw::PerformenceAnalyzer>();
     #elif defined PLATFORM_WINDOW_SDL
-        return make_shared<platform::sdl::SDLPerformenceAnalyzer>();
+        return make_shared<platform::sdl::PerformenceAnalyzer>();
     #endif
     return nullptr;
 }

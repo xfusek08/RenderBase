@@ -2,44 +2,42 @@
 #include <RenderBase/platform/window/GLFW/glfw.h>
 #ifdef PLATFORM_WINDOW_GLFW
 
-#include <GLFW/glfw3.h>
-
 using namespace std;
 using namespace rb::platform::glfw;
 
 // #########################################################################
-// GLFWWindow implementation
+// Window implementation
 // #########################################################################
 
-GLFWWindow::GLFWWindow(const string &title, uint32_t width, uint32_t height) {
+Window::Window(const string &title, uint32_t width, uint32_t height) {
 
 }
 
-string GLFWWindow::getTitle() const {
+string Window::getTitle() const {
     return "";
 }
 
-int GLFWWindow::showVirtual() {
+int Window::showVirtual() {
     return 0;
 }
 
-void GLFWWindow::onEventVirtual(const eventCallback_t& callback) {
+void Window::onEventVirtual(const eventCallback_t& callback) {
     eventCallback = callback;
 }
 
-void GLFWWindow::onDrawVirtual(const drawCallback_t& callback) {
+void Window::onDrawVirtual(const drawCallback_t& callback) {
     drawCallback = callback;
 }
 
-void GLFWWindow::close() {
+void Window::close() {
     open = false;
 }
 
-uint32_t GLFWWindow::getWidth() const {
+uint32_t Window::getWidth() const {
     return 0;
 }
 
-uint32_t GLFWWindow::getHeight() const {
+uint32_t Window::getHeight() const {
     return 0;
 }
 

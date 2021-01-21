@@ -9,10 +9,10 @@ namespace rb {
     namespace platform {
         namespace sdl {
 
-            class SDLWindow : public rb::Window
+            class Window : public rb::Window
             {
                 public:
-                    SDLWindow(const std::string &title, uint32_t width, uint32_t height);
+                    Window(const std::string &title, uint32_t width, uint32_t height);
 
                     std::string getTitle()  const override;
                     uint32_t    getWidth()  const override;
@@ -33,10 +33,10 @@ namespace rb {
                     void parseEvent(const SDL_Event &sdlEvent, rb::Event *event);
             };
 
-            class SDLPerformenceAnalyzer : public PerformenceAnalyzer
+            class PerformenceAnalyzer : public rb::PerformenceAnalyzer
             {
                 public:
-                    using PerformenceAnalyzer::PerformenceAnalyzer;
+                    using rb::PerformenceAnalyzer::PerformenceAnalyzer;
             };
 
         }

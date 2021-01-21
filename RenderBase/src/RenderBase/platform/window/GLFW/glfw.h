@@ -3,14 +3,16 @@
 #include <RenderBase/platform/platformWindow.h>
 #ifdef PLATFORM_WINDOW_GLFW
 
+#include <GLFW/glfw3.h>
+
 namespace rb {
     namespace platform {
         namespace glfw {
 
-            class GLFWWindow : public rb::Window
+            class Window : public rb::Window
             {
                 public:
-                    GLFWWindow(const std::string &title, uint32_t width, uint32_t height);
+                    Window(const std::string &title, uint32_t width, uint32_t height);
 
                     std::string getTitle()  const override;
                     uint32_t    getWidth()  const override;
@@ -22,16 +24,17 @@ namespace rb {
                     rb::eventCallback_t eventCallback = nullptr;
                     rb::drawCallback_t  drawCallback  = nullptr;
                     bool                open = false;
+                    GLFWwindow*         window = nullptr;
 
                     int  showVirtual() override;
                     void onEventVirtual(const rb::eventCallback_t& callback) override;
                     void onDrawVirtual(const rb::drawCallback_t& callback) override;
             };
 
-            class GLFWPerformenceAnalyzer : public PerformenceAnalyzer
+            class PerformenceAnalyzer : public rb::PerformenceAnalyzer
             {
                 public:
-                    using PerformenceAnalyzer::PerformenceAnalyzer;
+                    using rb::PerformenceAnalyzer::PerformenceAnalyzer;
             };
 
         }

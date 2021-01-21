@@ -1,7 +1,6 @@
 
-#include <RenderBase/platform/sdl.h>
-
-#include <RenderBase/event.h>
+#include <RenderBase/platform/window/SDL2/sdl.h>
+#ifdef PLATFORM_WINDOW_SDL
 
 using namespace std;
 using namespace rb::platform::sdl;
@@ -63,7 +62,7 @@ int SDLWindow::showVirtual() {
             if (sdlEvent.type == SDL_QUIT) {
                 open = false;
             }
-            rb::Event event;
+            rb::Event event = {};
             parseEvent(sdlEvent, &event);
             eventCallback(event);
         }
@@ -140,3 +139,5 @@ void SDLWindow::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
 // #########################################################################
 // SDLPerformenceAnalyzer implementation
 // #########################################################################
+
+#endif

@@ -1,11 +1,8 @@
-
-#include <RenderBase/graphics/GraphicsContext.h>
-
-#include <RenderBase/platform/platform.h>
+#include <stdexcept>
 
 #include <RenderBase/tools/logging.h>
-
-#include <stdexcept>
+#include <RenderBase/graphics/GraphicsContext.h>
+#include <RenderBase/platform/platformGraphics.h>
 
 using namespace rb;
 
@@ -28,6 +25,7 @@ GraphicsContext::GraphicsContext() {
         throw std::runtime_error("Failed to initialize graphics");
     }
 
+    // todo abstract with graphics API
     #ifdef DEBUG
         // init gl error callback
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

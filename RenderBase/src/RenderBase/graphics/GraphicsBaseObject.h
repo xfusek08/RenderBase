@@ -1,10 +1,8 @@
 #pragma once
 
-#include <RenderBase/platform/platform.h>
-
-#include <glm/glm.hpp>
-
 #include <string>
+#include <glm/glm.hpp>
+#include <RenderBase/platform/platformGraphics.h>
 
 namespace rb {
 

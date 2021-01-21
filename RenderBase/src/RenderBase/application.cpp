@@ -1,8 +1,8 @@
 #include <iostream>
 #include <functional>
 
-#include <RenderBase/rb.h>
-#include <RenderBase/platform/platform.h>
+#include <RenderBase/application.h>
+#include <RenderBase/platform/platformWindow.h>
 
 using namespace std;
 using namespace rb;

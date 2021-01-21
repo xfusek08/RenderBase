@@ -4,6 +4,6 @@ option(RB_BUILD_DEMOS "Build demo projects" ON)
 
 add_subdirectory(RenderBase)
 
-if(${DILIGENT_BUILD_DEMOS})
+if(${RB_BUILD_DEMOS})
     add_subdirectory(Demos)
 endif()

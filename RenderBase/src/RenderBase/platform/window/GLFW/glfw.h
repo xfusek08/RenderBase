@@ -1,16 +1,18 @@
 #pragma once
 
-#include <RenderBase/Window.h>
-#include <SDL.h>
+#include <RenderBase/platform/platformWindow.h>
+#ifdef PLATFORM_WINDOW_GLFW
+
+#include <glfw3.h>
 
 namespace rb {
     namespace platform {
-        namespace sdl {
+        namespace glfw {
 
-            class SDLWindow : public rb::Window
+            class GLFWWindow : public rb::Window
             {
                 public:
-                    SDLWindow(const std::string &title, uint32_t width, uint32_t height);
+                    GLFWWindow(const std::string &title, uint32_t width, uint32_t height);
 
                     std::string getTitle()  const override;
                     uint32_t    getWidth()  const override;
@@ -21,17 +23,14 @@ namespace rb {
                 protected:
                     rb::eventCallback_t eventCallback = nullptr;
                     rb::drawCallback_t  drawCallback  = nullptr;
-                    SDL_Window*         sdlWindow     = nullptr;
-                    SDL_GLContext       sdlGlContext  = nullptr;
                     bool                open = false;
 
                     int  showVirtual() override;
                     void onEventVirtual(const rb::eventCallback_t& callback) override;
                     void onDrawVirtual(const rb::drawCallback_t& callback) override;
-                    void parseEvent(const SDL_Event &sdlEvent, rb::Event *event);
             };
 
-            class SDLPerformenceAnalyzer : public PerformenceAnalyzer
+            class GLFWPerformenceAnalyzer : public PerformenceAnalyzer
             {
                 public:
                     using PerformenceAnalyzer::PerformenceAnalyzer;
@@ -40,3 +39,5 @@ namespace rb {
         }
     }
 }
+
+#endif

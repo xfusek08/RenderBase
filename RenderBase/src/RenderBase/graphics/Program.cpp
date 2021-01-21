@@ -1,8 +1,6 @@
 
 #include <RenderBase/graphics/Program.h>
-
 #include <RenderBase/tools/logging.h>
-
 #include <glm/gtc/type_ptr.hpp>
 
 using namespace std;

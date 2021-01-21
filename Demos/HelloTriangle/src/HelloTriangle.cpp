@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include <RenderBase/rb.h>
+#include <RenderBase/application.h>
 #include <RenderBase/tools/entryPoint.h>
 
 using namespace std;
@@ -21,6 +21,7 @@ class HelloTriangle : public rb::Application {
             make_shared<Shader>(GL_VERTEX_SHADER, vsSrc),
             make_shared<Shader>(GL_FRAGMENT_SHADER, fsSrc)
         );
+
         if (!prg->getErrorMessage().empty()) {
             cerr << "Error while creating a program: \n" << prg->getErrorMessage() << endl;
             return false;

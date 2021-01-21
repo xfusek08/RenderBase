@@ -4,11 +4,10 @@
 #include <memory>
 
 #include <RenderBase/event.h>
+#include <RenderBase/window.h>
+#include <RenderBase/graphics.h>
 
 namespace rb {
-
-    class Graphics;
-    class Window;
 
     struct Configuration {
         Configuration() = default;

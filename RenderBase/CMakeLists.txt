@@ -3,22 +3,32 @@ project (RenderBase)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(SDL2 REQUIRED)
-# find_package(glfw3 REQUIRED)
+# resolve window platform to be linked with
+find_package(glfw3 QUIET)
+if (${glfw3_FOUND})
+    set(WINDOW_PLATFORM glfw3)
+else()
+    find_package(SDL2 QUIET)
+    if (${SDL2_FOUND})
+        set(WINDOW_PLATFORM SDL2::SDL2-static SDL2::SDL2main)
+    endif()
+endif()
+
 find_package(glm REQUIRED)
 
 set(SOURCES
-    src/RenderBase/rb.h
     src/RenderBase/graphics.h
     src/RenderBase/event.h
-    src/RenderBase/application.h   src/RenderBase/application.cpp
-    src/RenderBase/window.h        src/RenderBase/window.cpp
-    src/RenderBase/performance.h   src/RenderBase/performance.cpp
+    src/RenderBase/application.h src/RenderBase/application.cpp
+    src/RenderBase/window.h      src/RenderBase/window.cpp
+    src/RenderBase/performance.h src/RenderBase/performance.cpp
 
     # platform
-    src/RenderBase/platform/platform.h  src/RenderBase/platform/platform.cpp
-    # src/RenderBase/platform/glfw3.h     src/RenderBase/platform/glfw3.cpp
-    src/RenderBase/platform/sdl.h       src/RenderBase/platform/sdl.cpp
+    src/RenderBase/platform/platformWindow.h
+    src/RenderBase/platform/platformGraphics.h
+    src/RenderBase/platform/platform.cpp
+    src/RenderBase/platform/window/glfw/glfw.h src/RenderBase/platform/window/glfw/glfw.cpp
+    src/RenderBase/platform/window/SDL2/sdl.h   src/RenderBase/platform/window/SDL2/sdl.cpp
 
     # tools
     src/RenderBase/tools/entryPoint.h
@@ -29,10 +39,10 @@ set(SOURCES
 
     # graphics.h module components
     src/RenderBase/graphics/GraphicsBaseObject.h
-    src/RenderBase/graphics/GraphicsContext.h      src/RenderBase/graphics/GraphicsContext.cpp
-    src/RenderBase/graphics/Program.h              src/RenderBase/graphics/Program.cpp
-    src/RenderBase/graphics/Shader.h               src/RenderBase/graphics/Shader.cpp
-    src/RenderBase/graphics/Buffer.h               src/RenderBase/graphics/Buffer.cpp
+    src/RenderBase/graphics/GraphicsContext.h     src/RenderBase/graphics/GraphicsContext.cpp
+    src/RenderBase/graphics/Program.h             src/RenderBase/graphics/Program.cpp
+    src/RenderBase/graphics/Shader.h              src/RenderBase/graphics/Shader.cpp
+    src/RenderBase/graphics/Buffer.h              src/RenderBase/graphics/Buffer.cpp
 )
 
 # # find imgui sources
@@ -57,10 +67,10 @@ add_library(${PROJECT_NAME}
     # ${IMGUI_SOURCES}
 )
 
+message(${WINDOW_PLATFORM})
+
 target_link_libraries(${PROJECT_NAME}
-    SDL2::SDL2-static
-    SDL2::SDL2main
-    # glfw3
+    ${WINDOW_PLATFORM}
     glad
     glm::glm
 )

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <RenderBase/graphics/GraphicsBaseObject.h>
 #include <RenderBase/graphics/Shader.h>
 #include <RenderBase/graphics/Buffer.h>

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <RenderBase/graphics/GraphicsBaseObject.h>
 
 namespace rb {

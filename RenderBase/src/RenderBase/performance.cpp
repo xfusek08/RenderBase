@@ -1,6 +1,5 @@
 
 #include <RenderBase/performance.h>
-#include <RenderBase/platform/platform.h>
 
 #include <algorithm>
 #include <thread>
@@ -41,10 +40,9 @@ FrameReport PerformenceAnalyzer::frame() {
 
     auto lastFrameDuration = lastFrameReport.duration();
 
-    if (usPerFrame > lastFrameDuration) {
+    if (usPerFrame > lastFrameDuration && this->fpsCap > 0) {
         auto delayTime = usPerFrame - lastFrameDuration;
-        this_thread::sleep_for(delayTime);
-        // delay(delayTime);
+        this_thread::sleep_for(delayTime); // better capping
     }
 
     for (auto item : periodicReports) {

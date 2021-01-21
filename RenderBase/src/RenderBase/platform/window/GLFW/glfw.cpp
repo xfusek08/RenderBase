@@ -1,10 +1,9 @@
 
-#include <RenderBase/platform/glfw3.h>
-
-#include <RenderBase/event.h>
+#include <RenderBase/platform/window/GLFW/glfw.h>
+#ifdef PLATFORM_WINDOW_GLFW
 
 using namespace std;
-using namespace rb::platform::glfw3;
+using namespace rb::platform::glfw;
 
 // #########################################################################
 // GLFWWindow implementation
@@ -45,3 +44,5 @@ uint32_t GLFWWindow::getHeight() const {
 // #########################################################################
 // GLFWPerformenceAnalyzer implementation
 // #########################################################################
+
+#endif

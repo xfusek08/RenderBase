@@ -125,7 +125,7 @@ void OrbitCameraController::lookXY(glm::vec2 delta)
 
 void OrbitCameraController::updateCamera()
 {
-    LOG_DEBUG("{ phi, theta, actZoom}: { " << this->phi << ", " << this->theta << ", " << this->actZoom << " }");
+    RB_DEBUG("{ phi, theta, actZoom}: { " << this->phi << ", " << this->theta << ", " << this->actZoom << " }");
 
     auto phi   = this->phi   * glm::half_pi<float>();
     auto theta = this->theta * glm::two_pi<float>();

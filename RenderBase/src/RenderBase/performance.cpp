@@ -3,14 +3,43 @@
 
 #include <algorithm>
 #include <thread>
+#include <sstream>
 
 using namespace std;
 using namespace rb;
 using namespace chrono;
 
+//////////////////////////////////////////////////////////////////////////////////
+// IntervalPerformanceReport implementation
+//////////////////////////////////////////////////////////////////////////////////
 
-PerformenceAnalyzer::PerformenceAnalyzer() {
+void IntervalPerformanceReport::accountFrameReport(const FrameReport& report) {
+    auto duration = report.duration();
+    end          = max(end, report.end);
+    maxFrameTime = max(maxFrameTime, duration);
+    minFrameTime = min(minFrameTime, duration);
+    averageFrameTime = (frames > 0)
+        ? averageFrameTime + ((duration - averageFrameTime) / frames)
+        : duration;
+    ++frames;
 }
+
+string IntervalPerformanceReport::asFormatedString() {
+    return (ostringstream()
+        << "Measurement interval:   " << durationFSec() << "s\n"
+        << "fps:                    " << getFPS() << "\n"
+        << "frames:                 " << frames << "\n"
+        << "Longest frame:          " << maxFrameTime.count() << " us\n"
+        << "shortest frame:         " << minFrameTime.count() << " us\n"
+        << "Average frame duration: " << averageFrameTime.count() << "us\n"
+    ).str();
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+// PerformenceAnalyzer implementation
+//////////////////////////////////////////////////////////////////////////////////
+
+PerformenceAnalyzer::PerformenceAnalyzer() { }
 
 void PerformenceAnalyzer::capFPS(uint32_t fpsCap) {
     this->fpsCap = fpsCap;

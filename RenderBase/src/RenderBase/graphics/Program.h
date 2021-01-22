@@ -2,38 +2,34 @@
 
 #include <memory>
 
-#include <RenderBase/graphics/GraphicsBaseObject.h>
+#include <glm/glm.hpp>
+
+#include <RenderBase/graphics/GraphicsObject.h>
 #include <RenderBase/graphics/Shader.h>
 #include <RenderBase/graphics/Buffer.h>
 
 namespace rb {
 
-    class Program : public  GraphicsBaseObject
-    {
-        using shaderArray = std::vector<std::shared_ptr<Shader>>;
+    using ShaderArray = std::vector<std::shared_ptr<Shader>>;
 
+    class Program : public GraphicsObject
+    {
         public:
-            Program(shaderArray shaders = {});
+            static std::shared_ptr<Program> create(ShaderArray shaders = {});
 
             template <typename... ARGS>
-            Program(ARGS... shaders) : Program(shaderArray({shaders...})) {}
+            static std::shared_ptr<Program> create(ARGS... shaders) { return create(ShaderArray({shaders...})); }
 
-            ~Program();
-
-            void use();
-
-            void uniform(const std::string& name, int value);
-            void uniform(const std::string& name, uint32_t value);
-            void uniform(const std::string& name, float value);
-            void uniform(const std::string& name, glm::uvec2 value);
-            void uniform(const std::string& name, glm::vec3 value);
-            void uniform(const std::string& name, glm::vec4 value);
-            void uniform(const std::string& name, glm::mat3 value);
-            void uniform(const std::string& name, glm::mat4 value);
-            void uniform(const std::string& name, const UniformBuffer& value, GLuint bindingPointIndex = 0);
-
-        private:
-            shaderArray attachedShaders = {};
+            virtual void use() = 0;
+            virtual void uniform(const std::string& name, int value) = 0;
+            virtual void uniform(const std::string& name, uint32_t value) = 0;
+            virtual void uniform(const std::string& name, float value) = 0;
+            virtual void uniform(const std::string& name, glm::uvec2 value) = 0;
+            virtual void uniform(const std::string& name, glm::vec3 value) = 0;
+            virtual void uniform(const std::string& name, glm::vec4 value) = 0;
+            virtual void uniform(const std::string& name, glm::mat3 value) = 0;
+            virtual void uniform(const std::string& name, glm::mat4 value) = 0;
+            // virtual void uniform(const std::string& name, const UniformBuffer& value) = 0;
     };
 
 }

@@ -23,6 +23,7 @@ namespace rb {
         float yMovedRel;
         MouseButtons buttons;
     };
+
     struct MouseWheelEvent {
         EventType type;
         float scroll;

@@ -5,6 +5,7 @@
 
 #include <RenderBase/event.h>
 #include <RenderBase/performance.h>
+#include <RenderBase/graphics/GraphicsContext.h>
 
 namespace rb {
 
@@ -22,13 +23,14 @@ namespace rb {
 
             int show();
 
-            virtual void close() = 0;
+            virtual void        close() = 0;
             virtual std::string getTitle()  const = 0;
             virtual uint32_t    getWidth()  const = 0;
             virtual uint32_t    getHeight() const = 0;
 
         protected:
             std::shared_ptr<PerformenceAnalyzer> analyzer = nullptr;
+            std::unique_ptr<GraphicsContext>     graphics = nullptr;
 
             virtual int  showVirtual() = 0;
             virtual void onEventVirtual(const eventCallback_t& callback) = 0;

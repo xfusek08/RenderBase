@@ -24,7 +24,7 @@ namespace rb {
                     rb::eventCallback_t eventCallback = nullptr;
                     rb::drawCallback_t  drawCallback  = nullptr;
                     bool                open = false;
-                    GLFWwindow*         window = nullptr;
+                    GLFWwindow*         windowHandle = nullptr;
 
                     int  showVirtual() override;
                     void onEventVirtual(const rb::eventCallback_t& callback) override;

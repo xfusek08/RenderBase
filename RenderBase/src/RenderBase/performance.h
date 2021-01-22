@@ -10,11 +10,11 @@ namespace rb {
         std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
         std::chrono::steady_clock::time_point end;
 
-        inline std::chrono::microseconds duration() const { return std::chrono::duration_cast<std::chrono::microseconds>(end - begin); }
+        inline std::chrono::microseconds duration()    const { return std::chrono::duration_cast<std::chrono::microseconds>(end - begin); }
+        inline float                     durationFSec() const { return std::chrono::duration_cast<std::chrono::duration<float>>(end - begin).count(); }
     };
 
-    struct FrameReport : TimeDiference {
-    };
+    struct FrameReport : TimeDiference { };
 
     struct IntervalPerformanceReport : TimeDiference {
         std::chrono::microseconds averageFrameTime = std::chrono::microseconds::zero();
@@ -22,19 +22,14 @@ namespace rb {
         std::chrono::microseconds minFrameTime     = std::chrono::microseconds::max();
         uint32_t                  frames           = 0;
 
-        void accountFrameReport(const FrameReport& report) {
-            auto duration = report.duration();
-            maxFrameTime = max(maxFrameTime, duration);
-            minFrameTime = min(minFrameTime, duration);
-            averageFrameTime = (frames > 0)
-                ? averageFrameTime + ((duration - averageFrameTime) / frames)
-                : duration;
-            ++frames;
-        }
+        inline float getFPS() { return float(frames) / durationFSec(); }
+
+        std::string asFormatedString();
+        void        accountFrameReport(const FrameReport& report);
     };
 
     using periodReportCallback_t = std::function<void(IntervalPerformanceReport)>;
-    using frameReportCallback_t = std::function<void(FrameReport)>;
+    using frameReportCallback_t  = std::function<void(FrameReport)>;
 
     /**
      * This is an abstract class providing interface and factory method

@@ -11,15 +11,22 @@ class HelloTriangle : public rb::Application {
 
     using Application::Application; // inherit base constructor - mandatory
 
-    GLuint vao;
-    unique_ptr<Program> prg;
+    // GLuint vao;
+    shared_ptr<Program> prg;
 
     bool init() {
 
+        // mainWindow->getPerformanceAnalyzer()->capFPS(60);
+
+        mainWindow->getPerformanceAnalyzer()->perPeriodReport(1s, [](IntervalPerformanceReport report) {
+            cout << report.asFormatedString() << "\n";
+        });
+
+
         // graphics program creation
-        prg = make_unique<Program>(
-            make_shared<Shader>(GL_VERTEX_SHADER, vsSrc),
-            make_shared<Shader>(GL_FRAGMENT_SHADER, fsSrc)
+        prg = Program::create(
+            Shader::create(ShaderType::Vertex, vsSrc),
+            Shader::create(ShaderType::Fragment, vsSrc)
         );
 
         if (!prg->getErrorMessage().empty()) {

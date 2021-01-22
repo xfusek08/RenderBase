@@ -53,25 +53,34 @@ set(SOURCES
     src/RenderBase/performance.h src/RenderBase/performance.cpp
 
     # platform
-    src/RenderBase/platform/platformWindow.h
-    src/RenderBase/platform/platformGraphics.h
-    src/RenderBase/platform/platform.cpp
-    src/RenderBase/platform/window/glfw/glfw.h src/RenderBase/platform/window/glfw/glfw.cpp
-    src/RenderBase/platform/window/SDL2/sdl.h   src/RenderBase/platform/window/SDL2/sdl.cpp
+        src/RenderBase/platform/graphicsPlatform.h
+        src/RenderBase/platform/platformWindow.h src/RenderBase/platform/platformWindow.cpp
+
+        # window libs
+        src/RenderBase/platform/window/glfw/glfw.h  src/RenderBase/platform/window/glfw/glfw.cpp
+        src/RenderBase/platform/window/SDL2/sdl.h   src/RenderBase/platform/window/SDL2/sdl.cpp
+
+        # graphics API - OpenGL
+        src/RenderBase/platform/graphics/OpenGL/GLGraphicsContext.h src/RenderBase/platform/graphics/OpenGL/GLGraphicsContext.cpp
+
+        src/RenderBase/platform/graphics/OpenGL/BaseGLObject.h
+        # src/RenderBase/platform/graphics/OpenGL/Buffer.h      src/RenderBase/platform/graphics/OpenGL/Buffer.cpp
+        src/RenderBase/platform/graphics/OpenGL/Program.h     src/RenderBase/platform/graphics/OpenGL/Program.cpp
+        src/RenderBase/platform/graphics/OpenGL/Shader.h      src/RenderBase/platform/graphics/OpenGL/Shader.cpp
 
     # tools
-    src/RenderBase/tools/entryPoint.h
-    src/RenderBase/tools/logging.h
-    src/RenderBase/tools/macroUtils.h
-    src/RenderBase/tools/utils.h        src/RenderBase/tools/utils.cpp
-    src/RenderBase/tools/camera.h       src/RenderBase/tools/camera.cpp
+        src/RenderBase/tools/entryPoint.h
+        src/RenderBase/tools/logging.h
+        src/RenderBase/tools/macroUtils.h
+        src/RenderBase/tools/utils.h        src/RenderBase/tools/utils.cpp
+        src/RenderBase/tools/camera.h       src/RenderBase/tools/camera.cpp
 
     # graphics.h module components
-    src/RenderBase/graphics/GraphicsBaseObject.h
-    src/RenderBase/graphics/GraphicsContext.h     src/RenderBase/graphics/GraphicsContext.cpp
-    src/RenderBase/graphics/Program.h             src/RenderBase/graphics/Program.cpp
-    src/RenderBase/graphics/Shader.h              src/RenderBase/graphics/Shader.cpp
-    src/RenderBase/graphics/Buffer.h              src/RenderBase/graphics/Buffer.cpp
+        src/RenderBase/graphics/GraphicsContext.h
+        src/RenderBase/graphics/GraphicsObject.h   src/RenderBase/graphics/GraphicsObject.cpp
+        src/RenderBase/graphics/Program.h          src/RenderBase/graphics/Program.cpp
+        src/RenderBase/graphics/Shader.h           src/RenderBase/graphics/Shader.cpp
+        # src/RenderBase/graphics/Buffer.h           src/RenderBase/graphics/Buffer.h
 )
 
 # # find imgui sources

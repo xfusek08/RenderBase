@@ -1,13 +1,26 @@
 #pragma once
 
-#include <RenderBase/graphics/GraphicsBaseObject.h>
+#include <memory>
+#include <string>
+
+#include <RenderBase/graphics/GraphicsObject.h>
 
 namespace rb {
 
-    class Shader : public GraphicsBaseObject
+    enum class ShaderType {
+        Unknown,
+        Vertex,
+        Fragment
+    };
+
+    class Shader : public GraphicsObject
     {
         public:
-            Shader(GLenum type, const std::string& src);
-            ~Shader();
+            static std::shared_ptr<Shader> create(ShaderType type, std::string source);
+
+            inline ShaderType getType() const { return type; }
+
+        protected:
+            ShaderType type = ShaderType::Unknown;
     };
 }

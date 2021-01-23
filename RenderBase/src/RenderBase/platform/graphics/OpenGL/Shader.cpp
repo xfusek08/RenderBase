@@ -33,10 +33,11 @@ string resolveSourceCode(string source) {
 
 Shader::Shader(ShaderType type, std::string source) {
     this->type = type;
+    source = resolveSourceCode(source);
 
     // Compile
     glId = glCreateShader(getGLType());
-    char const* rawSource = resolveSourceCode(source).c_str();
+    char const* rawSource = source.c_str();
     glShaderSource(glId, 1, &rawSource, nullptr);
     glCompileShader(glId);
 
@@ -50,7 +51,6 @@ Shader::Shader(ShaderType type, std::string source) {
         glGetShaderInfoLog(glId, errorMessage.size(), &errLen, (char*)errorMessage.data());
         fail("Shader compile error:\n"  + errorMessage);
     }
-
     RB_DEBUG("Shader created.");
 }
 

@@ -4,7 +4,7 @@
 
 namespace rb {
 
-    class GraphicsObject
+    class FailableObject
     {
         public:
             void fail(std::string message);

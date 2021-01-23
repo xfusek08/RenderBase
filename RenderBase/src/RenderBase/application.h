@@ -3,9 +3,9 @@
 #include <string>
 #include <memory>
 
+#include <RenderBase/FailableObject.h>
 #include <RenderBase/event.h>
 #include <RenderBase/window.h>
-#include <RenderBase/graphics.h>
 
 namespace rb {
 
@@ -23,7 +23,7 @@ namespace rb {
         valid, invalid
     };
 
-    class Application
+    class Application : public FailableObject
     {
         public:
             Application(Configuration config = {});

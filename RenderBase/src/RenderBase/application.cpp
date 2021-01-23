@@ -24,9 +24,9 @@ Application::Application(Configuration config) {
     this->mainWindow->onDraw([=]() { this->draw(); });
     this->mainWindow->setPerformanceAnalyzer(platform::createPerformanceAnalyzer());
 
-    this->mainGraphicsContext = make_unique<GraphicsContext>();
-
     state = ApplicationState::valid;
+
+    mainWindow->getGraphicsContext()->cleanColor({0, 0, 0});
 }
 
 int Application::run() {

@@ -3,11 +3,11 @@
 #include <vector>
 #include <memory>
 
-#include <RenderBase/graphics/GraphicsObject.h>
+#include <RenderBase/FailableObject.h>
 
 namespace rb {
 
-    class Buffer : public GraphicsObject
+    class Buffer : public FailableObject
     {
         public:
             static std::shared_ptr<Buffer> create();

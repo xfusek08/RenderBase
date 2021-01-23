@@ -1,18 +1,19 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include <glm/glm.hpp>
 
-#include <RenderBase/graphics/GraphicsObject.h>
-#include <RenderBase/graphics/Shader.h>
-#include <RenderBase/graphics/Buffer.h>
+#include <RenderBase/FailableObject.h>
 
 namespace rb {
 
+    class Shader;
+
     using ShaderArray = std::vector<std::shared_ptr<Shader>>;
 
-    class Program : public GraphicsObject
+    class Program : public FailableObject
     {
         public:
             static std::shared_ptr<Program> create(ShaderArray shaders = {});

@@ -18,8 +18,10 @@ namespace rb {
             void onEvent(const eventCallback_t& callback);
             void onDraw(const drawCallback_t& callback);
 
-            void setPerformanceAnalyzer(std::shared_ptr<PerformenceAnalyzer> analyzer) { this->analyzer = analyzer; }
             inline std::shared_ptr<PerformenceAnalyzer> getPerformanceAnalyzer() const { return analyzer; }
+            inline std::shared_ptr<GraphicsContext>     getGraphicsContext()     const { return graphics; }
+
+            void setPerformanceAnalyzer(std::shared_ptr<PerformenceAnalyzer> analyzer) { this->analyzer = analyzer; }
 
             int show();
 
@@ -30,7 +32,7 @@ namespace rb {
 
         protected:
             std::shared_ptr<PerformenceAnalyzer> analyzer = nullptr;
-            std::unique_ptr<GraphicsContext>     graphics = nullptr;
+            std::shared_ptr<GraphicsContext>     graphics = nullptr;
 
             virtual int  showVirtual() = 0;
             virtual void onEventVirtual(const eventCallback_t& callback) = 0;

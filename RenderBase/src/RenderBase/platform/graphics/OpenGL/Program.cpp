@@ -26,21 +26,20 @@ Program::Program(ShaderArray shaders) {
         attachedShaders.push_back(glShader);
     }
 
-    if (!isOk()) {
-        return;
+    if (isOk()) {
+        // link program
+        GLint status;
+        glLinkProgram(glId);
+        glGetProgramiv(glId, GL_LINK_STATUS, &status);
+        if (status != GL_TRUE) {
+            GLint errLen = 0;
+            glGetProgramiv(glId, GL_INFO_LOG_LENGTH, &errLen);
+            auto errorMessage = std::string(" ", errLen);
+            glGetProgramInfoLog(glId, errorMessage.size(), &errLen, (char*)errorMessage.data());
+            fail(errorMessage);
+        }
+        RB_DEBUG("Program created");
     }
-
-    // // link program
-    // GLint status;
-    // glLinkProgram(glId);
-    // glGetProgramiv(glId, GL_LINK_STATUS, &status);
-    // if (status != GL_TRUE) {
-    //     GLint errLen = 0;
-    //     glGetProgramiv(glId, GL_INFO_LOG_LENGTH, &errLen);
-    //     errorMessage = std::string(" ", errLen);
-    //     glGetProgramInfoLog(glId, errorMessage.size(), &errLen, (char*)errorMessage.data());
-    // }
-    RB_DEBUG("Program created");
 }
 
 Program::~Program() {

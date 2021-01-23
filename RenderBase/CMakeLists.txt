@@ -48,9 +48,10 @@ add_subdirectory(vendor/glad)
 set(SOURCES
     src/RenderBase/graphics.h
     src/RenderBase/event.h
-    src/RenderBase/application.h src/RenderBase/application.cpp
-    src/RenderBase/window.h      src/RenderBase/window.cpp
-    src/RenderBase/performance.h src/RenderBase/performance.cpp
+    src/RenderBase/FailableObject.h src/RenderBase/FailableObject.cpp
+    src/RenderBase/application.h    src/RenderBase/application.cpp
+    src/RenderBase/window.h         src/RenderBase/window.cpp
+    src/RenderBase/performance.h    src/RenderBase/performance.cpp
 
     # platform
         src/RenderBase/platform/graphicsPlatform.h
@@ -77,7 +78,6 @@ set(SOURCES
 
     # graphics.h module components
         src/RenderBase/graphics/GraphicsContext.h
-        src/RenderBase/graphics/GraphicsObject.h   src/RenderBase/graphics/GraphicsObject.cpp
         src/RenderBase/graphics/Program.h          src/RenderBase/graphics/Program.cpp
         src/RenderBase/graphics/Shader.h           src/RenderBase/graphics/Shader.cpp
         # src/RenderBase/graphics/Buffer.h           src/RenderBase/graphics/Buffer.h

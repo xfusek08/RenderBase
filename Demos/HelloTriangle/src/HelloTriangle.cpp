@@ -3,40 +3,44 @@
 
 #include <RenderBase/application.h>
 #include <RenderBase/tools/entryPoint.h>
+#include <RenderBase/graphics.h>
+
+// lets allow using opengl functions in draw method
+#include <RenderBase/platform/graphics/OpenGL/GLGraphicsContext.h>
 
 using namespace std;
 using namespace rb;
 
 class HelloTriangle : public rb::Application {
 
-    using Application::Application; // inherit base constructor - mandatory
+    // inherit base constructor - mandatory
+    using Application::Application;
 
-    // GLuint vao;
+    GLuint vao;
+    // shared_ptr<VertexArray> vao;
     shared_ptr<Program> prg;
+    shared_ptr<GraphicsContext> graphics;
 
     bool init() {
 
-        // mainWindow->getPerformanceAnalyzer()->capFPS(60);
-
+        mainWindow->getPerformanceAnalyzer()->capFPS(60);
         mainWindow->getPerformanceAnalyzer()->perPeriodReport(1s, [](IntervalPerformanceReport report) {
             cout << report.asFormatedString() << "\n";
         });
 
-
         // graphics program creation
-        prg = Program::create(
-            Shader::create(ShaderType::Vertex, vsSrc),
-            Shader::create(ShaderType::Fragment, vsSrc)
-        );
-
-        if (!prg->getErrorMessage().empty()) {
-            cerr << "Error while creating a program: \n" << prg->getErrorMessage() << endl;
-            return false;
+        prg = Program::create(Shader::create(ShaderType::Vertex, vsSrc), Shader::create(ShaderType::Fragment, fsSrc));
+        if (!prg->isOk()) {
+            fail("Error while creating a program:\n" + prg->getErrorMessage());
         }
 
-        glClearColor(0, 0, 0, 1);
-        glCreateVertexArrays(1, &vao);
+        // // glCreateVertexArrays(1, &vao);
+        // vao = VertexArray::create();
+        // if (!vao->isOk()) {
+        //     fail("Error while creating vertex array object:\n" + vao->getErrorMessage());
+        // }
 
+        glCreateVertexArrays(1, &vao);
         return true;
     }
 
@@ -45,7 +49,8 @@ class HelloTriangle : public rb::Application {
     void draw() {
         prg->use();
 
-        glPointSize(10);
+        // vao->bind();
+
         glClear(GL_COLOR_BUFFER_BIT);
         glBindVertexArray(vao);
         glDrawArrays(GL_TRIANGLES,0,3);

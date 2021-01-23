@@ -1,9 +1,12 @@
 #pragma once
 
-#include <RenderBase/graphics/Program.h>
+#include <glm/glm.hpp>
 
 namespace rb {
 
-    class GraphicsContext { };
+    class GraphicsContext {
+        public:
+            virtual void cleanColor(glm::vec3 color) = 0;
+    };
 
 }

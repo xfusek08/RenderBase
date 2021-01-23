@@ -2,6 +2,8 @@
 #include <RenderBase/platform/window/SDL2/sdl.h>
 #ifdef PLATFORM_WINDOW_SDL
 
+#include <RenderBase/platform/graphics/OpenGL/GLGraphicsContext.h>
+
 using namespace std;
 using namespace rb::platform::sdl;
 
@@ -41,11 +43,15 @@ Window::Window(const string &title, uint32_t width, uint32_t height) {
         SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL
     );
 
-    // init opengl context
+    // opengl only:
+
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
     sdlGlContext = SDL_GL_CreateContext(sdlWindow);
+
+    // create graphics context for the window
+    graphics = make_shared<rb::opengl::GLGraphicsContext>(SDL_GL_GetProcAddress);
 }
 
 string Window::getTitle() const {

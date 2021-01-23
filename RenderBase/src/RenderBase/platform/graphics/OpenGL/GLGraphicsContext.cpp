@@ -3,7 +3,8 @@
 #include <RenderBase/platform/graphics/OpenGL/GLGraphicsContext.h>
 #include <RenderBase/tools/logging.h>
 
-using namespace rb;
+using namespace rb::opengl;
+using namespace glm;
 
 // #ifdef DEBUG
 //     static void glDebugMessage(
@@ -19,7 +20,7 @@ using namespace rb;
 //     }
 // #endif
 
-opengl::GraphicsContext::GraphicsContext(void* GLProcTable) : rb::GraphicsContext() {
+GLGraphicsContext::GLGraphicsContext(void* GLProcTable) : rb::GraphicsContext() {
 
     // init glad
     if (!gladLoadGLLoader((GLADloadproc)GLProcTable)) {
@@ -35,4 +36,8 @@ opengl::GraphicsContext::GraphicsContext(void* GLProcTable) : rb::GraphicsContex
     //     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
     //     glDebugMessageCallback((GLDEBUGPROC)glDebugMessage, nullptr);
     // #endif
+}
+
+void GLGraphicsContext::cleanColor(vec3 color) {
+    glClearColor(color.x, color.y, color.z, 1);
 }

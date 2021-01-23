@@ -1,7 +1,7 @@
 
-#include <RenderBase/graphics/GraphicsObject.h>
+#include <RenderBase/FailableObject.h>
 
-void rb::GraphicsObject::fail(std::string message) {
+void rb::FailableObject::fail(std::string message) {
     if (isOk()) {
         errorMessage = message;
     } else {

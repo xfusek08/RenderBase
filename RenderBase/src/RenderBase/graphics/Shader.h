@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include <RenderBase/graphics/GraphicsObject.h>
+#include <RenderBase/FailableObject.h>
 
 namespace rb {
 
@@ -13,7 +13,7 @@ namespace rb {
         Fragment
     };
 
-    class Shader : public GraphicsObject
+    class Shader : public FailableObject
     {
         public:
             static std::shared_ptr<Shader> create(ShaderType type, std::string source);

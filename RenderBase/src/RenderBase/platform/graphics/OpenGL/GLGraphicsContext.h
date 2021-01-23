@@ -6,10 +6,12 @@
 namespace rb {
     namespace opengl {
 
-        class GraphicsContext : public rb::GraphicsContext
+        class GLGraphicsContext : public rb::GraphicsContext
         {
             public:
-                GraphicsContext(void* GLProcTable);
+                GLGraphicsContext(void* GLProcTable);
+
+                void cleanColor(glm::vec3 color) override;
         };
 
     }

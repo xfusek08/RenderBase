@@ -46,10 +46,7 @@ Window::Window(const string &title, uint32_t width, uint32_t height) {
 
     // create graphics context for the window
     glfwMakeContextCurrent(windowHandle);
-    graphics = make_unique<GLGraphicsContext>(glfwGetProcAddress);
-
-
-
+    graphics = make_shared<GLGraphicsContext>(glfwGetProcAddress);
 }
 
 string Window::getTitle() const {

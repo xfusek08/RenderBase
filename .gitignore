@@ -1,1 +1,4 @@
-.vscode/
+
+# ignore posibble premake binaries
+premake5
+premake5.exe

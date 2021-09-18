@@ -11,8 +11,8 @@ project "RenderBase"
     -- precompiled headers?
     
     files {
-        "src/%{prj.name}/**.cpp",
-        "src/%{prj.name}/**.h"
+        "src/**.cpp",
+        "src/**.h"
     }
     
     includedirs {

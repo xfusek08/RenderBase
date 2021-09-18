@@ -2,3 +2,9 @@
 # ignore posibble premake binaries
 premake5
 premake5.exe
+
+# hide generated files
+build/
+
+# hide binary files
+bin/

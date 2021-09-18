@@ -1,28 +1,25 @@
 
-project "RenderBase"
-    kind          "StaticLib"
+local projectName = "RenderBase"
+local publicIncludes = {
+    "src"
+}
+local privateIncludes = {}
+
+project (projectName)
+    kind          "SharedLib"
     language      "C++"
     cppdialect    "C++20"
     staticruntime "off" -- this links "MultiThreadedDLL" in visual studio and noes nothing outsitde of windows.
-    
-    targetdir "bin/%{prj.name}"
-    objdir    "bin-obj/%{prj.name}"
-    
-    -- precompiled headers?
     
     files {
         "src/**.cpp",
         "src/**.h"
     }
     
-    includedirs {
-        "src/%{prj.name}"
-    }
+    includedirs  (publicIncludes)
+    includedirs  (privateIncludes)
     
-    -- links {
-    --     "GLFW",
-    --     "Glad"
-    -- }
+    setLibraryUsage (projectName, publicIncludes)
     
     filter "configurations:Debug"
         defines "DEBUG"

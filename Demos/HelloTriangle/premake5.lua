@@ -4,17 +4,12 @@ project "HelloTriangle"
     language   "C++"
     cppdialect "C++20"
     
-    targetdir "bin/%{prj.name}"
-    objdir    "bin-obj/%{prj.name}"
-    
     files {
         "main.cpp"
     }
     
-    links {
-        "RenderBase"
-    }
-    
+    uselibrary "RenderBase"
+        
     filter "configurations:Debug"
         defines "DEBUG"
         runtime "Debug"

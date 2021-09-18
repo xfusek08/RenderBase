@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include <RenderBase/rb.h>
+#include <RenderBase/window.h>
 
 int main()
 {

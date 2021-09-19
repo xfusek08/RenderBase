@@ -8,7 +8,9 @@
                 "${workspaceFolder}/RenderBase/src",
                 "${workspaceFolder}/Demos/HelloTriangle"
             ],
-            "defines": [],
+            "defines": [
+                "DEBUG"
+            ],
             "cppStandard": "c++20",
             "intelliSenseMode": "linux-gcc-x64"
         }

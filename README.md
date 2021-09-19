@@ -16,3 +16,6 @@ make
 
 ## TODO:
 - [ ] release configuration
+- Logger
+    - [ ] Logging into file
+    - [ ] Logging into internal runtime log console (imgui)

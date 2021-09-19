@@ -1,8 +1,8 @@
 
-#include <iostream>
+#include <RenderBase/logging.h>
 
 int main()
 {
-    std::cout << "Hello Sandbox App!\n";
+    RB_LOG_DEBUG("Hello Sandbox App!\n");
     return 0;
 }

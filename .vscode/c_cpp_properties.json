@@ -3,6 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
+                "${workspaceFolder}/RenderBase/vendor/glad/include",
                 "${workspaceFolder}/RenderBase/src",
                 "${workspaceFolder}/Demos/HelloTriangle"
             ],

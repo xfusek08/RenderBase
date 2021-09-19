@@ -1,4 +1,6 @@
 
+include "vendor/glad"
+
 project ("RenderBase")
     kind          "SharedLib"
     language      "C++"
@@ -11,7 +13,8 @@ project ("RenderBase")
     }
     
     includedirs  {
-        "src"
+        "src",
+        importLibIncludes("Glad")
     }
     
     exportLibIncludes ("RenderBase", {

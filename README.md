@@ -13,3 +13,6 @@ cd RenderBase
 cd build
 make
 ```
+
+## TODO:
+- [ ] release configuration

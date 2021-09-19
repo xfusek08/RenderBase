@@ -1,5 +1,6 @@
 
 include "vendor/glad"
+include "vendor/glfw"
 
 project ("RenderBase")
     kind          "SharedLib"
@@ -14,7 +15,13 @@ project ("RenderBase")
     
     includedirs  {
         "src",
-        importLibIncludes("Glad")
+        importLibIncludes("Glad"),
+        importLibIncludes("GLFW")
+    }
+    
+    links {
+        "glad",
+        "glfw"
     }
     
     exportLibIncludes ("RenderBase", {

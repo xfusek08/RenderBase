@@ -4,6 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/RenderBase/vendor/glad/include",
+                "${workspaceFolder}/RenderBase/vendor/glfw/glfw/include",
                 "${workspaceFolder}/RenderBase/src",
                 "${workspaceFolder}/Demos/HelloTriangle"
             ],

@@ -10,18 +10,34 @@
 
 #pragma once
 
-#ifndef NO_LOG
-    #include <iostream>
-    #include <glm/gtx/string_cast.hpp>
-    #define RB_ERROR(...) std::cerr << __VA_ARGS__ << std::endl
-    #define RB_LOG(...)   std::cout << __VA_ARGS__ << std::endl
-#else
-    #define RB_ERROR(...)
-    #define RB_LOG(...)
-#endif
+#include <sstream>
+namespace rb
+{
+    enum class LogLevel {
+        Fatal,
+        Error,
+        Warning,
+        Info,
+        Debug,
+        Trace
+    };
+    
+    // this function can be in the future replace by more complex logger singleton object
+    // __attribute__((visibility("default"))) void log(LogLevel level, std::string message);
+    void log(LogLevel level, std::string message);
+}
 
-#if defined(DEBUG) && !defined(NO_LOG)
-    #define RB_DEBUG(...) RB_LOG(__VA_ARGS__)
+#define STREAM_TO_STR(S) (static_cast<std::ostringstream&>(std::ostringstream() << S)).str()
+
+#define RB_FATAL(...)   rb::log(rb::LogLevel::Fatal, STREAM_TO_STR(__VA_ARGS__))
+#define RB_ERROR(...)   rb::log(rb::LogLevel::Error, STREAM_TO_STR(__VA_ARGS__))
+#define RB_WARNING(...) rb::log(rb::LogLevel::Warning, STREAM_TO_STR(__VA_ARGS__))
+#define RB_INFO(...)    rb::log(rb::LogLevel::Info, STREAM_TO_STR(__VA_ARGS__))
+
+#if DEBUG
+    #define RB_DEBUG(...) rb::log(rb::LogLevel::Debug, STREAM_TO_STR(__VA_ARGS__))
+    #define RB_TRACE(...) rb::log(rb::LogLevel::Trace, STREAM_TO_STR(__VA_ARGS__ << "\n In File: " << __FILE__ << "\n On Line: " << __LINE__))
 #else
     #define RB_DEBUG(...)
+    #define RB_TRACE(...)
 #endif

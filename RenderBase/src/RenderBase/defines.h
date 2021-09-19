@@ -16,14 +16,6 @@
 	#endif
 #elif defined(__linux__)
     #define RB_PLATFORM_LINUX
-#endif
-
-#if DEBUG
-    #define RB_ASSERT_ENABLE
-    #if defined(RB_PLATFORM_WINDOWS)
-        #define RB_DEBUG_BREAK() __debugbreak()
-    #elif defined(RB_PLATFORM_LINUX)
-        #include <signal.h>
-        #define RB_DEBUG_BREAK() raise(SIGTRAP)
-    #endif
+#else
+    #error "Yet usuported platform!"
 #endif

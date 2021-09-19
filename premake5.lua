@@ -12,5 +12,5 @@ workspace "RenderBase"
     
     include "RenderBase"
     include "Sandbox"
-    include "Demos"
+    -- include "Demos"
     

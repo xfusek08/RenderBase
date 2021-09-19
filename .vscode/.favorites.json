@@ -1,0 +1,18 @@
+[
+    {
+        "type": "Directory",
+        "name": "/home/petr/software/repo/RenderBasepm/Demos/HelloTriangle",
+        "parent_id": null,
+        "workspaceRoot": "/home/petr/software/repo/RenderBasepm",
+        "workspacePath": "Demos/HelloTriangle",
+        "id": "9QR1VPiSK0oC7eX3"
+    },
+    {
+        "type": "Directory",
+        "name": "/home/petr/software/repo/RenderBasepm/RenderBase/src/RenderBase",
+        "parent_id": null,
+        "workspaceRoot": "/home/petr/software/repo/RenderBasepm",
+        "workspacePath": "RenderBase/src/RenderBase",
+        "id": "56OFPBMUZQya3qkn"
+    }
+]

@@ -3,10 +3,11 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/RenderBase/src",
+                "${workspaceFolder}/Demos/HelloTriangle"
             ],
             "defines": [],
-            "cStandard": "gnu17",
+            "cppStandard": "c++20",
             "intelliSenseMode": "linux-gcc-x64"
         }
     ],

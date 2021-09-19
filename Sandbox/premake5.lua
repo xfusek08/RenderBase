@@ -17,14 +17,14 @@ project "Sandbox"
         ".",
         importLibIncludes("RenderBase")
     }
-        
+    
     filter "configurations:Debug"
-        defines "DEBUG"
+        defines { "DEBUG" }
         runtime "Debug"
         symbols "On"
-    
+
     filter "configurations:Release"
-        defines { "NDEBUG", "RELEASE" }
+        defines { "RELEASE" }
         runtime "Release"
         symbols "Off"
         optimize "On" -- also could try "Speed" or "Full"

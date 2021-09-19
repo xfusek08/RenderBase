@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "premake",
+            "label": "build_debug",
             "type": "shell",
             "command": "${workspaceFolder}/premake5 gmake2 &&  make -C build",
             "problemMatcher": {
@@ -14,6 +14,15 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "build_release",
+            "type": "shell",
+            "command": "${workspaceFolder}/premake5 gmake2 &&  make config=release -C build",
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": ["relative", "${workspaceRoot}/build"]
             }
         }
     ]

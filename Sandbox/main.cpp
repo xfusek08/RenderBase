@@ -1,8 +1,9 @@
 
 #include <RenderBase/logging.h>
+#include <RenderBase/asserts.h>
 
 int main()
 {
-    RB_LOG_DEBUG("Hello Sandbox App!\n");
+    RB_LOG("Hello Sandbox App!\n");
     return 0;
 }

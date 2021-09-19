@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "Linux_debug",
             "includePath": [
                 "${workspaceFolder}/RenderBase/vendor/glad/include",
                 "${workspaceFolder}/RenderBase/vendor/glfw/glfw/include",
@@ -10,6 +10,20 @@
             ],
             "defines": [
                 "DEBUG"
+            ],
+            "cppStandard": "c++20",
+            "intelliSenseMode": "linux-gcc-x64"
+        },
+        {
+            "name": "Linux_release",
+            "includePath": [
+                "${workspaceFolder}/RenderBase/vendor/glad/include",
+                "${workspaceFolder}/RenderBase/vendor/glfw/glfw/include",
+                "${workspaceFolder}/RenderBase/src",
+                "${workspaceFolder}/Demos/HelloTriangle"
+            ],
+            "defines": [
+                "RELEASE"
             ],
             "cppStandard": "c++20",
             "intelliSenseMode": "linux-gcc-x64"

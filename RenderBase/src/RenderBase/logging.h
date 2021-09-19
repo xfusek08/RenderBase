@@ -10,10 +10,18 @@
 
 #pragma once
 
-#if defined DEBUG
+#ifndef NO_LOG
     #include <iostream>
     #include <glm/gtx/string_cast.hpp>
-    #define RB_LOG_DEBUG(...) std::cerr << __VA_ARGS__ << std::endl
+    #define RB_ERROR(...) std::cerr << __VA_ARGS__ << std::endl
+    #define RB_LOG(...)   std::cout << __VA_ARGS__ << std::endl
 #else
-    #define RB_LOG_DEBUG(...)
+    #define RB_ERROR(...)
+    #define RB_LOG(...)
+#endif
+
+#if defined(DEBUG) && !defined(NO_LOG)
+    #define RB_DEBUG(...) RB_LOG(__VA_ARGS__)
+#else
+    #define RB_DEBUG(...)
 #endif

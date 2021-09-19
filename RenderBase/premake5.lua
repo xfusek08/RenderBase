@@ -1,11 +1,5 @@
 
-local projectName = "RenderBase"
-local publicIncludes = {
-    "src"
-}
-local privateIncludes = {}
-
-project (projectName)
+project ("RenderBase")
     kind          "SharedLib"
     language      "C++"
     cppdialect    "C++20"
@@ -16,10 +10,13 @@ project (projectName)
         "src/**.h"
     }
     
-    includedirs  (publicIncludes)
-    includedirs  (privateIncludes)
+    includedirs  {
+        "src"
+    }
     
-    setLibraryUsage (projectName, publicIncludes)
+    exportLibIncludes ("RenderBase", {
+        "src"
+    })
     
     filter "configurations:Debug"
         defines "DEBUG"

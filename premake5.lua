@@ -1,5 +1,5 @@
-    
-include "buildUtils.lua"
+
+include "libUtils.lua"
 
 workspace "RenderBase"
     location  "build"
@@ -7,8 +7,6 @@ workspace "RenderBase"
     objdir    "bin"
 
     architecture "x64"
-    
-    startproject "HelloTriangle"
     
     configurations { "Debug", "Release" }
     

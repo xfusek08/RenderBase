@@ -8,7 +8,13 @@ project "HelloTriangle"
         "main.cpp"
     }
     
-    uselibrary "RenderBase"
+    links {
+        "RenderBase"
+    }
+
+    includedirs {
+        importLibIncludes("RenderBase")
+    }
         
     filter "configurations:Debug"
         defines "DEBUG"

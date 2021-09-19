@@ -1,10 +1,9 @@
 
 #include <iostream>
-#include <RenderBase/window.h>
+#include <lib.h>
 
 int main()
 {
-    Window w = createWindow();
-    std::cout << "Window \"" << w.windowId << "\" cerated\n";
+    printTest();
     return 0;
 }

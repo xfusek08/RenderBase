@@ -5,7 +5,8 @@ project "HelloTriangle"
     cppdialect "C++20"
     
     files {
-        "main.cpp"
+        "**.cpp",
+        "**.h"
     }
     
     links {
@@ -13,6 +14,7 @@ project "HelloTriangle"
     }
 
     includedirs {
+        ".",
         importLibIncludes("RenderBase")
     }
         

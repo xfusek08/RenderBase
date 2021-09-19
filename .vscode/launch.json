@@ -11,10 +11,11 @@
             "program": "${workspaceFolder}/bin/HelloTriangle",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}/bin",
             "environment": [],
-            "externalConsole": true,
+            "externalConsole": false,
             "MIMode": "gdb",
+            "preLaunchTask": "premake",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",

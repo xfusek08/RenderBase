@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/HelloTriangle",
+            "program": "${workspaceFolder}/bin/Sandbox",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/bin",

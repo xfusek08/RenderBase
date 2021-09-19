@@ -1,9 +1,8 @@
 
 #include <iostream>
-#include <lib.h>
 
 int main()
 {
-    printTest();
+    std::cout << "Hello triangle demo app is unimplemented\n";
     return 0;
 }

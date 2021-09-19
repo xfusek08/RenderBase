@@ -34,7 +34,7 @@ project ("RenderBase")
         symbols "On"
     
     filter "configurations:Release"
-        defines "NDEBUG"
+        defines { "NDEBUG", "RELEASE" }
         runtime "Release"
         symbols "Off"
         optimize "On" -- also could try "Speed" or "Full"

@@ -11,5 +11,6 @@ workspace "RenderBase"
     configurations { "Debug", "Release" }
     
     include "RenderBase"
+    include "Sandbox"
     include "Demos"
     

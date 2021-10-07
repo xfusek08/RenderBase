@@ -1,19 +1,8 @@
 
-#include <RenderBase/logging.h>
-#include <RenderBase/asserts.h>
+#include <application.h>
 
-int main()
+int main(int argc, char** argv)
 {
-    int32_t i = 1;
-    RB_FATAL("Log test " << i++);
-    RB_ERROR("Log test " << i++);
-    RB_WARNING("Log test " << i++);
-    RB_INFO("Log test " << i++);
-    RB_DEBUG("Log test " << i++);
-    RB_TRACE("Log test " << i++);
-    
-    auto a = 1;
-    RB_ASSERT(a == 0);
-    
-    return 0;
+    auto config = App::configure(argc, argv);
+    return App::run(config) ? 0 : 1;
 }

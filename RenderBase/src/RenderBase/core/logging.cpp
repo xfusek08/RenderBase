@@ -1,7 +1,6 @@
 
-#include <RenderBase/logging.h>
-#include <RenderBase/asserts.h>
-#include <RenderBase/platform.h>
+#include <RenderBase/core/logging.h>
+#include <RenderBase/core/platform.h>
 
 using namespace rb;
 using namespace rb::platform;
@@ -36,16 +35,4 @@ void rb::log(LogLevel level, std::string message)
         "[" + levelToString(level) + "]: " + message + "\n",
         levelToColor(level)
     );
-}
-
-void rb::reportAssert(std::string expression, std::string message, std::string file, int32_t line)
-{
-    std::stringstream ss;
-    ss <<
-        "Assertion Failure: " << expression << "\n" <<
-        "Message: " << message << "\n" <<
-        "In file: " << file << "\n" <<
-        "On line: " << line;
-         
-    rb::log(LogLevel::Fatal, ss.str());
 }

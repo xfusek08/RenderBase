@@ -6,7 +6,8 @@
                 "${workspaceFolder}/RenderBase/vendor/glad/include",
                 "${workspaceFolder}/RenderBase/vendor/glfw/glfw/include",
                 "${workspaceFolder}/RenderBase/src",
-                "${workspaceFolder}/Demos/HelloTriangle"
+                "${workspaceFolder}/Demos/HelloTriangle",
+                "${workspaceFolder}/Sandbox/"
             ],
             "defines": [
                 "DEBUG", "ASSERT_ENABLE"

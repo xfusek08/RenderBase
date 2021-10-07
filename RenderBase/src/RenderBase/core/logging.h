@@ -11,6 +11,7 @@
 #pragma once
 
 #include <sstream>
+
 namespace rb
 {
     enum class LogLevel {

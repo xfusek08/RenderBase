@@ -29,7 +29,7 @@ project ("RenderBase")
     })
     
     filter "configurations:Debug"
-        defines "DEBUG"
+        defines { "DEBUG", "NO_ASSERT" }
         runtime "Debug"
         symbols "On"
     

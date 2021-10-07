@@ -6,7 +6,7 @@
         {
             "label": "build_debug",
             "type": "shell",
-            "command": "${workspaceFolder}/premake5 gmake2 &&  make -C build",
+            "command": "make clean -C build && ./premake5 gmake2 &&  make -C build",
             "problemMatcher": {
                 "base": "$gcc",
                 "fileLocation": ["relative", "${workspaceRoot}/build"]

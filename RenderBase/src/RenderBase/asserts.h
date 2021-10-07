@@ -1,12 +1,14 @@
 
 /**
- * This is definition of basic assertion macros inspired by Kohi game engine:
+ * This is definition of basic assertion macros.
+ *
+ * This file is based on Kohi Game Engine Project by Travis Vroman:
  * https://github.com/travisvroman/kohi/blob/main/engine/src/core/asserts.h
  */
 
 #pragma once
 
-#include <RenderBase/core/logging.h>
+#include <RenderBase/logging.h>
 
 #define REPORT_ASSERT_MSG(expr, message) RB_FATAL(STREAM_TO_STR( \
         "Assertion Failure: " << (#expr) << "\n" << \

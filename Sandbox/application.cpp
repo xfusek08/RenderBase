@@ -1,19 +1,11 @@
 
 #include <application.h>
-#include <RenderBase/rb.h>
+#include <RenderBase/application.h>
 
-static App::State state;
-
-App::Config App::configure(int argc, char** argv) {
-    return {};
+bool Application::init() {
+    return true;
 }
 
-bool App::run(const Config& config) {
-    RB_DEBUG("Application Running");
-    state.actConfig = config;
-    rb::initialize();
-    RB_DEBUG("Application Succesfully initialized");
+void Application::draw() {
     
-    rb::destroy();
-    return true;
 }

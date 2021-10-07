@@ -1,17 +1,13 @@
 
 #pragma once
 
-// data types
-namespace App {
+#include <RenderBase/application.h>
+
+class Application : public rb::app::BasicOpengGLApplication
+{
+    using BasicOpengGLApplication::BasicOpengGLApplication;
     
-    struct Config {
-        
-    };
-    
-    struct State {
-        Config actConfig;
-    };
-    
-    Config configure(int argc, char** argv);
-    bool run(const Config& config);
-}
+    protected:
+        bool init() override;
+        void draw() override;
+};

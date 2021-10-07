@@ -1,6 +1,6 @@
 
-#include <RenderBase/core/logging.h>
-#include <RenderBase/core/platform.h>
+#include <RenderBase/logging.h>
+#include <RenderBase/platform.h>
 
 using namespace rb;
 using namespace rb::platform;

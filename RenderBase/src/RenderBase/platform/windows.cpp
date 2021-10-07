@@ -1,8 +1,8 @@
 
-#include <RenderBase/core/defines.h>
+#include <RenderBase/defines.h>
 
 #ifdef RB_PLATFORM_WINDOWS
-    #include <RenderBase/core/platform.h>
+    #include <RenderBase/platform.h>
     #include <iostream>
 
     void rb::platform::terminalPrint(std::string message, TerminalColor color = TerminalColor::Default) {

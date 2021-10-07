@@ -19,7 +19,7 @@ project "Sandbox"
     }
     
     filter "configurations:Debug"
-        defines { "DEBUG", "NO_ASSERT" }
+        defines { "DEBUG" }
         runtime "Debug"
         symbols "On"
 

@@ -1,8 +1,8 @@
 
-#include <RenderBase/core/defines.h>
+#include <RenderBase/defines.h>
 #ifdef RB_PLATFORM_LINUX
 
-    #include <RenderBase/core/platform.h>
+    #include <RenderBase/platform.h>
     #include <stdio.h>
 
     using namespace rb::platform;

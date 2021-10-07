@@ -3,6 +3,7 @@
 
 int main(int argc, char** argv)
 {
-    auto config = App::configure(argc, argv);
-    return App::run(config) ? 0 : 1;
+    auto config = rb::app::loadDefaultConfigFromArgumets(argc, argv);
+    auto app = Application(config);
+    return app.run() ? 0 : 1;
 }

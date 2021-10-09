@@ -7,9 +7,13 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(vendor/glad)
 add_subdirectory(vendor/glfw/glfw)
 
-file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/*.cpp", "src/*.h")
+file(GLOB_RECURSE
+    SOURCES
+    RELATIVE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+    "src/*.cpp"
+    "src/*.h"
+)
 
-message (SOURCES)
 add_library(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
@@ -17,7 +21,9 @@ target_link_libraries(${PROJECT_NAME}
     glfw
 )
 
-target_include_directories(${PROJECT_NAME} src)
+target_include_directories(${PROJECT_NAME}
+    PUBLIC src
+)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     $<$<CONFIG:DEBUG>:

@@ -10,7 +10,7 @@
 namespace rb::window {
     
     struct Config {
-        const char* title  = nullptr;
+        const char* title  = DEFAULT_WINDOW_TITLE;
         uint32 width       = DEFAULT_WINDOW_WIDTH;
         uint32 height      = DEFAULT_WINDOW_HEIGHT;
         bool vSynchEnabled = DEFAULT_VSYNCH_ENABLED;

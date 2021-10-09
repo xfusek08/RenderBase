@@ -3,8 +3,6 @@
 #include <RenderBase/logging.h>
 #include <RenderBase/asserts.h>
 
-#include <unordered_map>
-
 #include <GLFW/glfw3.h>
 
 using namespace std;
@@ -130,13 +128,17 @@ bool Window::getVSynch() const
 
 void Window::swapFrames()
 {
-    RB_DEBUG("frame swap");
+    glfwSwapBuffers(state->glfwWindowHandle);
 }
 
 void Window::fireEvents()
 {
-    events::EventData dummy;
-    state->eventDispatcher.fireEvent(events::EVENT_CODE_APPLICATION_QUIT, this, dummy);
+    glfwPollEvents();
+    if (glfwWindowShouldClose(state->glfwWindowHandle)) {
+        events::EventData dummy;
+        RB_DEBUG("Fireing Window close event");
+        state->eventDispatcher.fireEvent(events::EVENT_CODE_APPLICATION_QUIT, this, dummy);
+    }
 }
 
 // OpenGL

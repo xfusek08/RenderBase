@@ -3,7 +3,7 @@ include "vendor/glad"
 include "vendor/glfw"
 
 project ("RenderBase")
-    kind          "SharedLib"
+    kind          "StaticLib"
     language      "C++"
     cppdialect    "C++20"
     staticruntime "off" -- this links "MultiThreadedDLL" in visual studio and noes nothing outsitde of windows.
@@ -18,7 +18,7 @@ project ("RenderBase")
         importLibIncludes("Glad"),
         importLibIncludes("GLFW")
     }
-    
+        
     links {
         "glad",
         "glfw"

@@ -60,3 +60,9 @@ STATIC_ASSERT(sizeof(float64) == 8, "Expected float64 to be 8 bytes.");
 #else
     #error "Yet usuported platform!"
 #endif
+
+// code utilities
+#define PRIVATE_IMPLEMENTATION \
+    private: \
+        class impl; \
+        impl* pimpl;

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <RenderBase/defines.h>
+#include <RenderBase/defaults.h>
 #include <RenderBase/events.h>
 #include <RenderBase/window.h>
 
@@ -14,8 +15,9 @@ namespace rb::app {
      * Configuration data structure for specifiing properties of created application.
      */
     struct Configuration {
-        uint32 windowWidth;
-        uint32 windowHeight;
+        uint32 windowWidth  = DEFAULT_WINDOW_WIDTH;
+        uint32 windowHeight = DEFAULT_WINDOW_HEIGHT;
+        uint32 fpsCap       = DEFAULT_FPS_CAP;
     };
     
     enum class Status {
@@ -30,7 +32,7 @@ namespace rb::app {
      * Applicattion state holding all needed data including subsystems etc.
      */
     struct Application {
-        Configuration config = {};
+        Configuration config = {}; // this is used only during app initialization process
         Status        status = Status::Uninitialized;
         
         // aplication sub-systems
@@ -52,8 +54,7 @@ namespace rb::app {
             virtual bool init() = 0;
             virtual void draw() = 0;
             
-        private:
-            Application appState = {};
+            Application state = {};
     };
     
     /**

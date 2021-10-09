@@ -53,7 +53,7 @@ EventDispatcher::~EventDispatcher()
 bool EventDispatcher::subscribeToEvent(uint16 eventCode, void* listener, EventCallback callback)
 {
     RB_ASSERT(eventCode < MAX_CODES);
-    auto codesSubscribers = dispatchersSubstrictionTable[this][eventCode];
+    auto& codesSubscribers = dispatchersSubstrictionTable[this][eventCode];
     
     auto match = ranges::find_if(codesSubscribers, [listener](EventSubscription subscription) {
         return subscription.listener == listener;
@@ -71,7 +71,7 @@ bool EventDispatcher::subscribeToEvent(uint16 eventCode, void* listener, EventCa
 bool EventDispatcher::unSubscribeToEvent(uint16 eventCode, void* listener)
 {
     RB_ASSERT(eventCode < MAX_CODES);
-    auto codesSubscribers = dispatchersSubstrictionTable[this][eventCode];
+    auto& codesSubscribers = dispatchersSubstrictionTable[this][eventCode];
     
     if (codesSubscribers.empty()) {
         return false;
@@ -92,7 +92,7 @@ bool EventDispatcher::unSubscribeToEvent(uint16 eventCode, void* listener)
 bool EventDispatcher::fireEvent(uint16 eventCode, void* sender, EventData data)
 {
     RB_ASSERT(eventCode < MAX_CODES);
-    auto codesSubscribers = dispatchersSubstrictionTable[this][eventCode];
+    auto& codesSubscribers = dispatchersSubstrictionTable[this][eventCode];
     
     if (codesSubscribers.empty()) {
         return false; // no one is listenig

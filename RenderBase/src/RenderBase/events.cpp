@@ -14,46 +14,48 @@
 using namespace std;
 using namespace rb::events;
 
-// moduile-internal data structure for storing registrations to events
+// internal datastructure implementation
 // ---------------------------------------------------------------------------------------------------------
 
 /**
- * Defines max number of unique events code which can be used to be subscribet to (iamgine biding points)
+ * Defines max number of unique events code which can be used to be subscribed to
  */
 #define MAX_CODES 1024
 
+/**
+ * Internal record of listener subscribed to an event with callback function
+ */
 struct EventSubscription {
     void* listener;
     EventCallback callback;
 };
-using EventSubscriptionLists     = vector<EventSubscription>;
-using EventSubscriptionCodeTable = array<EventSubscriptionLists, MAX_CODES>;
-
+    
 /**
- * In order to encapsulate implementation details in this module we store internal event dispatcher data
- * in static variable.
- * We do this to avoid using stl types in header file for this module and to have cleaner API.
+ * Internal dispatcher state
+ *
+ * For each code there is a vector of subscribed callbacks with their listenres
  */
-static unordered_map<EventDispatcher*, EventSubscriptionCodeTable> dispatchersSubstrictionTable;
-
+struct EventDispatcher::State {
+    array<vector<EventSubscription>, MAX_CODES> subscriptionTables;
+};
 
 // implementation of API
 // ----------------------------------------------------------------------------------------------------------
 
 EventDispatcher::EventDispatcher()
 {
-    dispatchersSubstrictionTable[this] = {};
+    state = make_unique<State>();
 }
 
 EventDispatcher::~EventDispatcher()
 {
-    dispatchersSubstrictionTable.erase(this);
+    // descruction procedure ...
 }
 
 bool EventDispatcher::subscribeToEvent(uint16 eventCode, void* listener, EventCallback callback)
 {
     RB_ASSERT(eventCode < MAX_CODES);
-    auto& codesSubscribers = dispatchersSubstrictionTable[this][eventCode];
+    auto& codesSubscribers = state->subscriptionTables[eventCode];
     
     auto match = ranges::find_if(codesSubscribers, [listener](EventSubscription subscription) {
         return subscription.listener == listener;
@@ -71,7 +73,7 @@ bool EventDispatcher::subscribeToEvent(uint16 eventCode, void* listener, EventCa
 bool EventDispatcher::unSubscribeToEvent(uint16 eventCode, void* listener)
 {
     RB_ASSERT(eventCode < MAX_CODES);
-    auto& codesSubscribers = dispatchersSubstrictionTable[this][eventCode];
+    auto& codesSubscribers = state->subscriptionTables[eventCode];
     
     if (codesSubscribers.empty()) {
         return false;
@@ -92,18 +94,17 @@ bool EventDispatcher::unSubscribeToEvent(uint16 eventCode, void* listener)
 bool EventDispatcher::fireEvent(uint16 eventCode, void* sender, EventData data)
 {
     RB_ASSERT(eventCode < MAX_CODES);
-    auto& codesSubscribers = dispatchersSubstrictionTable[this][eventCode];
+    auto& codesSubscribers = state->subscriptionTables[eventCode];
     
     if (codesSubscribers.empty()) {
-        return false; // no one is listenig
+        return false; // no one is listening -> not handled
     }
     
-    for (auto subscribtion : codesSubscribers) {
-        if (subscribtion.callback({eventCode, sender, subscribtion.listener, data})) {
-            return true; // event succesfuly handled
+    for (auto subscription : codesSubscribers) {
+        if (subscription.callback({eventCode, sender, subscription.listener, data})) {
+            return true; // event successfully handled
         }
     }
     
-    // event was not handled
-    return false;
+    return false; // not handled
 }

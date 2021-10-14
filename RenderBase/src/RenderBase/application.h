@@ -29,24 +29,24 @@ namespace rb::app {
     };
     
     /**
-     * Applicattion state holding all needed data including subsystems etc.
+     * Application state holding all needed data including subsystems etc.
      */
     struct Application {
         Configuration config = {}; // this is used only during app initialization process
         Status        status = Status::Uninitialized;
         
-        // aplication sub-systems
+        // application sub-systems
         std::unique_ptr<rb::events::EventDispatcher> eventDispatcher;
         std::unique_ptr<rb::window::Window>          window;
     };
     
     /**
-     * Class serving as simple API for quick creating an windowed aplication based on Given standardized configuration.
+     * Class serving as simple API for quick creating an windowed application based on Given standardized configuration.
      */
-    class BasicOpengGLApplication
+    class BasicOpenGLApplication
     {
         public:
-            BasicOpengGLApplication(Configuration config);
+            BasicOpenGLApplication(Configuration config);
             
             bool run();
             
@@ -60,5 +60,5 @@ namespace rb::app {
     /**
      * Function to load configuration from command line argumets in standartized format
      */
-    Configuration loadDefaultConfigFromArgumets(int32 argCount, char** arguments);
+    Configuration loadDefaultConfigFromArguments(int32 argCount, char** arguments);
 }

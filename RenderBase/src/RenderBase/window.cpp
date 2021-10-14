@@ -1,13 +1,18 @@
+/**
+ * This file implementation is inspired by Hazel engine by Yan Chernikov:
+ *   https://github.com/TheCherno/Hazel/blob/master/Hazel/src/Platform/Windows/WindowsWindow.cpp
+ */
 
 #include <RenderBase/window.h>
 #include <RenderBase/logging.h>
 #include <RenderBase/asserts.h>
 
-#include <GLFW/glfw3.h>
-
 using namespace std;
 using namespace rb;
 using namespace rb::window;
+
+// internal datastructure implementation
+// ---------------------------------------------------------------------------------------------------------
 
 struct Window::State
 {
@@ -26,14 +31,11 @@ static void GLFWErrorCallback(int error, const char* description) {
     RB_ERROR("GLFW Error (" << error << "): " << description);
 }
 
-void* getGLFunctionTablePointer()
+void* rb::window::getGLFunctionTablePointer()
 {
-    if (glfwWindowCount > 0) {
-        return (void*)glfwGetProcAddress;
-    }
-    return nullptr;
+    RB_ASSERT_MSG(glfwWindowCount > 0, "rb::window::getGLFunctionTablePointer(): Cannot return function pointer when no window is created.");
+    return (void*)glfwGetProcAddress;
 }
-
 
 // module API implementation
 // ---------------------------------------------------------------------------------------------------------
@@ -62,24 +64,63 @@ bool Window::show()
         return false;
     }
     
-    // init glfw if this is out first window
+    // Init GLFW
+    
     if (glfwWindowCount == 0) {
-        bool sucess = glfwInit();
-        RB_ASSERT_MSG(sucess, "GLFW initialized failed.");
+        bool success = glfwInit();
+        RB_ASSERT_MSG(success, "GLFW initialized failed.");
         glfwSetErrorCallback(GLFWErrorCallback);
-        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+        #ifdef DEBUG
+            glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+        #endif
     }
     
-    // create window
-    glfwWindowCount++;
-    state->glfwWindowHandle = glfwCreateWindow(state->width, state->height, state->title, nullptr, nullptr);
-    setVSynch(state->vSynchEnabled);
-    // this is used to be able to access m_data in glfw callbacks: https://discourse.glfw.org/t/what-is-a-possible-use-of-glfwgetwindowuserpointer/1294/2
-    // uncomment if needed:
-    // glfwSetWindowUserPointer(m_Window, &m_Data);
+    // Set up GLFW window
     
-    // create opengl context
-    makeGLContextCurrent();
+    state->glfwWindowHandle = glfwCreateWindow(state->width, state->height, state->title, nullptr, nullptr);
+    glfwWindowCount++;
+    
+    setVSynch(state->vSynchEnabled);
+        
+    glfwSetWindowUserPointer(state->glfwWindowHandle, this); // to access window instance in callbacks
+    
+    glfwSetWindowSizeCallback(state->glfwWindowHandle, [](GLFWwindow* window, int width, int height) {
+        Window* self = (Window*)glfwGetWindowUserPointer(window);
+        self->resize(width, height);
+    });
+    
+    glfwSetKeyCallback(state->glfwWindowHandle, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        Window* self = (Window*)glfwGetWindowUserPointer(window);
+        events::EventData data;
+
+        switch (action) {
+            case GLFW_PRESS: {
+                data.u16[0] = key;
+                self->state->eventDispatcher.fireEvent(events::EVENT_CODE_KEY_PRESSED, self, data);
+                break;
+            }
+            case GLFW_RELEASE: {
+                data.u16[0] = key;
+                self->state->eventDispatcher.fireEvent(events::EVENT_CODE_KEY_RELEASED, self, data);
+                break;
+            }
+            // case GLFW_REPEAT: {
+            //     self->state->eventDispatcher.fireEvent(events::EVENT_CODE_KEY_PRESSED, self, data);
+            //     break;
+            // }
+        }
+    });
+    
+    // Init OpenGL for the window
+    
+    glfwMakeContextCurrent(state->glfwWindowHandle);
+    bool success = gladLoadGLLoader((GLADloadproc)window::getGLFunctionTablePointer());
+    RB_ASSERT_MSG(success, "Failed to initialize GLAD");
+    RB_INFO("OpenGL Info:");
+    RB_INFO("  Vendor:   " << glGetString(GL_VENDOR));
+    RB_INFO("  Renderer: " << glGetString(GL_RENDERER));
+    RB_INFO("  Version:  " << glGetString(GL_VERSION));
+    
     return true;
 }
 
@@ -112,6 +153,23 @@ void Window::setVSynch(bool enabled)
     }
 }
 
+void Window::resize(uint32 newWidth, uint32 newHeight)
+{
+    RB_DEBUG("Window resize: " << newWidth << " x " << newHeight);
+    
+    state->width = newWidth;
+    state->height = newHeight;
+    
+    glViewport(0, 0, newWidth, newHeight);
+    
+    events::EventData data;
+    data.u16[0] = newWidth;
+    data.u16[1] = newHeight;
+    
+    RB_DEBUG("Fireing resize event: " << data.u16[0]  << " x " << data.u16[1]);
+    state->eventDispatcher.fireEvent(events::EVENT_CODE_RESIZED, this, data);
+}
+
 // Getters
 
 bool Window::isOpen() const
@@ -122,6 +180,21 @@ bool Window::isOpen() const
 bool Window::getVSynch() const
 {
     return state->vSynchEnabled;
+}
+
+uint32 Window::getWidth()  const
+{
+    return state->width;
+}
+            
+uint32 Window::getHeight() const
+{
+    return state->height;
+}
+
+GLFWwindow* Window::getGLFWHandle() const
+{
+    return state->glfwWindowHandle;
 }
 
 // runtime
@@ -139,14 +212,4 @@ void Window::fireEvents()
         RB_DEBUG("Fireing Window close event");
         state->eventDispatcher.fireEvent(events::EVENT_CODE_APPLICATION_QUIT, this, dummy);
     }
-}
-
-// OpenGL
-bool Window::makeGLContextCurrent()
-{
-    if (!isOpen()) {
-        return false;
-    }
-    glfwMakeContextCurrent(state->glfwWindowHandle);
-    return true;
 }

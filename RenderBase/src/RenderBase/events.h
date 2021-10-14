@@ -9,6 +9,7 @@
 #include <RenderBase/defines.h>
 
 #include <functional>
+#include <memory>
 
 // modules namespace
 namespace rb::events {
@@ -35,7 +36,7 @@ namespace rb::events {
     };
     
     /**
-     * Event value prepared to be pased between systems by value
+     * Event value prepared to be passed between systems by value
      */
     struct Event {
         uint16 eventCode;
@@ -92,18 +93,22 @@ namespace rb::events {
              * @returns true if handled, false otherwise.
              */
             bool fireEvent(uint16 eventCode, void* sender, EventData data);
+            
+        public:
+            struct State;
+            std::unique_ptr<State> state;
     };
     
     // some predefined event codes used in the RB library, user-defined events should start beyond 255 value
     enum EventCodes {
         EVENT_CODE_APPLICATION_QUIT = 0x01, // application is to be existed | no data
-        EVENT_CODE_KEY_PRESSED      = 0x02, // a keyboard key was pressed   | 1x uint16 - key code
-        EVENT_CODE_KEY_RELEASED     = 0x03, // a keyboard key was released  | 1x uint16 - key code
-        EVENT_CODE_BUTTON_PRESSED   = 0x04, // a mouse button was pressed   | 1x uint16 - button code
-        EVENT_CODE_BUTTON_RELEASED  = 0x05, // a mouse button was released  | 1x uint16 - button code
-        EVENT_CODE_MOUSE_MOVED      = 0x06, // a mouse moved                | 2x uint16 - mouse X and Y position
-        EVENT_CODE_MOUSE_WHEEL      = 0x07, // a mouse wheel was scrolled   | 1x uint8  - delta of scroll
-        EVENT_CODE_RESIZED          = 0x08, // aplication was resied        | 2x uint16 - new width and height
+        EVENT_CODE_KEY_PRESSED      = 0x02, // a keyboard key was pressed   | 1x u16 - key code
+        EVENT_CODE_KEY_RELEASED     = 0x03, // a keyboard key was released  | 1x u16 - key code
+        EVENT_CODE_BUTTON_PRESSED   = 0x04, // a mouse button was pressed   | 1x u16 - button code
+        EVENT_CODE_BUTTON_RELEASED  = 0x05, // a mouse button was released  | 1x u16 - button code
+        EVENT_CODE_MOUSE_MOVED      = 0x06, // a mouse moved                | 2x u16 - mouse X and Y position
+        EVENT_CODE_MOUSE_WHEEL      = 0x07, // a mouse wheel was scrolled   | 1x u8  - delta of scroll
+        EVENT_CODE_RESIZED          = 0x08, // aplication was resied        | 2x u16 - new width and height
         
         MAX_EVENT_CODE = 0xFF
     };

@@ -3,9 +3,9 @@
 
 #include <RenderBase/application.h>
 
-class Application : public rb::app::BasicOpengGLApplication
+class Application : public rb::app::BasicOpenGLApplication
 {
-    using BasicOpengGLApplication::BasicOpengGLApplication;
+    using BasicOpenGLApplication::BasicOpenGLApplication;
     
     protected:
         bool init() override;

@@ -8,4 +8,3 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/build)
 
 add_subdirectory(RenderBase)
 add_subdirectory(Demos/HelloTriangle)
-add_subdirectory(Sandbox)

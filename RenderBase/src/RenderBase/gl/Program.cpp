@@ -51,7 +51,7 @@ void Program::uniform(const std::string& name, int value)
     glProgramUniform1i(glId, location, value);
 }
 
-void Program::uniform(const std::string& name, uint32_t value)
+void Program::uniform(const std::string& name, uint32 value)
 {
     GLuint location = glGetUniformLocation(glId, name.data());
     glProgramUniform1ui(glId, location, value);

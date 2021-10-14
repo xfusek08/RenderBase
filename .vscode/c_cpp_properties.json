@@ -4,10 +4,10 @@
             "name": "Linux_debug",
             "includePath": [
                 "${workspaceFolder}/RenderBase/vendor/glad/include",
+                "${workspaceFolder}/RenderBase/vendor/glm",
                 "${workspaceFolder}/RenderBase/vendor/glfw/glfw/include",
                 "${workspaceFolder}/RenderBase/src",
-                "${workspaceFolder}/Demos/HelloTriangle",
-                "${workspaceFolder}/Sandbox/"
+                "${workspaceFolder}/Demos/HelloTriangle"
             ],
             "defines": [
                 "DEBUG", "ASSERT_ENABLE"

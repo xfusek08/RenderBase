@@ -1,5 +1,6 @@
 #pragma once
 
+#include <RenderBase/defines.h>
 #include <RenderBase/gl/BaseGLObject.h>
 #include <RenderBase/gl/Shader.h>
 
@@ -22,7 +23,7 @@ namespace rb::gl {
             void use();
 
             void uniform(const std::string& name, int value);
-            void uniform(const std::string& name, uint32_t value);
+            void uniform(const std::string& name, uint32 value);
             void uniform(const std::string& name, float value);
             void uniform(const std::string& name, glm::uvec2 value);
             void uniform(const std::string& name, glm::vec3 value);

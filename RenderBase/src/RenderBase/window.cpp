@@ -155,8 +155,6 @@ void Window::setVSynch(bool enabled)
 
 void Window::resize(uint32 newWidth, uint32 newHeight)
 {
-    RB_DEBUG("Window resize: " << newWidth << " x " << newHeight);
-    
     state->width = newWidth;
     state->height = newHeight;
     
@@ -166,7 +164,6 @@ void Window::resize(uint32 newWidth, uint32 newHeight)
     data.u16[0] = newWidth;
     data.u16[1] = newHeight;
     
-    RB_DEBUG("Fireing resize event: " << data.u16[0]  << " x " << data.u16[1]);
     state->eventDispatcher.fireEvent(events::EVENT_CODE_RESIZED, this, data);
 }
 
@@ -209,7 +206,6 @@ void Window::fireEvents()
     glfwPollEvents();
     if (glfwWindowShouldClose(state->glfwWindowHandle)) {
         events::EventData dummy;
-        RB_DEBUG("Fireing Window close event");
         state->eventDispatcher.fireEvent(events::EVENT_CODE_APPLICATION_QUIT, this, dummy);
     }
 }

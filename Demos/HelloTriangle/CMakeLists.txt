@@ -1,15 +1,16 @@
 cmake_minimum_required (VERSION 3.18)
 
-project(Sandbox)
+project(HelloTriangle)
 
 set(CMAKE_CXX_STANDARD 20)
 
 file(GLOB_RECURSE
     SOURCES
-    RELATIVE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+    RELATIVE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/Demos
     "*.cpp"
     "*.h"
 )
+message("${SOURCES}")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

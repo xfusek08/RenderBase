@@ -9,9 +9,9 @@ class Application : public rb::app::BasicOpenGLApplication
     using BasicOpenGLApplication::BasicOpenGLApplication;
     
     protected:
-        bool init()   override;
-        bool deinit() override;
-        void draw()   override;
+        bool init()     override;
+        void draw()     override;
+        bool finalize() override;
 };
 
 int main(int argc, char** argv)

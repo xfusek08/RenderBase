@@ -51,9 +51,9 @@ namespace rb::app {
             bool run();
             
         protected:
-            virtual bool init()   = 0;
-            virtual bool deinit() = 0;
-            virtual void draw()   = 0;
+            virtual bool init()     = 0;
+            virtual void draw()     = 0;
+            virtual bool finalize() = 0;
             
             Application state = {};
     };

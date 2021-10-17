@@ -10,7 +10,7 @@ add_subdirectory(vendor/glfw/glfw)
 
 file(GLOB_RECURSE
     SOURCES
-    RELATIVE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+    RELATIVE ${CMAKE_CURRENT_LIST_DIR}
     "src/*.cpp"
     "src/*.h"
 )

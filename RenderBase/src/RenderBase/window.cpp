@@ -160,6 +160,8 @@ void Window::resize(uint32 newWidth, uint32 newHeight)
     
     glViewport(0, 0, newWidth, newHeight);
     
+    RB_DEBUG("Window resize to: " << newWidth << " x " << newHeight);
+    
     events::EventData data;
     data.u16[0] = newWidth;
     data.u16[1] = newHeight;

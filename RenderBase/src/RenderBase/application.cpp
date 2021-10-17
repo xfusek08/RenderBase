@@ -22,10 +22,11 @@ bool BasicOpenGLApplication::run()
     state.eventDispatcher = make_unique<events::EventDispatcher>();
     
     // create window
-    auto config = window::Config();
-    config.width = state.config.windowWidth;
+    auto config   = window::Config();
+    config.width  = state.config.windowWidth;
     config.height = state.config.windowHeight;
-    state.window = make_unique<window::Window>(config, *state.eventDispatcher);
+    
+    state.window  = make_unique<window::Window>(config, *state.eventDispatcher);
     
     // Define basic events
     state.eventDispatcher->subscribeToEvent(events::EVENT_CODE_APPLICATION_QUIT, this, [&](events::Event) {
@@ -51,7 +52,7 @@ bool BasicOpenGLApplication::run()
         state.window->fireEvents();
     }
     
-    if (!deinit()) {
+    if (!finalize()) {
         RB_ERROR("User initialization failed.");
         return false;
     }
@@ -61,7 +62,6 @@ bool BasicOpenGLApplication::run()
 
 Configuration rb::app::loadDefaultConfigFromArguments(int argCount, char** arguments)
 {
-    // TODO parse command line argumets using arumet parser module.
-    
+    // TODO parse command line arguments using arumet parser module.
     return Configuration(); // use default values for now
 }

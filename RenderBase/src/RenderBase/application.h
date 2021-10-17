@@ -55,6 +55,12 @@ namespace rb::app {
             virtual void draw()     = 0;
             virtual bool finalize() = 0;
             
+            // sintactic sugar for the user
+            inline void subscribeToEvent(uint16 eventCode, events::EventCallback callback) {
+                state.eventDispatcher->subscribeToEvent(eventCode, this, callback);
+            }
+            
+            // inner state
             Application state = {};
     };
     

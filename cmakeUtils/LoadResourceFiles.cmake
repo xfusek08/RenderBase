@@ -10,6 +10,7 @@ function(LOAD_RESOURCE_DEFINITIONS RESOURCE_DIR OUT_DEBUG_DEFINITIONS OUT_RELEAS
     set(DEBUG_LIST )
     set(RELEASE_LIST )
     foreach(resource_file ${RESOURCE_LIST})
+    
         # generate files definition name
         string(REGEX REPLACE "^\/" "" definition_name ${resource_file})
         string(REPLACE "/" "_" definition_name ${definition_name})
@@ -18,6 +19,7 @@ function(LOAD_RESOURCE_DEFINITIONS RESOURCE_DIR OUT_DEBUG_DEFINITIONS OUT_RELEAS
         string(TOUPPER ${definition_name} definition_name)
         
         # find files full path
+        unset(resource_file_fullname CACHE)
         find_file(resource_file_fullname
             ${resource_file}
             HINTS ${CMAKE_CURRENT_SOURCE_DIR}/${RESOURCE_DIR}

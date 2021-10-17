@@ -59,7 +59,7 @@ namespace rb::app {
     };
     
     /**
-     * Function to load configuration from command line argumets in standartized format
+     * Function to load configuration from command line arguments in standardized format
      */
     Configuration loadDefaultConfigFromArguments(int32 argCount, char** arguments);
 }

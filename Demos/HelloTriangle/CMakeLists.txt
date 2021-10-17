@@ -10,7 +10,6 @@ file(GLOB_RECURSE
     "*.cpp"
     "*.h"
 )
-message("${SOURCES}")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

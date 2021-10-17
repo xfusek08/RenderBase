@@ -39,15 +39,15 @@ bool Application::init()
     return true;
 }
 
-bool Application::deinit()
-{
-    delete program;
-    return true;
-}
-
 void Application::draw()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES,0,3);
+}
+
+bool Application::finalize()
+{
+    delete program;
+    return true;
 }

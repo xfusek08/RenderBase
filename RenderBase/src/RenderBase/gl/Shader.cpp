@@ -9,6 +9,7 @@
 using namespace std;
 using namespace rb::gl;
 
+
 string resolveSourceCode(string source) {
     string sourceCode = "";
     std::ifstream stream(source);
@@ -33,13 +34,20 @@ Shader::Shader(GLenum type, std::string source)
     char const* rawSource = source.c_str();
     glShaderSource(glId, 1, &rawSource, nullptr);
     glCompileShader(glId);
-
-    // Get status and possible errors
-    GLint status;
-    glGetShaderiv(glId, GL_COMPILE_STATUS, &status);
-    if (status != GL_TRUE) {
-        failWithErrorMessage();
-    }
+    
+    // assert failed compilation
+    #ifndef NO_ASSERT
+        GLint status;
+        glGetShaderiv(glId, GL_COMPILE_STATUS, &status);
+        if (status != GL_TRUE) {
+            GLint errLen = 0;
+            glGetShaderiv(glId, GL_INFO_LOG_LENGTH, &errLen);
+            auto errorMessage = std::string(" ", errLen);
+            glGetShaderInfoLog(glId, errorMessage.size(), &errLen, (char*)errorMessage.data());
+            RB_ASSERT_MSG(false, "Shader compilation error:\n" + errorMessage);
+        }
+    #endif
+    
     RB_DEBUG("Shader " << glId << " created.");
 }
 

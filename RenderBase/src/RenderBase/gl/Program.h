@@ -3,6 +3,9 @@
 #include <RenderBase/defines.h>
 #include <RenderBase/gl/BaseGLObject.h>
 #include <RenderBase/gl/Shader.h>
+#include <RenderBase/gl/Texture3D.h>
+
+#include <RenderBase/tools/camera.h>
 
 #include <memory>
 #include <vector>
@@ -21,15 +24,18 @@ namespace rb::gl {
             ~Program();
 
             void use();
-
-            void uniform(const std::string& name, int value);
-            void uniform(const std::string& name, uint32 value);
-            void uniform(const std::string& name, float value);
-            void uniform(const std::string& name, glm::uvec2 value);
-            void uniform(const std::string& name, glm::vec3 value);
-            void uniform(const std::string& name, glm::vec4 value);
-            void uniform(const std::string& name, glm::mat3 value);
-            void uniform(const std::string& name, glm::mat4 value);
+            
+            void uniform(const char* name, int32 value);
+            void uniform(const char* name, uint32 value);
+            void uniform(const char* name, float32 value);
+            void uniform(const char* name, glm::uvec2 value);
+            void uniform(const char* name, glm::vec3 value);
+            void uniform(const char* name, glm::vec4 value);
+            void uniform(const char* name, glm::mat3 value);
+            void uniform(const char* name, glm::mat4 value);
+            void uniform(const char* name, GLuint textureUintId, const Texture3D& texture);
+            
+            void loadStandardCamera(const Camera& camera);
             
         private:
             std::vector<std::unique_ptr<Shader>> shaders = {};

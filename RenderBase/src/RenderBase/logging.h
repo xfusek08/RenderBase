@@ -44,7 +44,7 @@ namespace rb
     #define RB_WARNING(...) rb::log(rb::LogLevel::Warning, STREAM_TO_STR(__VA_ARGS__))
     #define RB_INFO(...)    rb::log(rb::LogLevel::Info, STREAM_TO_STR(__VA_ARGS__))
 
-    #if DEBUG
+    #if defined(DEBUG) and !defined(NO_DEBUG_LOG)
         #define RB_DEBUG(...) rb::log(rb::LogLevel::Debug, STREAM_TO_STR(__VA_ARGS__))
         #define RB_TRACE(...) rb::log(rb::LogLevel::Trace, STREAM_TO_STR(__VA_ARGS__ << "\n In File: " << __FILE__ << "\n On Line: " << __LINE__))
     #else

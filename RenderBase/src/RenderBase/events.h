@@ -106,7 +106,7 @@ namespace rb::events {
         EVENT_CODE_KEY_RELEASED     = 0x03, // a keyboard key was released  | 1x u16 - key code
         EVENT_CODE_BUTTON_PRESSED   = 0x04, // a mouse button was pressed   | 1x u16 - button code
         EVENT_CODE_BUTTON_RELEASED  = 0x05, // a mouse button was released  | 1x u16 - button code
-        EVENT_CODE_MOUSE_MOVED      = 0x06, // a mouse moved                | 2x u16 - mouse X and Y position
+        EVENT_CODE_MOUSE_MOVED      = 0x06, // a mouse moved                | 2x f32 - current mouse X and Y absolute position
         EVENT_CODE_MOUSE_WHEEL      = 0x07, // a mouse wheel was scrolled   | 1x u8  - delta of scroll
         EVENT_CODE_RESIZED          = 0x08, // aplication was resied        | 2x u16 - new width and height
         

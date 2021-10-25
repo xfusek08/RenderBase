@@ -76,7 +76,8 @@ bool Window::show()
     }
     
     // Set up GLFW window
-    
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     state->glfwWindowHandle = glfwCreateWindow(state->width, state->height, state->title, nullptr, nullptr);
     glfwWindowCount++;
     
@@ -109,6 +110,14 @@ bool Window::show()
             //     break;
             // }
         }
+    });
+    
+    glfwSetCursorPosCallback(state->glfwWindowHandle, [](GLFWwindow* window, double xPos, double yPos) {
+        Window* self = (Window*)glfwGetWindowUserPointer(window);
+        events::EventData data;
+        data.f32[0] = float32(xPos);
+        data.f32[1] = float32(yPos);
+        self->state->eventDispatcher.fireEvent(events::EVENT_CODE_MOUSE_MOVED, self, data);
     });
     
     // Init OpenGL for the window

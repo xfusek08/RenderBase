@@ -76,9 +76,9 @@ namespace rb
     {
         public:
             // run-time configuration for this controller
-            float32 leftRightSpeed = 0.1;
-            float32 upDownSpeed    = 0.1;
-            float32 zoomSpeed      = 0.01;
+            float32 leftRightSpeed = 0.05;
+            float32 upDownSpeed    = 0.05;
+            float32 zoomSpeed      = 0.15;
             float32 maxZoom        = 100.0;
             float32 minZoom        = 2.0;
             
@@ -100,8 +100,8 @@ namespace rb
             
             void setZoom(float32 zoom);
             inline void zoom(float32 delta = 0) { setZoom(zoomVal + delta); }
-            inline void zoomIn()                { zoom(zoomSpeed); }
-            inline void zoomOut()               { zoom(-zoomSpeed); }
+            inline void zoomIn()                { zoom(-zoomSpeed); }
+            inline void zoomOut()               { zoom(zoomSpeed); }
             
             // getters
             

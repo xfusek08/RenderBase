@@ -1,11 +1,12 @@
-
-#include <RenderBase/tools/camera.h>
-
 #ifdef DEBUG
-    // #define NO_DEBUG_LOG // uncomment if debug logging should be ignored for this file
+    #define NO_LOG // uncomment if debug logging should be ignored for this file
     #include <RenderBase/logging.h>
     #include <glm/gtx/string_cast.hpp>
 #endif
+
+#include <RenderBase/tools/camera.h>
+
+#include <GLFW/glfw3.h>
 
 using namespace std;
 using namespace rb;
@@ -31,6 +32,20 @@ Camera::Camera(
     nearPlane(nearPlane),
     farPlane(farPlane)
 { }
+
+//////////////////////////////////////////
+// CameraController vase class implementation
+//////////////////////////////////////////
+
+CameraController::CameraController(Camera camera, events::EventDispatcher& eventDispatcher) : camera(camera), eventDispatcher(eventDispatcher)
+{
+    //  Register resize event because it is common to all camera controllers
+    eventDispatcher.subscribeToEvent(events::EVENT_CODE_RESIZED, this, [&](events::Event event) {
+        this->camera.setAspectRatio(float(event.data.u16[0]) / float(event.data.u16[1]));
+        eventDispatcher.fireEvent(EVENT_CODE_CAMERA_CHANGED, this, events::EventData());
+        return false; // let all systems react to this event
+    });
+}
 
 //////////////////////////////////////////
 // OrbitCameraController class implementation
@@ -66,8 +81,10 @@ void updateCamera(Camera& camera, const OrbitCameraController& orbitController)
     camera.setPosition(origin + newPosition);
 }
 
-OrbitCameraController::OrbitCameraController(Camera camera) : camera(camera)
+OrbitCameraController::OrbitCameraController(Camera camera, events::EventDispatcher& eventDispatcher) : CameraController(camera, eventDispatcher)
 {
+    // calculate state from current camera orientation
+    
     glm::vec3 cameraDirection = glm::normalize(camera.getPosition() - camera.getTargetPosition());
     
     zoomVal = glm::distance(camera.getTargetPosition(), camera.getPosition());
@@ -83,6 +100,21 @@ OrbitCameraController::OrbitCameraController(Camera camera) : camera(camera)
     }
     
     updateCamera(camera, *this);
+    
+    // register controll events
+    eventDispatcher.subscribeToEvent(events::EVENT_CODE_KEY_PRESSED, this, [&](events::Event event) {
+        switch (event.data.u16[0]) {
+            case GLFW_KEY_LEFT:  moveLeft();  break;
+            case GLFW_KEY_RIGHT: moveRight(); break;
+            case GLFW_KEY_UP:    moveUp();    break;
+            case GLFW_KEY_DOWN:  moveDown();  break;
+            case GLFW_KEY_W:     zoomIn();    break;
+            case GLFW_KEY_S:     zoomOut();   break;
+            default: return false;
+        }
+        eventDispatcher.fireEvent(EVENT_CODE_CAMERA_CHANGED, this, events::EventData());
+        return false;
+    });
 }
 
 void OrbitCameraController::setLeftRight(float32 phi)

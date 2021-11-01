@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include <RenderBase/gl/BaseGLObject.h>
 
 namespace rb::gl {

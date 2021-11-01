@@ -32,6 +32,6 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC
         "DEBUG"
     >
     $<$<CONFIG:RELEASE>:
-        "RELEASE"
+        "RELEASE" "NO_ASSERT" "NO_LOGS"
     >
 )

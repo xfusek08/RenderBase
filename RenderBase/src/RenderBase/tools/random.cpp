@@ -1,6 +1,4 @@
 
-#pragma once
-
 #include <RenderBase/tools/random.h>
 #include <RenderBase/defines.h>
 #include <random>

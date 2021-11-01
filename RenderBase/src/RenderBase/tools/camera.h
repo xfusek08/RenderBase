@@ -3,6 +3,8 @@
 #include <RenderBase/defines.h>
 #include <RenderBase/logging.h>
 
+#include <RenderBase/events.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -12,6 +14,8 @@ namespace rb
 {
     struct Camera
     {
+        bool dirtyFlag = true;
+        
         Camera(
             glm::vec3 position    = glm::vec3(0, 0, -1),
             glm::vec3 target      = glm::vec3(0, 0, 0),
@@ -42,11 +46,11 @@ namespace rb
         inline glm::mat4 getProjectionMatrix() const { return glm::perspective(fov, aspectRatio, nearPlane, farPlane); }
         inline glm::mat4 getMVPMatrix()        const { return getProjectionMatrix() * getViewMatrix(); }
         
-        inline void setPosition(glm::vec3 position)     { this->position    = position; }
-        inline void setTargetPosition(glm::vec3 target) { this->target      = target; }
-        inline void setUpVector(glm::vec3 up)           { this->up          = up; }
-        inline void setAspectRatio(float32 aspectRatio) { this->aspectRatio = aspectRatio; }
-        inline void setFov(float32 fov)                 { this->fov         = glm::clamp(fov, glm::pi<float32>() * 0.1f, glm::pi<float32>() * 0.9f); }
+        inline void setPosition(glm::vec3 position)     { this->position    = position; dirtyFlag = true; }
+        inline void setTargetPosition(glm::vec3 target) { this->target      = target;  dirtyFlag = true; }
+        inline void setUpVector(glm::vec3 up)           { this->up          = up;  dirtyFlag = true; }
+        inline void setAspectRatio(float32 aspectRatio) { this->aspectRatio = aspectRatio;  dirtyFlag = true; }
+        inline void setFov(float32 fov)                 { this->fov         = glm::clamp(fov, glm::pi<float32>() * 0.1f, glm::pi<float32>() * 0.9f);  dirtyFlag = true;}
 
         private:
             // view details
@@ -66,13 +70,25 @@ namespace rb
     
     // controllers
     
+    #define EVENT_CODE_CAMERA_CHANGED 300
+    
+    class CameraController
+    {
+        public:
+            CameraController(Camera camera, events::EventDispatcher& eventDispatcher);
+            inline Camera& getCamera() { return camera; }
+        protected:
+            Camera camera;
+            events::EventDispatcher& eventDispatcher;
+    };
+    
     /**
      * All measurements are in coordinates from this image:
      * https://www.researchgate.net/figure/Figure-A1-Spherical-coordinates_fig8_284609648
      * Meaning that z-axis is up and y is left.
      * So corresponding transformnations to OpenGL coordinate system needs to be performed.
      */
-    class OrbitCameraController
+    class OrbitCameraController : public CameraController
     {
         public:
             // run-time configuration for this controller
@@ -82,8 +98,7 @@ namespace rb
             float32 maxZoom        = 100.0;
             float32 minZoom        = 2.0;
             
-            // Default constructor from superclass
-            OrbitCameraController(Camera camera);
+            OrbitCameraController(Camera camera, events::EventDispatcher& eventDispatcher);
             
             void setLeftRight(float32 phi);
             inline void moveLeftRight(float32 deltaPhi) { setLeftRight(phi + deltaPhi); }
@@ -104,15 +119,11 @@ namespace rb
             inline void zoomOut()               { zoom(zoomSpeed); }
             
             // getters
-            
-            inline Camera& getCamera() { return camera; }
-            
             inline float32 getPhi()   const { return phi; }
             inline float32 getTheta() const { return theta; }
             inline float32 getZoom()  const { return zoomVal; }
             
         private:
-            Camera camera   = {};
             float32 phi     = 0.0f; // left right angle in normalized value between 0 and 1 ( 1 means 360 deg or 2PI rad )
             float32 theta   = 0.0f; // up down angle in normalizedvalue value between 0 and 1, 0 means top down view (0 deg or 0 rad) and 1 means bottom up view (180 deg or PI rad)
             float32 zoomVal = 1.0f; // radius of orbiting sphere

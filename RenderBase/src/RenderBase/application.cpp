@@ -8,6 +8,27 @@ using namespace std;
 using namespace rb;
 using namespace rb::app;
 
+#ifdef DEBUG
+    void GLDdebugCallback(
+        GLenum source,
+        GLenum type,
+        GLuint id,
+        GLenum severity,
+        GLsizei length,
+        const GLchar *message,
+        const void *userParam
+    ) {
+        RB_DEBUG(
+            "OpenGL debug info: \n"
+            "Source:   " << source << "\n" <<
+            "type:     " << type << "\n" <<
+            "id:       " << id << "\n" <<
+            "severity: " << severity << "\n" <<
+            "message:\n" << message
+        );
+    }
+#endif
+
 BasicOpenGLApplication::BasicOpenGLApplication(Configuration config)
 {
     state.config = config;
@@ -38,6 +59,12 @@ bool BasicOpenGLApplication::run()
     state.window->show();
     
     state.status = Status::Initialized;
+    
+    // prepare opengl debug
+    #ifdef DEBUG
+        glEnable(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(GLDdebugCallback, nullptr);
+    #endif
     
     if (!init()) {
         RB_ERROR("User initialization failed.");

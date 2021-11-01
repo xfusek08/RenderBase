@@ -16,10 +16,10 @@ namespace rb::gl {
     class Program : public BaseGLObject
     {
         public:
-            Program(std::vector<Shader*> shaders);
+            Program(std::vector<Shader*> shaders = {});
 
-            template <typename... ARGS>
-            Program(ARGS... shaders) : Program(std::vector<Shader*>({shaders...})) {}
+            // template <typename... ARGS>
+            // Program(ARGS... shaders) : Program(std::vector<Shader*>({shaders...})) {}
 
             ~Program();
 

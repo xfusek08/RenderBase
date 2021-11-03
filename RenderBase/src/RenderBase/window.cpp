@@ -105,19 +105,28 @@ bool Window::show()
                 self->state->eventDispatcher.fireEvent(events::EVENT_CODE_KEY_RELEASED, self, data);
                 break;
             }
-            // case GLFW_REPEAT: {
-            //     self->state->eventDispatcher.fireEvent(events::EVENT_CODE_KEY_PRESSED, self, data);
-            //     break;
-            // }
+            case GLFW_REPEAT: {
+                data.u16[0] = key;
+                self->state->eventDispatcher.fireEvent(events::EVENT_CODE_KEY_REPEAT, self, data);
+                break;
+            }
         }
     });
     
     glfwSetCursorPosCallback(state->glfwWindowHandle, [](GLFWwindow* window, double xPos, double yPos) {
         Window* self = (Window*)glfwGetWindowUserPointer(window);
         events::EventData data;
-        data.f32[0] = float32(xPos);
-        data.f32[1] = float32(yPos);
+        data.f32[0] = float32(xPos) / self->getWidth();
+        data.f32[1] = float32(yPos) / self->getHeight();
         self->state->eventDispatcher.fireEvent(events::EVENT_CODE_MOUSE_MOVED, self, data);
+    });
+    
+    glfwSetScrollCallback(state->glfwWindowHandle, [](GLFWwindow* window, double xScroll, double yScroll) {
+        Window* self = (Window*)glfwGetWindowUserPointer(window);
+        events::EventData data;
+        data.f32[0] = xScroll;
+        data.f32[1] = yScroll;
+        self->state->eventDispatcher.fireEvent(events::EVENT_CODE_SCROLLED, self, data);
     });
     
     // Init OpenGL for the window

@@ -104,11 +104,12 @@ namespace rb::events {
         EVENT_CODE_APPLICATION_QUIT = 0x01, // application is to be existed | no data
         EVENT_CODE_KEY_PRESSED      = 0x02, // a keyboard key was pressed   | 1x u16 - key code
         EVENT_CODE_KEY_RELEASED     = 0x03, // a keyboard key was released  | 1x u16 - key code
-        EVENT_CODE_BUTTON_PRESSED   = 0x04, // a mouse button was pressed   | 1x u16 - button code
-        EVENT_CODE_BUTTON_RELEASED  = 0x05, // a mouse button was released  | 1x u16 - button code
-        EVENT_CODE_MOUSE_MOVED      = 0x06, // a mouse moved                | 2x f32 - current mouse X and Y absolute position
-        EVENT_CODE_MOUSE_WHEEL      = 0x07, // a mouse wheel was scrolled   | 1x u8  - delta of scroll
-        EVENT_CODE_RESIZED          = 0x08, // aplication was resied        | 2x u16 - new width and height
+        EVENT_CODE_KEY_REPEAT       = 0x04, // a keyboard key was repeated  | 1x u16 - key code
+        EVENT_CODE_BUTTON_PRESSED   = 0x05, // a mouse button was pressed   | 1x u16 - button code
+        EVENT_CODE_BUTTON_RELEASED  = 0x06, // a mouse button was released  | 1x u16 - button code
+        EVENT_CODE_MOUSE_MOVED      = 0x07, // a mouse moved                | 2x f32 - current mouse X and Y absolute position
+        EVENT_CODE_SCROLLED         = 0x08, // a scroll occurred            | 2x f32 - delta of scroll x and y
+        EVENT_CODE_RESIZED          = 0x09, // application was resied       | 2x u16 - new width and height
         
         MAX_EVENT_CODE = 0xFF
     };

@@ -5,6 +5,8 @@
 #include <RenderBase/defaults.h>
 #include <RenderBase/events.h>
 #include <RenderBase/window.h>
+#include <RenderBase/input.h>
+#include <RenderBase/timing.h>
 
 #include <memory>
 
@@ -29,18 +31,6 @@ namespace rb::app {
     };
     
     /**
-     * Application state holding all needed data including subsystems etc.
-     */
-    struct Application {
-        Configuration config = {}; // this is used only during app initialization process
-        Status        status = Status::Uninitialized;
-        
-        // application sub-systems
-        std::unique_ptr<rb::events::EventDispatcher> eventDispatcher;
-        std::unique_ptr<rb::window::Window>          window;
-    };
-    
-    /**
      * Class serving as simple API for quick creating an windowed application based on Given standardized configuration.
      */
     class BasicOpenGLApplication
@@ -51,17 +41,27 @@ namespace rb::app {
             bool run();
             
         protected:
-            virtual bool init()     = 0;
-            virtual void draw()     = 0;
-            virtual bool finalize() = 0;
+            void exit();
             
-            // sintactic sugar for the user
-            inline void subscribeToEvent(uint16 eventCode, events::EventCallback callback) {
-                state.eventDispatcher->subscribeToEvent(eventCode, this, callback);
-            }
+            virtual bool init() = 0;
+            virtual void draw() = 0;
+            virtual bool onResize(uint32 newWidth, uint32 newHeight) { return false; }
+            virtual bool onInputChange(const input::InputState& inputState, const timing::TimeStep& tick) { return false; };
+            virtual bool onTick(const input::InputState& inputState, const timing::TimeStep& tick) { return false; };
+            virtual bool finalize() { return true; };
+        
+            Configuration config = {}; // this is used only during app initialization process
+            Status        status = Status::Uninitialized;
             
-            // inner state
-            Application state = {};
+            // application sub-systems
+            std::unique_ptr<rb::events::EventDispatcher> eventDispatcher;
+            std::unique_ptr<rb::window::Window>          window;
+            std::unique_ptr<rb::input::InputHandler>     inputHandler;
+            std::unique_ptr<rb::timing::Timer>           timer;
+            
+        private:
+            bool onInputChangeInternal(const input::InputState& inputState);
+            bool onTickInternal(const timing::TimeStep tick);
     };
     
     /**

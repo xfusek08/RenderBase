@@ -2,8 +2,8 @@
 
 #include <RenderBase/defines.h>
 #include <RenderBase/logging.h>
-
-#include <RenderBase/events.h>
+#include <RenderBase/input.h>
+#include <RenderBase/timing.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
@@ -70,16 +70,16 @@ namespace rb
     
     // controllers
     
-    #define EVENT_CODE_CAMERA_CHANGED 300
-    
     class CameraController
     {
         public:
-            CameraController(Camera camera, events::EventDispatcher& eventDispatcher);
+            CameraController(Camera camera);
             inline Camera& getCamera() { return camera; }
+            
+            virtual bool onInputChange(const input::InputState& inputState, const timing::TimeStep& tick) = 0;
+            virtual bool onTick(const input::InputState& inputState, const timing::TimeStep& tick) = 0;
         protected:
             Camera camera;
-            events::EventDispatcher& eventDispatcher;
     };
     
     /**
@@ -92,13 +92,14 @@ namespace rb
     {
         public:
             // run-time configuration for this controller
-            float32 leftRightSpeed = 0.05;
-            float32 upDownSpeed    = 0.05;
+            float32 leftRightSpeed = 0.01;
+            float32 upDownSpeed    = 0.01;
             float32 zoomSpeed      = 0.15;
             float32 maxZoom        = 100.0;
             float32 minZoom        = 2.0;
             
-            OrbitCameraController(Camera camera, events::EventDispatcher& eventDispatcher);
+            OrbitCameraController(Camera camera);
+            void updateCamera();
             
             void setLeftRight(float32 phi);
             inline void moveLeftRight(float32 deltaPhi) { setLeftRight(phi + deltaPhi); }
@@ -122,6 +123,9 @@ namespace rb
             inline float32 getPhi()   const { return phi; }
             inline float32 getTheta() const { return theta; }
             inline float32 getZoom()  const { return zoomVal; }
+
+            bool onInputChange(const input::InputState& inputState, const timing::TimeStep& tick) override;
+            bool onTick(const input::InputState& inputState, const timing::TimeStep& tick) override;
             
         private:
             float32 phi     = 0.0f; // left right angle in normalized value between 0 and 1 ( 1 means 360 deg or 2PI rad )

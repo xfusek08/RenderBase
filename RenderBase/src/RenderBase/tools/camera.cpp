@@ -1,5 +1,5 @@
 #ifdef DEBUG
-    #define NO_LOG // uncomment if debug logging should be ignored for this file
+    // #define NO_LOG // uncomment if debug logging should be ignored for this file
     #include <RenderBase/logging.h>
     #include <glm/gtx/string_cast.hpp>
 #endif
@@ -37,51 +37,16 @@ Camera::Camera(
 // CameraController vase class implementation
 //////////////////////////////////////////
 
-CameraController::CameraController(Camera camera, events::EventDispatcher& eventDispatcher) : camera(camera), eventDispatcher(eventDispatcher)
+CameraController::CameraController(Camera camera) : camera(camera)
 {
-    //  Register resize event because it is common to all camera controllers
-    eventDispatcher.subscribeToEvent(events::EVENT_CODE_RESIZED, this, [&](events::Event event) {
-        this->camera.setAspectRatio(float(event.data.u16[0]) / float(event.data.u16[1]));
-        eventDispatcher.fireEvent(EVENT_CODE_CAMERA_CHANGED, this, events::EventData());
-        return false; // let all systems react to this event
-    });
+    
 }
 
 //////////////////////////////////////////
 // OrbitCameraController class implementation
 //////////////////////////////////////////
 
-void updateCamera(Camera& camera, const OrbitCameraController& orbitController)
-{
-    // camera target is origin
-    // vector from origin to camera is vector locating camera in local space
-    // phi (0 - 1) needs to be converted to radians
-    // theta (0 - 1) needs to be converted to radians
-    // position of camera needs to me normalized
-    // lets do a rotation using the values
-    
-    RB_DEBUG(
-        " camera movement: \n"
-        "    phi:   "  << orbitController.getPhi()   << "\n"
-        "    theta: "  << orbitController.getTheta() << "\n"
-        "    zoom:  "  << orbitController.getZoom()  << "\n"
-    );
-
-    auto phi    = orbitController.getPhi()   * glm::two_pi<float32>();
-    auto theta  = orbitController.getTheta() * glm::pi<float32>();
-    auto origin = camera.getTargetPosition();
-    auto zoom   = orbitController.getZoom();
-
-    glm::vec3 newPosition = zoom * glm::vec3{
-        glm::sin(theta) * glm::sin(phi),
-        glm::cos(theta),
-        glm::sin(theta) * glm::cos(phi),
-    };
-
-    camera.setPosition(origin + newPosition);
-}
-
-OrbitCameraController::OrbitCameraController(Camera camera, events::EventDispatcher& eventDispatcher) : CameraController(camera, eventDispatcher)
+OrbitCameraController::OrbitCameraController(Camera camera) : CameraController(camera)
 {
     // calculate state from current camera orientation
     
@@ -99,40 +64,105 @@ OrbitCameraController::OrbitCameraController(Camera camera, events::EventDispatc
         }
     }
     
-    updateCamera(camera, *this);
+    updateCamera();
+}
+
+void OrbitCameraController::updateCamera()
+{
+    // camera target is origin
+    // vector from origin to camera is vector locating camera in local space
+    // phi (0 - 1) needs to be converted to radians
+    // theta (0 - 1) needs to be converted to radians
+    // position of camera needs to me normalized
+    // lets do a rotation using the values
     
-    // register controll events
-    eventDispatcher.subscribeToEvent(events::EVENT_CODE_KEY_PRESSED, this, [&](events::Event event) {
-        switch (event.data.u16[0]) {
-            case GLFW_KEY_LEFT:  moveLeft();  break;
-            case GLFW_KEY_RIGHT: moveRight(); break;
-            case GLFW_KEY_UP:    moveUp();    break;
-            case GLFW_KEY_DOWN:  moveDown();  break;
-            case GLFW_KEY_W:     zoomIn();    break;
-            case GLFW_KEY_S:     zoomOut();   break;
-            default: return false;
-        }
-        eventDispatcher.fireEvent(EVENT_CODE_CAMERA_CHANGED, this, events::EventData());
-        return false;
-    });
+    RB_DEBUG(
+        " camera movement: \n"
+        "    phi:   "  << getPhi()   << "\n"
+        "    theta: "  << getTheta() << "\n"
+        "    zoom:  "  << getZoom()  << "\n"
+    );
+
+    auto phi    = getPhi()   * glm::two_pi<float32>();
+    auto theta  = getTheta() * glm::pi<float32>();
+    auto origin = camera.getTargetPosition();
+    auto zoom   = getZoom();
+
+    glm::vec3 newPosition = zoom * glm::vec3{
+        glm::sin(theta) * glm::sin(phi),
+        glm::cos(theta),
+        glm::sin(theta) * glm::cos(phi),
+    };
+
+    camera.setPosition(origin + newPosition);
 }
 
 void OrbitCameraController::setLeftRight(float32 phi)
 {
     this->phi = glm::mod(phi, 1.0f);
-    updateCamera(camera, *this);
 }
 
 void OrbitCameraController::setUpDown(float32 theta)
 {
     this->theta = glm::clamp(theta, 0.01f, 0.99f);
-    updateCamera(camera, *this);
 }
 
 void OrbitCameraController::setZoom(float32 zoomVal)
 {
     this->zoomVal = glm::clamp(zoomVal, minZoom, maxZoom);
-    updateCamera(camera, *this);
 }
 
+bool OrbitCameraController::onInputChange(const input::InputState& inputState, const timing::TimeStep& tick)
+{
+    bool updated = false;
+    auto zoomDelta = -inputState.getScroll().y;
     
+    if (inputState.isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
+        lookXY(inputState.getMouseDelta());
+        updated = true;
+    }
+    
+    if (zoomDelta != 0) {
+        zoom(zoomDelta);
+        updated = true;
+    }
+    
+    if (updated) {
+        updateCamera();
+    }
+    
+    return updated;
+}
+
+bool OrbitCameraController::onTick(const input::InputState& inputState, const timing::TimeStep& tick)
+{
+    bool updated = false;
+    
+    auto leftKey    = inputState.isKeyPressed(GLFW_KEY_LEFT);
+    auto rightKey   = inputState.isKeyPressed(GLFW_KEY_RIGHT);
+    auto upKey      = inputState.isKeyPressed(GLFW_KEY_UP);
+    auto downKey    = inputState.isKeyPressed(GLFW_KEY_DOWN);
+    auto zoomInKey  = inputState.isKeyPressed(GLFW_KEY_W);
+    auto zoomOutKey = inputState.isKeyPressed(GLFW_KEY_S);
+    
+    if (leftKey != rightKey) {
+        leftKey ? moveLeft() : moveRight();
+        updated = true;
+    }
+    
+    if (upKey != downKey) {
+        upKey ? moveUp() : moveDown();
+        updated = true;
+    }
+    
+    if (zoomInKey != zoomOutKey) {
+        zoomInKey ? zoomIn() : zoomOut();
+        updated = true;
+    }
+    
+    if (updated) {
+        updateCamera();
+    }
+    
+    return updated;
+}

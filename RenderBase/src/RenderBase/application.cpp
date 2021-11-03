@@ -29,54 +29,84 @@ using namespace rb::app;
     }
 #endif
 
+
+Configuration rb::app::loadDefaultConfigFromArguments(int argCount, char** arguments)
+{
+    // TODO parse command line arguments using arumet parser module.
+    return Configuration(); // use default values for now
+}
+
+// BasicOpenGLApplication implementation
+// -------------------------------------
+
 BasicOpenGLApplication::BasicOpenGLApplication(Configuration config)
 {
-    state.config = config;
+    config = config;
 }
 
 bool BasicOpenGLApplication::run()
 {
-    state.status = Status::Uninitialized;
+    status = Status::Uninitialized;
     
     RB_DEBUG("Application is initializing ... ");
 
-    state.eventDispatcher = make_unique<events::EventDispatcher>();
+    // Prepare needed subsystems and event reactions
+    // ---------------------------------------------
     
-    // create window
-    auto config   = window::Config();
-    config.width  = state.config.windowWidth;
-    config.height = state.config.windowHeight;
+    // Prepare event dispatcher
+    eventDispatcher = make_unique<events::EventDispatcher>();
+
+    // Prepare window
+    auto windowConfig   = window::Config();
+    windowConfig.width  = config.windowWidth;
+    windowConfig.height = config.windowHeight;
+    window = make_unique<window::Window>(windowConfig, *eventDispatcher);
     
-    state.window  = make_unique<window::Window>(config, *state.eventDispatcher);
-    
-    // Define basic events
-    state.eventDispatcher->subscribeToEvent(events::EVENT_CODE_APPLICATION_QUIT, this, [&](events::Event) {
-        state.status = Status::Exited;
+    // Basic exit event
+    eventDispatcher->subscribeToEvent(events::EVENT_CODE_APPLICATION_QUIT, this, [&](events::Event) {
+        status = Status::Exited;
         return true;
     });
+    
+    // resize event
+    eventDispatcher->subscribeToEvent(events::EVENT_CODE_RESIZED, this, [this](events::Event event) {
+        return onResize(event.data.u16[0], event.data.u16[1]);
+    });
+    
+    // system for translating inputs to easy and managable API
+    inputHandler = make_unique<input::InputHandler>(*window, *eventDispatcher);
+    inputHandler->setInputChangeCallback(bind(&BasicOpenGLApplication::onInputChangeInternal, this, placeholders::_1));
 
-    // prepare window -> creates opengl context
-    state.window->show();
+    // system for time stepping
+    timer = make_unique<timing::Timer>();
+    timer->setOnTickCallback(bind(&BasicOpenGLApplication::onTickInternal, this, placeholders::_1));
+
+    // Display main window and initiate render loop
+    // --------------------------------------------
     
-    state.status = Status::Initialized;
+    // show window
+    window->show(); // from now opengl context exists
+    status = Status::Initialized;
     
-    // prepare opengl debug
+    // prepare opengl debugging
     #ifdef DEBUG
         glEnable(GL_DEBUG_OUTPUT);
         glDebugMessageCallback(GLDdebugCallback, nullptr);
     #endif
     
+    // let user run its initiation procedure
     if (!init()) {
         RB_ERROR("User initialization failed.");
         return false;
     }
     
     // run main window loop
-    state.status = Status::Running;
-    while (state.status == Status::Running) {
+    status = Status::Running;
+    while (status == Status::Running) {
         draw();
-        state.window->swapFrames();
-        state.window->fireEvents();
+        window->swapFrames();
+        window->fireEvents();
+        timer->checkTick();
     }
     
     if (!finalize()) {
@@ -87,8 +117,17 @@ bool BasicOpenGLApplication::run()
     return true;
 }
 
-Configuration rb::app::loadDefaultConfigFromArguments(int argCount, char** arguments)
+bool BasicOpenGLApplication::onInputChangeInternal(const input::InputState& inputState)
 {
-    // TODO parse command line arguments using arumet parser module.
-    return Configuration(); // use default values for now
+    return onInputChange(inputState, timer->getCurrentTimeStep());
+}
+
+bool BasicOpenGLApplication::onTickInternal(const timing::TimeStep tick)
+{
+    inputHandler->onTick(tick);
+    return onTick(inputHandler->getCurrentState(), tick);
+}
+
+void BasicOpenGLApplication::exit() {
+    status = Status::Exited;
 }

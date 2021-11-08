@@ -1,10 +1,8 @@
 
-#ifdef DEBUG
-    // #define NO_LOG // commen when we want to enable debugging
-    #include <RenderBase/logging.h>
-#endif
-
 #include <RenderBase/timing.h>
+
+// #define NO_LOG
+#include <RenderBase/logging.h>
 
 using namespace rb::timing;
 using namespace rb::timing;

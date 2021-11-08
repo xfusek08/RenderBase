@@ -40,8 +40,15 @@ namespace rb
     #define STREAM_TO_STR(S) (static_cast<std::ostringstream&>(std::ostringstream() << S)).str()
 
     #define RB_FATAL(...)   rb::log(rb::LogLevel::Fatal, STREAM_TO_STR(__VA_ARGS__))
+    
     #define RB_ERROR(...)   rb::log(rb::LogLevel::Error, STREAM_TO_STR(__VA_ARGS__))
-    #define RB_WARNING(...) rb::log(rb::LogLevel::Warning, STREAM_TO_STR(__VA_ARGS__))
+    
+    #ifndef NO_WARNING_LOG
+        #define RB_WARNING(...) rb::log(rb::LogLevel::Warning, STREAM_TO_STR(__VA_ARGS__))
+    #else
+        #define RB_WARNING(...)
+    #endif
+    
     #define RB_INFO(...)    rb::log(rb::LogLevel::Info, STREAM_TO_STR(__VA_ARGS__))
 
     #if defined(DEBUG) and !defined(NO_DEBUG_LOG)

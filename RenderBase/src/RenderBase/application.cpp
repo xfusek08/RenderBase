@@ -104,9 +104,9 @@ bool BasicOpenGLApplication::run()
     status = Status::Running;
     while (status == Status::Running) {
         draw();
-        window->swapFrames();
         window->fireEvents();
         timer->checkTick();
+        window->swapFrames();
     }
     
     if (!finalize()) {

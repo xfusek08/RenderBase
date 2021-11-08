@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
+#include <RenderBase/gl/BaseGL.h>
 
-#include <RenderBase/gl/BaseGLObject.h>
+#include <string>
 
 namespace rb::gl {
 

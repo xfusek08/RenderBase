@@ -1,6 +1,6 @@
 
 #ifdef DEBUG
-    #define NO_LOG // commen when we want to enable debugging
+    // #define NO_LOG // commen when we want to enable debugging
     #include <RenderBase/logging.h>
 #endif
 

@@ -1,6 +1,7 @@
 
 #ifdef DEBUG
-    #define NO_LOG
+    #define NO_DEBUG_LOG
+    #define NO_WARNING_LOG
     #include <glm/gtx/string_cast.hpp>
 #endif
 
@@ -18,18 +19,18 @@ using namespace std;
 using namespace glm;
 using namespace rb::gl;
 
-Program::Program(vector<Shader*> shaders)
+Program::Program(vector<std::shared_ptr<Shader>> shaders)
 {
     // create program
     glId = glCreateProgram();
     ASSERT_GL_ERRORS();
 
     // attach shaders
-    for (auto& shader : shaders) {
-        RB_DEBUG("Attaching shader " << shader->getGlID() << " to program " << glId);
+    for (auto shader : shaders) {
+        RB_INFO("Attaching shader " << shader->getGlID() << " to program " << glId);
         glAttachShader(glId, shader->getGlID());
         // ASSERT_GL_ERRORS();
-        this->shaders.push_back(unique_ptr<Shader>(shader));
+        this->shaders.push_back(shader);
     }
     
     if (!this->shaders.empty()) {
@@ -50,22 +51,19 @@ Program::Program(vector<Shader*> shaders)
         #endif
     }
     
-    RB_DEBUG("Program " << glId << " created");
+    RB_INFO("Program " << glId << " created");
 }
 
 
 Program::~Program()
 {
-    auto context = glfwGetCurrentContext();
-    
     // detach shaders
-    for (auto& shader : shaders) {
+    for (auto shader : shaders) {
         glDetachShader(glId, shader->getGlID());
-        // ASSERT_GL_ERRORS();
     }
     
     glDeleteProgram(glId);
-    RB_DEBUG("Program " << glId << " deleted.");
+    RB_INFO("Program " << glId << " deleted.");
 }
 
 void Program::use()

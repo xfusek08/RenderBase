@@ -48,11 +48,11 @@ Shader::Shader(GLenum type, std::string source)
         }
     #endif
     
-    RB_DEBUG("Shader " << glId << " created.");
+    RB_INFO("Shader " << glId << " created.");
 }
 
 Shader::~Shader()
 {
     glDeleteShader(glId);
-    RB_DEBUG("Shader " << glId << " deleted.");
+    RB_INFO("Shader " << glId << " deleted.");
 }

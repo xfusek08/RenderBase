@@ -97,19 +97,24 @@ void OrbitCameraController::updateCamera()
     camera.setPosition(origin + newPosition);
 }
 
-void OrbitCameraController::setLeftRight(float32 phi)
+void OrbitCameraController::setLeftRight(float32 value)
 {
-    this->phi = glm::mod(phi, 1.0f);
+    phi = glm::mod(value, 1.0f);
 }
 
-void OrbitCameraController::setUpDown(float32 theta)
+void OrbitCameraController::setUpDown(float32 value)
 {
-    this->theta = glm::clamp(theta, 0.01f, 0.99f);
+    theta = glm::clamp(value, 0.01f, 0.99f);
 }
 
-void OrbitCameraController::setZoom(float32 zoomVal)
+void OrbitCameraController::setZoom(float32 value)
 {
-    this->zoomVal = glm::clamp(zoomVal, minZoom, maxZoom);
+    zoomVal = glm::clamp(value, minZoom, maxZoom);
+}
+
+void OrbitCameraController::zoom(float32 delta)
+{
+    setZoom(zoomVal + (delta * zoomVal * 0.1)); // make zooming faster when far away
 }
 
 bool OrbitCameraController::onInputChange(const input::InputState& inputState, const timing::TimeStep& tick)

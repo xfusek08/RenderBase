@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 namespace rb::gl {
+    
     class BaseGLObject {
         public:
             inline GLuint getGlID() const { return glId; }
@@ -13,6 +14,8 @@ namespace rb::gl {
                 void assertGlErrors();
             #endif
     };
+    
+    bool areBufferFlagsMutable(GLbitfield flags);
 }
 
 #ifndef NO_ASSERT

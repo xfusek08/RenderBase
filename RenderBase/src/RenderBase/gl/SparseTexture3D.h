@@ -1,7 +1,7 @@
 #pragma once
 
 #include <RenderBase/defines.h>
-#include <RenderBase/gl/BaseGLObject.h>
+#include <RenderBase/gl/BaseGL.h>
 
 #include <glm/glm.hpp>
 

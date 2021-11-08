@@ -23,7 +23,7 @@ namespace rb
             float32   aspectRatio = 1.0f,
             float32   fovDegrees  = 45.0f,
             float32   nearPlane   = 0.1f,
-            float32   farPlane    = 100.0f
+            float32   farPlane    = 200.0f
         );
 
         // scalars
@@ -95,7 +95,7 @@ namespace rb
             float32 leftRightSpeed = 0.01;
             float32 upDownSpeed    = 0.01;
             float32 zoomSpeed      = 0.15;
-            float32 maxZoom        = 100.0;
+            float32 maxZoom        = 1000.0;
             float32 minZoom        = 2.0;
             
             OrbitCameraController(Camera camera);
@@ -115,9 +115,9 @@ namespace rb
             inline void lookXY(glm::vec2 delta)                      { lookXY(delta.x, delta.y); }
             
             void setZoom(float32 zoom);
-            inline void zoom(float32 delta = 0) { setZoom(zoomVal + delta); }
-            inline void zoomIn()                { zoom(-zoomSpeed); }
-            inline void zoomOut()               { zoom(zoomSpeed); }
+            void zoom(float32 delta = 0);
+            inline void zoomIn()  { zoom(-zoomSpeed); }
+            inline void zoomOut() { zoom(zoomSpeed); }
             
             // getters
             inline float32 getPhi()   const { return phi; }

@@ -1,25 +1,29 @@
 #pragma once
 
 #include <RenderBase/defines.h>
-#include <RenderBase/gl/BaseGLObject.h>
+
+#include <RenderBase/gl/BaseGL.h>
 #include <RenderBase/gl/Shader.h>
 #include <RenderBase/gl/Texture3D.h>
 
 #include <RenderBase/tools/camera.h>
 
-#include <memory>
-#include <vector>
 #include <glm/glm.hpp>
 
+#include <memory>
+#include <vector>
+
 namespace rb::gl {
+    
+    using ShaderArray = std::vector<std::shared_ptr<Shader>>;
     
     class Program : public BaseGLObject
     {
         public:
-            Program(std::vector<Shader*> shaders = {});
+            Program(ShaderArray shaders = {});
 
-            // template <typename... ARGS>
-            // Program(ARGS... shaders) : Program(std::vector<Shader*>({shaders...})) {}
+            template <typename... ARGS>
+            Program(ARGS... shaders) : Program(ShaderArray{shaders...}) {}
 
             ~Program();
 
@@ -38,7 +42,7 @@ namespace rb::gl {
             void loadStandardCamera(const Camera& camera);
             
         private:
-            std::vector<std::unique_ptr<Shader>> shaders = {};
+            ShaderArray shaders = {};
     };
     
 }

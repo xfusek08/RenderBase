@@ -149,5 +149,5 @@ void Program::loadStandardCamera(const Camera& camera)
     uniform("cameraPosition",  camera.getPosition());
     uniform("cameraDirection", camera.getDirection());
     uniform("cameraUp",        camera.getUpVector());
-    uniform("mvp",             camera.getMVPMatrix());
+    uniform("viewProjection",  camera.getVPMatrix());
 }

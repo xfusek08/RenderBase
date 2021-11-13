@@ -5,7 +5,6 @@
 #include <RenderBase/defaults.h>
 
 #include <functional>
-#include <chrono>
 
 namespace rb::timing {
     // current time implementation is just float value of seconds
@@ -38,9 +37,5 @@ namespace rb::timing {
             Time         tickInterval;
             Time         nextScheduledTick;
             TickCallBack callback;
-            
-            // completely local implementation detail but it needs to be store in class constext
-            // an pimpl idiom would introduce unnecessary spart pointer.
-            std::chrono::time_point<std::chrono::high_resolution_clock> beginTime;
     };
 }

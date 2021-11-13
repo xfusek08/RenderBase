@@ -20,21 +20,31 @@
     }
 #endif
 
-/**
- * @brief detetermines if flags are mutable
- *
- * @param flags flags
- *
- * @return true if flags are combination of GL_{STATIC|STREAM|DYNAMIC}_{DRAW_COPY_READ}
- */
-bool rb::gl::areBufferFlagsMutable(GLbitfield flags){
-  return flags == GL_STATIC_DRAW
-      || flags == GL_STATIC_COPY
-      || flags == GL_STATIC_READ
-      || flags == GL_STREAM_DRAW
-      || flags == GL_STREAM_COPY
-      || flags == GL_STREAM_READ
-      || flags == GL_DYNAMIC_DRAW
-      || flags == GL_DYNAMIC_COPY
-      || flags == GL_DYNAMIC_READ;
+bool rb::gl::areBufferFlagsMutable(GLbitfield flags)
+{
+    return flags == GL_STATIC_DRAW
+        || flags == GL_STATIC_COPY
+        || flags == GL_STATIC_READ
+        || flags == GL_STREAM_DRAW
+        || flags == GL_STREAM_COPY
+        || flags == GL_STREAM_READ
+        || flags == GL_DYNAMIC_DRAW
+        || flags == GL_DYNAMIC_COPY
+        || flags == GL_DYNAMIC_READ;
+}
+
+unsigned rb::gl::getTypeSize(GLenum type)
+{
+    switch(type) {
+        case GL_BYTE:           return sizeof(GLbyte);
+        case GL_UNSIGNED_BYTE:  return sizeof(GLubyte);
+        case GL_SHORT:          return sizeof(GLshort);
+        case GL_UNSIGNED_SHORT: return sizeof(GLushort);
+        case GL_INT:            return sizeof(GLint);
+        case GL_UNSIGNED_INT:   return sizeof(GLuint);
+        case GL_FLOAT:          return sizeof(GLfloat);
+        case GL_HALF_FLOAT:     return sizeof(GLhalf);
+        case GL_DOUBLE:         return sizeof(GLdouble);
+        default:                return sizeof(GLbyte);
+    }
 }

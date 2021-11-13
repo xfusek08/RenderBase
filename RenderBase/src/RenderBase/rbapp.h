@@ -12,9 +12,11 @@ class Application : public rb::app::BasicOpenGLApplication
         bool init()     override;
         void draw()     override;
         bool finalize() override;
+        
+        bool onResize(uint32 newWidth, uint32 newHeight)  override;
         bool onInputChange(const rb::input::InputState& inputState, const rb::timing::TimeStep& tick) override;
         bool onTick(const rb::input::InputState& inputState, const rb::timing::TimeStep& tick) override;
-        bool onResize(uint32 newWidth, uint32 newHeight)  override;
+        bool onGuiChanged(const rb::gui::GuiState& guiState)  override;
 };
 
 int main(int argc, char** argv)

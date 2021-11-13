@@ -44,7 +44,7 @@ namespace rb
         // matrices
         inline glm::mat4 getViewMatrix()       const { return glm::lookAt(position, target, up); }
         inline glm::mat4 getProjectionMatrix() const { return glm::perspective(fov, aspectRatio, nearPlane, farPlane); }
-        inline glm::mat4 getMVPMatrix()        const { return getProjectionMatrix() * getViewMatrix(); }
+        inline glm::mat4 getVPMatrix()         const { return getProjectionMatrix() * getViewMatrix(); }
         
         inline void setPosition(glm::vec3 position)     { this->position    = position; dirtyFlag = true; }
         inline void setTargetPosition(glm::vec3 target) { this->target      = target;  dirtyFlag = true; }

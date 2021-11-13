@@ -7,6 +7,7 @@
 #include <RenderBase/window.h>
 #include <RenderBase/input.h>
 #include <RenderBase/timing.h>
+#include <RenderBase/gui.h>
 
 #include <memory>
 
@@ -45,10 +46,12 @@ namespace rb::app {
             
             virtual bool init() = 0;
             virtual void draw() = 0;
+            virtual bool finalize() { return true; };
+            
             virtual bool onResize(uint32 newWidth, uint32 newHeight) { return false; }
             virtual bool onInputChange(const input::InputState& inputState, const timing::TimeStep& tick) { return false; };
             virtual bool onTick(const input::InputState& inputState, const timing::TimeStep& tick) { return false; };
-            virtual bool finalize() { return true; };
+            virtual bool onGuiChanged(const gui::GuiState& guiState) { return false; };
         
             Configuration config = {}; // this is used only during app initialization process
             Status        status = Status::Uninitialized;
@@ -58,10 +61,12 @@ namespace rb::app {
             std::unique_ptr<rb::window::Window>          window;
             std::unique_ptr<rb::input::InputHandler>     inputHandler;
             std::unique_ptr<rb::timing::Timer>           timer;
+            std::unique_ptr<rb::gui::Gui>                gui;
             
         private:
             bool onInputChangeInternal(const input::InputState& inputState);
-            bool onTickInternal(const timing::TimeStep tick);
+            bool onTickInternal(const timing::TimeStep& tick);
+            bool onGuiChangedInternal(const gui::GuiState& tick);
     };
     
     /**

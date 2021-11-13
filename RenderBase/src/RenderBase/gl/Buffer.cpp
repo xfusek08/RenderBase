@@ -26,6 +26,11 @@ void Buffer::newBufferData(uint32 size, GLvoid const* data, GLbitfield flags)
     }
 }
 
+void Buffer::bind(GLenum target) const
+{
+    glBindBuffer(target, glId);
+}
+            
 void Buffer::bindBase(GLenum target, GLuint index) const
 {
     glBindBufferBase(target, index, glId);

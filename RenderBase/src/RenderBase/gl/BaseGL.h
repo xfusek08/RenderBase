@@ -16,6 +16,8 @@ namespace rb::gl {
     };
     
     bool areBufferFlagsMutable(GLbitfield flags);
+    
+    unsigned getTypeSize(GLenum type);
 }
 
 #ifndef NO_ASSERT

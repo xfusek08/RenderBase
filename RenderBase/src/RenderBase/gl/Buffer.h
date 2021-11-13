@@ -21,6 +21,7 @@ namespace rb::gl {
             
             void newBufferData(uint32 size, GLvoid const* data  = nullptr, GLbitfield flags = GL_STATIC_DRAW);
             
+            void bind(GLenum target) const;
             void bindBase(GLenum target, GLuint index) const;
             
             void updateSubData(GLvoid const *data, GLsizeiptr size = 0, GLintptr offset = 0) const;

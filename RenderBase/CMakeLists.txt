@@ -7,9 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(vendor/glad)
 add_subdirectory(vendor/glm)
 add_subdirectory(vendor/glfw/glfw)
-
-include(vendor/imgui/CMakeLists.txt)
-message("${IMGU_SOURCES}")
+add_subdirectory(vendor/imgui)
 
 file(GLOB_RECURSE
     SOURCES
@@ -20,7 +18,7 @@ file(GLOB_RECURSE
 
 add_library(${PROJECT_NAME}
     ${SOURCES}
-    ${IMGU_SOURCES}
+    ${IMGUI_SOURCES}
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -31,7 +29,7 @@ target_link_libraries(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC src
-    ${IMGU_INCLUDES}
+    ${IMGUI_INCLUDES}
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC

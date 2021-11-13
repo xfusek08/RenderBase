@@ -49,66 +49,85 @@ bool BasicOpenGLApplication::run()
     status = Status::Uninitialized;
     
     RB_DEBUG("Application is initializing ... ");
-
-    // Prepare needed subsystems and event reactions
-    // ---------------------------------------------
     
-    // Prepare event dispatcher
+    // Event dispatcher Sub-System
+    // ----------------------------
     eventDispatcher = make_unique<events::EventDispatcher>();
+    eventDispatcher->subscribeToEvent(events::EVENT_CODE_APPLICATION_QUIT, this, [&](events::Event) {
+        // close
+        status = Status::Exited;
+        return true;
+    });
+    eventDispatcher->subscribeToEvent(events::EVENT_CODE_RESIZED, this, [this](events::Event event) {
+        // resize
+        return onResize(event.data.u16[0], event.data.u16[1]);
+    });
 
-    // Prepare window
+
+    // Windowing Sub-System
+    // ---------------------
     auto windowConfig   = window::Config();
     windowConfig.width  = config.windowWidth;
     windowConfig.height = config.windowHeight;
     window = make_unique<window::Window>(windowConfig, *eventDispatcher);
-    
-    // Basic exit event
-    eventDispatcher->subscribeToEvent(events::EVENT_CODE_APPLICATION_QUIT, this, [&](events::Event) {
-        status = Status::Exited;
-        return true;
-    });
-    
-    // resize event
-    eventDispatcher->subscribeToEvent(events::EVENT_CODE_RESIZED, this, [this](events::Event event) {
-        return onResize(event.data.u16[0], event.data.u16[1]);
-    });
-    
-    // system for translating inputs to easy and managable API
-    inputHandler = make_unique<input::InputHandler>(*window, *eventDispatcher);
-    inputHandler->setInputChangeCallback(bind(&BasicOpenGLApplication::onInputChangeInternal, this, placeholders::_1));
-
-    // system for time stepping
-    timer = make_unique<timing::Timer>();
-    timer->setOnTickCallback(bind(&BasicOpenGLApplication::onTickInternal, this, placeholders::_1));
-
-    // Display main window and initiate render loop
-    // --------------------------------------------
-    
-    // show window
-    window->show(); // from now opengl context exists
-    status = Status::Initialized;
-    
-    // prepare opengl debugging
-    #ifdef DEBUG
+    window->show(); // opengl context is initiated now
+    #ifdef DEBUG // prepare opengl debugging
         glEnable(GL_DEBUG_OUTPUT);
         glDebugMessageCallback(GLDdebugCallback, nullptr);
     #endif
+
     
-    // let user run its initiation procedure
+    // Input Sub-System
+    // -------------
+    inputHandler = make_unique<input::InputHandler>(*window, *eventDispatcher);
+    inputHandler->setInputChangeCallback(bind(&BasicOpenGLApplication::onInputChangeInternal, this, placeholders::_1));
+
+
+    // Timer ticking Sub-System
+    // -------------------------
+    timer = make_unique<timing::Timer>();
+    timer->setOnTickCallback(bind(&BasicOpenGLApplication::onTickInternal, this, placeholders::_1));
+        
+    
+    // GUI Sub-System
+    // --------------
+    gui = make_unique<gui::Gui>(*window);
+    
+    
+    // User initiation
+    // ---------------
     if (!init()) {
         RB_ERROR("User initialization failed.");
         return false;
     }
     
-    // run main window loop
+    // Main app loop (single-threaded for now)
+    // ---------------------------------------
     status = Status::Running;
     while (status == Status::Running) {
-        draw();
+        // state modification
+        
+        // fire input events
         window->fireEvents();
+        
+        // fire regular tick events
         timer->checkTick();
+        
+        // // GUI update and react to its changes
+        // gui->update(inputHandler->getCurrentState(), timer->getCurrentTimeStep());
+        // if (gui->isStateDirty()) {
+        //     onGuiChangedInternal(gui->getState());
+        //     gui->cleanState();
+        // }
+        
+        // state is fixed
+        draw();
+        // gui->draw();
         window->swapFrames();
     }
     
+    // User define finalization steps
+    // -------------------------------
     if (!finalize()) {
         RB_ERROR("User initialization failed.");
         return false;
@@ -122,10 +141,15 @@ bool BasicOpenGLApplication::onInputChangeInternal(const input::InputState& inpu
     return onInputChange(inputState, timer->getCurrentTimeStep());
 }
 
-bool BasicOpenGLApplication::onTickInternal(const timing::TimeStep tick)
+bool BasicOpenGLApplication::onTickInternal(const timing::TimeStep& tick)
 {
     inputHandler->onTick(tick);
     return onTick(inputHandler->getCurrentState(), tick);
+}
+
+bool BasicOpenGLApplication::onGuiChangedInternal(const gui::GuiState& guiState)
+{
+    return onGuiChanged(guiState);
 }
 
 void BasicOpenGLApplication::exit() {

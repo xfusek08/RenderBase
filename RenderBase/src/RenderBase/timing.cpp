@@ -1,16 +1,16 @@
 
 #include <RenderBase/timing.h>
 
-// #define NO_LOG
+#define NO_LOG
 #include <RenderBase/logging.h>
 
-using namespace rb::timing;
+#include <GLFW/glfw3.h>
+
 using namespace rb::timing;
 
 Timer::Timer(Time interval)
 {
     setTickInterval(interval);
-    beginTime = std::chrono::high_resolution_clock::now();
     nextScheduledTick = getNow();
 }
 
@@ -44,7 +44,5 @@ void Timer::checkTick()
 
 Time Timer::getNow()
 {
-    auto now  = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> fsec = now - beginTime;
-    return fsec.count();
+    return glfwGetTime();
 }

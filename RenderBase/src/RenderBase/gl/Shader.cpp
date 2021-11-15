@@ -1,5 +1,8 @@
 
 #include <RenderBase/gl/Shader.h>
+
+#include <RenderBase/tools/util.h>
+
 #include <RenderBase/logging.h>
 #include <RenderBase/asserts.h>
 
@@ -9,25 +12,37 @@
 using namespace std;
 using namespace rb::gl;
 
-
-string resolveSourceCode(string source) {
-    string sourceCode = "";
-    std::ifstream stream(source);
+string resolveSourceCode(string source, const vector<string>& defines) {
+    stringstream sourceCode;
+    ifstream stream(source);
     if (stream.good()) {
-        sourceCode = string(
+        string line;
+        while (getline(stream, line)) {
+            sourceCode << line << "\n";
+            if (line.find("#version") != string::npos) {
+                sourceCode << rb::implode(
+                    rb::map(defines, [](string s) {
+                        return "#define " + s + "\n";
+                    })
+                ) << "\n";
+                break;
+            }
+        }
+        sourceCode << string(
             std::istream_iterator<char>(stream >> std::noskipws),
             std::istream_iterator<char>()
         );
     } else {
-        sourceCode = source;
+        sourceCode << source;
     }
-    return sourceCode;
+    RB_DEBUG("final source:\n" << sourceCode.str());
+    return sourceCode.str();
 }
 
-Shader::Shader(GLenum type, std::string source)
+Shader::Shader(GLenum type, std::string source, const vector<string>& defines)
 {
     this->type = type;
-    source = resolveSourceCode(source);
+    source = resolveSourceCode(source, defines);
 
     // Compile
     glId = glCreateShader(this->type);

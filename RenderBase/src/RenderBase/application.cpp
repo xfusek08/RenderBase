@@ -1,3 +1,7 @@
+#ifdef DEBUG
+    // uncomment for verbose gl debug info
+    // #define LOG_GL_DEBUG
+#endif
 
 #include <RenderBase/application.h>
 #include <RenderBase/logging.h>
@@ -8,7 +12,7 @@ using namespace std;
 using namespace rb;
 using namespace rb::app;
 
-#ifdef DEBUG
+#ifdef LOG_GL_DEBUG
     void GLDdebugCallback(
         GLenum source,
         GLenum type,
@@ -71,7 +75,7 @@ bool BasicOpenGLApplication::run()
     windowConfig.height = config.windowHeight;
     window = make_unique<window::Window>(windowConfig, *eventDispatcher);
     window->show(); // opengl context is initiated now
-    #ifdef DEBUG // prepare opengl debugging
+    #ifdef LOG_GL_DEBUG // prepare opengl debugging
         glEnable(GL_DEBUG_OUTPUT);
         glDebugMessageCallback(GLDdebugCallback, nullptr);
     #endif

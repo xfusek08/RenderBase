@@ -1,5 +1,5 @@
 #ifdef DEBUG
-    // #define NO_LOG // uncomment if debug logging should be ignored for this file
+    #define NO_LOG // uncomment if debug logging should be ignored for this file
     #include <glm/gtx/string_cast.hpp>
 #endif
 

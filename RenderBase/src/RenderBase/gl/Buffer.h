@@ -22,6 +22,7 @@ namespace rb::gl {
             void newBufferData(uint32 size, GLvoid const* data  = nullptr, GLbitfield flags = GL_STATIC_DRAW);
             
             void bind(GLenum target) const;
+            
             void bindBase(GLenum target, GLuint index) const;
             
             void updateSubData(GLvoid const *data, GLsizeiptr size = 0, GLintptr offset = 0) const;
@@ -32,6 +33,14 @@ namespace rb::gl {
             void setData(const std::vector<T>& data)
             {
                 setData(data.data(), sizeof(T) * data.size());
+            }
+            
+            void getData(GLvoid* data, GLsizeiptr size = 0, GLintptr offset = 0) const;
+            
+            template<typename T>
+            void getData(std::vector<T>& outData, GLintptr offset = 0) const
+            {
+                getData(outData.data(), sizeof(T) * outData.size(), offset);
             }
             
             GLsizeiptr getSize() const;

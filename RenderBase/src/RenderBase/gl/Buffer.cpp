@@ -4,17 +4,22 @@
  */
 #include <RenderBase/gl/Buffer.h>
 
+#include <RenderBase/logging.h>
+
 using namespace rb::gl;
 
 Buffer::Buffer(uint32 size, GLvoid const* data, GLbitfield flags)
 {
     glCreateBuffers(1, &glId);
+    RB_INFO("Buffer " << glId << " created.");
     newBufferData(size, data, flags);
 }
 
 Buffer::~Buffer()
 {
+    RB_INFO("Deleting buffer " << glId << " ...");
     glDeleteBuffers(1, &glId);
+    RB_INFO("Buffer " << glId << " deleted.");
 }
 
 void Buffer::newBufferData(uint32 size, GLvoid const* data, GLbitfield flags)
@@ -69,4 +74,13 @@ GLbitfield Buffer::getFlags() const
     GLint flags;
     glGetNamedBufferParameteriv(glId, GL_BUFFER_USAGE, &flags);
     return static_cast<GLenum>(flags);
+}
+
+void Buffer::getData(GLvoid* data, GLsizeiptr size, GLintptr offset) const
+{
+    auto const bufferSize = getSize();
+    if (size == 0 || size + offset > bufferSize) {
+        size = bufferSize - offset;
+    }
+    glGetNamedBufferSubData(glId, offset, size, data);
 }

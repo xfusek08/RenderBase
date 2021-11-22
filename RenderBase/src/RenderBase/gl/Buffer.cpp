@@ -84,3 +84,18 @@ void Buffer::getData(GLvoid* data, GLsizeiptr size, GLintptr offset) const
     }
     glGetNamedBufferSubData(glId, offset, size, data);
 }
+
+void Buffer::resize(GLsizeiptr size)
+{
+    auto flags = getFlags();
+    Buffer temp = Buffer(size, nullptr, flags);
+    temp.copyFrom(*this);
+    newBufferData(size, nullptr, flags);
+    copyFrom(temp);
+}
+
+void Buffer::copyFrom(Buffer& dataSourceBuffer)
+{
+    GLsizeiptr size = glm::min(getSize(), dataSourceBuffer.getSize());
+    glCopyNamedBufferSubData(dataSourceBuffer.getGlID(), glId, 0, 0, size);
+}

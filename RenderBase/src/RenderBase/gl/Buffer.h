@@ -43,6 +43,10 @@ namespace rb::gl {
                 getData(outData.data(), sizeof(T) * outData.size(), offset);
             }
             
+            void resize(GLsizeiptr size);
+            
+            void copyFrom(Buffer& dataSourceBuffer);
+            
             GLsizeiptr getSize() const;
             
             GLbitfield getFlags() const;

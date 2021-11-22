@@ -55,3 +55,8 @@ void VertexArray::bind() const
 {
     glBindVertexArray(glId);
 }
+
+void rb::gl::VertexArray::addElementBuffer(const Buffer& buffer)
+{
+    glVertexArrayElementBuffer(glId, buffer.getGlID());
+}

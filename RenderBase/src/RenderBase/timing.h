@@ -12,9 +12,9 @@ namespace rb::timing {
     using Time = float32;
     
     struct TimeStep {
-        uint32 order;       // time step ordering counted from 0
-        Time   deltaTime;   // time elapsed from last time step
-        Time   currentTime; // time of this step
+        uint32 order       = 0; // time step ordering counted from 0
+        Time   deltaTime   = 0; // time elapsed from last time step
+        Time   currentTime = 0; // time of this step
     };
     
     using TickCallBack = std::function<bool(const TimeStep&)>;
@@ -33,7 +33,7 @@ namespace rb::timing {
             inline const TimeStep& getCurrentTimeStep() const { return currentTimeStep; }
             
         private:
-            TimeStep     currentTimeStep;
+            TimeStep     currentTimeStep = {};
             Time         tickInterval;
             Time         nextScheduledTick;
             TickCallBack callback;

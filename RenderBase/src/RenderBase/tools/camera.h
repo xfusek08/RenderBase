@@ -96,7 +96,7 @@ namespace rb
             float32 upDownSpeed    = 0.01;
             float32 zoomSpeed      = 0.15;
             float32 maxZoom        = 1000.0;
-            float32 minZoom        = 2.0;
+            float32 minZoom        = 0.5;
             
             OrbitCameraController(Camera camera);
             void updateCamera();

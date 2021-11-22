@@ -1,3 +1,4 @@
+#define NO_DEBUG_LOG
 
 #include <RenderBase/gl/Shader.h>
 

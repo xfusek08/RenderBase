@@ -30,5 +30,7 @@ namespace rb::gl {
             void removeAttrib(GLuint index);
             
             void bind() const;
+            
+            void addElementBuffer(const Buffer& buffer);
     };
 }

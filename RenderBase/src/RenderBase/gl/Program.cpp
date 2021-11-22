@@ -23,7 +23,9 @@ Program::Program(vector<std::shared_ptr<Shader>> shaders)
 {
     // create program
     glId = glCreateProgram();
-    ASSERT_GL_ERRORS();
+    if (!glId) {
+        ASSERT_GL_ERRORS();
+    }
 
     // attach shaders
     for (auto shader : shaders) {

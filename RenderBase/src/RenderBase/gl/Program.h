@@ -27,17 +27,17 @@ namespace rb::gl {
 
             ~Program();
 
-            void use();
+            void use() const;
             
-            void uniform(const char* name, int32 value);
-            void uniform(const char* name, uint32 value);
-            void uniform(const char* name, float32 value);
-            void uniform(const char* name, glm::uvec2 value);
-            void uniform(const char* name, glm::vec3 value);
-            void uniform(const char* name, glm::vec4 value);
-            void uniform(const char* name, glm::mat3 value);
-            void uniform(const char* name, glm::mat4 value);
-            void uniform(const char* name, GLuint textureUintId, const Texture3D& texture);
+            void uniform(const char* name, const int32 value) const;
+            void uniform(const char* name, const uint32 value) const;
+            void uniform(const char* name, const float32 value) const;
+            void uniform(const char* name, const glm::uvec2 value) const;
+            void uniform(const char* name, const glm::vec3 value) const;
+            void uniform(const char* name, const glm::vec4 value) const;
+            void uniform(const char* name, const glm::mat3 value) const;
+            void uniform(const char* name, const glm::mat4 value) const;
+            void uniform(const char* name, const GLuint textureUintId, const Texture3D& texture) const;
             
             void loadStandardCamera(const Camera& camera);
             

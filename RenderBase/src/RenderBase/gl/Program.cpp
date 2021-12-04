@@ -68,7 +68,7 @@ Program::~Program()
     RB_INFO("Program " << glId << " deleted.");
 }
 
-void Program::use()
+void Program::use() const
 {
     glUseProgram(glId);
 }
@@ -82,63 +82,63 @@ void Program::use()
         return; \
     }
 
-void Program::uniform(const char* name, int32 value)
+void Program::uniform(const char* name, const int32 value) const
 {
     FIND_LOCATION(name);
     glProgramUniform1i(glId, location, value);
     RB_DEBUG("Uniform \"" << name << "\" set to: " << value);
 }
 
-void Program::uniform(const char* name, uint32 value)
+void Program::uniform(const char* name, const uint32 value) const
 {
     FIND_LOCATION(name);
     glProgramUniform1ui(glId, location, value);
     RB_DEBUG("Uniform \"" << name << "\" set to: " << value);
 }
 
-void Program::uniform(const char* name, float32 value)
+void Program::uniform(const char* name, const float32 value) const
 {
     FIND_LOCATION(name);
     glProgramUniform1f(glId, location, value);
     RB_DEBUG("Uniform \"" << name << "\" set to: " << value);
 }
 
-void Program::uniform(const char* name, glm::uvec2 value)
+void Program::uniform(const char* name, const glm::uvec2 value) const
 {
     FIND_LOCATION(name);
     glProgramUniform2uiv(glId, location, 1, glm::value_ptr(value));
     RB_DEBUG("Uniform \"" << name << "\" set to: " << glm::to_string(value));
 }
 
-void Program::uniform(const char* name, glm::vec3 value)
+void Program::uniform(const char* name, const glm::vec3 value) const
 {
     FIND_LOCATION(name);
     glProgramUniform3fv(glId, location, 1, glm::value_ptr(value));
     RB_DEBUG("Uniform \"" << name << "\" set to: " << glm::to_string(value));
 }
 
-void Program::uniform(const char* name, glm::vec4 value)
+void Program::uniform(const char* name, const glm::vec4 value) const
 {
     FIND_LOCATION(name);
     glProgramUniform4fv(glId, location, 1, glm::value_ptr(value));
     RB_DEBUG("Uniform \"" << name << "\" set to: " << glm::to_string(value));
 }
 
-void Program::uniform(const char* name, glm::mat3 value)
+void Program::uniform(const char* name, const glm::mat3 value) const
 {
     FIND_LOCATION(name);
     glProgramUniformMatrix3fv(glId, location, 1, GL_FALSE, glm::value_ptr(value));
     RB_DEBUG("Uniform \"" << name << "\" set to: " << glm::to_string(value));
 }
 
-void Program::uniform(const char* name, glm::mat4 value)
+void Program::uniform(const char* name, const glm::mat4 value) const
 {
     FIND_LOCATION(name);
     glProgramUniformMatrix4fv(glId, location, 1, GL_FALSE, glm::value_ptr(value));
     RB_DEBUG("Uniform \"" << name << "\" set to: " << glm::to_string(value));
 }
 
-void Program::uniform(const char* name, GLuint textureUintId, const Texture3D& texture)
+void Program::uniform(const char* name, const GLuint textureUintId, const Texture3D& texture) const
 {
     FIND_LOCATION(name);
     glBindTextureUnit(textureUintId, texture.getGlID());

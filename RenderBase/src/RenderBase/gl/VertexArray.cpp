@@ -26,9 +26,15 @@ void VertexArray::addAttrib(
     AttribPointerType attribPointerType
 ) {
     removeAttrib(index);
-
+    
+    if (type == GL_UNSIGNED_INT || type == GL_INT) {
+        attribPointerType = VertexArray::AttribPointerType::I;
+    }
+    
     if (stride == 0) {
         stride = getTypeSize(type) * nofComponents;
+    } else {
+        stride *= getTypeSize(type); // stride by components
     }
     
     glVertexArrayAttribBinding(glId, index, index);

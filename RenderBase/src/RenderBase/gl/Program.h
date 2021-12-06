@@ -4,6 +4,7 @@
 
 #include <RenderBase/gl/BaseGL.h>
 #include <RenderBase/gl/Shader.h>
+#include <RenderBase/gl/Buffer.h>
 #include <RenderBase/gl/Texture3D.h>
 
 #include <RenderBase/tools/camera.h>
@@ -37,6 +38,7 @@ namespace rb::gl {
             void uniform(const char* name, const glm::vec4 value) const;
             void uniform(const char* name, const glm::mat3 value) const;
             void uniform(const char* name, const glm::mat4 value) const;
+            void uniform(const char* name, const Buffer& value, GLuint bindingPoint) const;
             void uniform(const char* name, const GLuint textureUintId, const Texture3D& texture) const;
             
             void loadStandardCamera(const Camera& camera);

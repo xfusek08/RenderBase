@@ -138,6 +138,12 @@ void Program::uniform(const char* name, const glm::mat4 value) const
     RB_DEBUG("Uniform \"" << name << "\" set to: " << glm::to_string(value));
 }
 
+void Program::uniform(const char* name, const Buffer& value, GLuint bindingPoint) const {
+    GLuint blockIndex = glGetUniformBlockIndex(glId, name);
+    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, value.getGlID());
+    glUniformBlockBinding(glId, blockIndex, bindingPoint);
+}
+
 void Program::uniform(const char* name, const GLuint textureUintId, const Texture3D& texture) const
 {
     FIND_LOCATION(name);

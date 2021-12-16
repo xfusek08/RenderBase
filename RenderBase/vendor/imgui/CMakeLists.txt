@@ -8,9 +8,13 @@ file(GLOB_RECURSE
     "*.h"
 )
 
-set(IMGUI_SOURCES ${SOURCES} PARENT_SCOPE)
+set(IMGUI_SOURCES ${SOURCES})
 
-set(IMGUI_INCLUDES
-    PUBLIC ${CMAKE_CURRENT_LIST_DIR}
-    PARENT_SCOPE
+project(ImGui)
+
+add_library(ImGui ${IMGUI_SOURCES})
+target_include_directories(ImGui PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+
+target_link_libraries(ImGui
+    glfw
 )

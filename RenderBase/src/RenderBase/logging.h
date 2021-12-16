@@ -37,7 +37,7 @@ namespace rb
     #define RB_DEBUG(...)
     #define RB_TRACE(...)
 #else
-    #define STREAM_TO_STR(S) (static_cast<std::ostringstream&>(std::ostringstream() << S)).str()
+    #define STREAM_TO_STR(S) ((std::ostringstream() << S)).str()
 
     #define RB_FATAL(...)   rb::log(rb::LogLevel::Fatal, STREAM_TO_STR(__VA_ARGS__))
     

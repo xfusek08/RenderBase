@@ -18,18 +18,17 @@ file(GLOB_RECURSE
 
 add_library(${PROJECT_NAME}
     ${SOURCES}
-    ${IMGUI_SOURCES}
 )
 
 target_link_libraries(${PROJECT_NAME}
     glad
     glfw
     glm
+    ImGui
 )
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC src
-    ${IMGUI_INCLUDES}
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC

@@ -9,7 +9,9 @@
 
 using namespace rb::gui;
 
-const char* glsl_version = "#version 460";
+namespace rb::gui {
+    const char* glsl_version = "#version 460";
+}
 
 Gui::Gui(const window::Window& window)
 {

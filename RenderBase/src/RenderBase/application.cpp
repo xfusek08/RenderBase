@@ -93,9 +93,9 @@ bool BasicOpenGLApplication::run()
     timer->setOnTickCallback(bind(&BasicOpenGLApplication::onTickInternal, this, placeholders::_1));
         
     
-    // GUI Sub-System
-    // --------------
-    gui = make_unique<gui::Gui>(*window);
+    // // GUI Sub-System
+    // // --------------
+    // gui = make_unique<gui::Gui>(*window);
     
     
     // User initiation

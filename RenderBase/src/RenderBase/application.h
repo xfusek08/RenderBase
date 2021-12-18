@@ -61,7 +61,7 @@ namespace rb::app {
             std::unique_ptr<rb::window::Window>          window;
             std::unique_ptr<rb::input::InputHandler>     inputHandler;
             std::unique_ptr<rb::timing::Timer>           timer;
-            std::unique_ptr<rb::gui::Gui>                gui;
+            // std::unique_ptr<rb::gui::Gui>                gui;
             
         private:
             bool onInputChangeInternal(const input::InputState& inputState);

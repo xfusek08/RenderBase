@@ -1,11 +1,11 @@
 
-#include <RenderBase/tools/util.h>
+#include <RenderBase/tools/utils.h>
 
 #include <RenderBase/defines.h>
 
 using namespace std;
 
-string rb::implode(const vector<string>& strings, const string& glue)
+string rb::utils::implode(const vector<string>& strings, const string& glue)
 {
     string res;
     if (glue.size() == 0) {
@@ -21,4 +21,10 @@ string rb::implode(const vector<string>& strings, const string& glue)
         ++i;
     }
     return res + strings[i];
+}
+
+string rb::utils::toLower(const string& str) {
+    string res = str;
+    transform(str.begin(), str.end(), res.begin(), ::tolower);
+    return res;
 }

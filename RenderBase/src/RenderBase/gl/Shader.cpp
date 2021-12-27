@@ -2,7 +2,7 @@
 
 #include <RenderBase/gl/Shader.h>
 
-#include <RenderBase/tools/util.h>
+#include <RenderBase/tools/utils.h>
 
 #include <RenderBase/logging.h>
 #include <RenderBase/asserts.h>
@@ -21,8 +21,8 @@ string resolveSourceCode(string source, const vector<string>& defines) {
         while (getline(stream, line)) {
             sourceCode << line << "\n";
             if (line.find("#version") != string::npos) {
-                sourceCode << rb::implode(
-                    rb::map(defines, [](string s) {
+                sourceCode << rb::utils::implode(
+                    rb::utils::map(defines, [](string s) {
                         return "#define " + s + "\n";
                     })
                 ) << "\n";

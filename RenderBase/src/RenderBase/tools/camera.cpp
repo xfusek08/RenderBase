@@ -171,3 +171,88 @@ bool OrbitCameraController::onTick(const input::InputState& inputState, const ti
     
     return updated;
 }
+
+bool FreeCameraController::onInputChange(const input::InputState& inputState, const timing::TimeStep& tick)
+{
+    bool updated = false;
+    auto zoomDelta = -inputState.getScroll().y;
+    
+    if (inputState.isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
+        lookXY(inputState.getMouseDelta());
+        updated = true;
+    }
+    
+    if (zoomDelta != 0) {
+        zoom(zoomDelta);
+        updated = true;
+    }
+    
+    if (updated) {
+        updateCamera();
+    }
+    
+    return updated;
+}
+
+bool FreeCameraController::onTick(const input::InputState& inputState, const timing::TimeStep& tick)
+{
+    bool updated = false;
+    
+    auto leftKey    = inputState.isKeyPressed(GLFW_KEY_LEFT);
+    auto rightKey   = inputState.isKeyPressed(GLFW_KEY_RIGHT);
+    auto upKey      = inputState.isKeyPressed(GLFW_KEY_UP);
+    auto downKey    = inputState.isKeyPressed(GLFW_KEY_DOWN);
+    auto zoomInKey  = inputState.isKeyPressed(GLFW_KEY_Q);
+    auto zoomOutKey = inputState.isKeyPressed(GLFW_KEY_E);
+    
+    auto forward   = inputState.isKeyPressed(GLFW_KEY_W);
+    auto backwards = inputState.isKeyPressed(GLFW_KEY_S);
+    auto left      = inputState.isKeyPressed(GLFW_KEY_A);
+    auto right     = inputState.isKeyPressed(GLFW_KEY_D);
+    auto raise     = inputState.isKeyPressed(GLFW_KEY_LEFT_SHIFT);
+    auto sink      = inputState.isKeyPressed(GLFW_KEY_LEFT_CONTROL);
+    
+    if (leftKey != rightKey) {
+        leftKey ? moveLeft() : moveRight();
+        updated = true;
+    }
+    
+    if (upKey != downKey) {
+        upKey ? moveUp() : moveDown();
+        updated = true;
+    }
+    
+    if (zoomInKey != zoomOutKey) {
+        zoomInKey ? zoomIn() : zoomOut();
+        updated = true;
+    }
+    
+    if (forward != backwards) {
+        glm::vec3 direction = camera.getTargetPosition() - camera.getPosition();
+        direction.y = 0;
+        direction = glm::normalize(direction);
+        camera.setTargetPosition(camera.getTargetPosition() + direction * (forward ? 0.05f : -0.05f) * getZoom());
+        updated = true;
+    }
+    
+    if (left != right) {
+        glm::vec3 direction = glm::cross(camera.getTargetPosition() - camera.getPosition(), camera.getUpVector());
+        direction.y = 0;
+        direction = glm::normalize(direction);
+        camera.setTargetPosition(camera.getTargetPosition() + direction * (right ? 0.05f : -0.05f) * getZoom());
+        updated = true;
+    }
+    
+    // if (raise != sink) {
+    //     glm::vec3 direction = camera.getUpVector();
+    //     direction = glm::normalize(direction);
+    //     camera.setTargetPosition(camera.getTargetPosition() + direction * (raise ? 0.1f : -0.1f) * getZoom());
+    //     updated = true;
+    // }
+
+    if (updated) {
+        updateCamera();
+    }
+    
+    return updated;
+}

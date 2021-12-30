@@ -132,4 +132,11 @@ namespace rb
             float32 theta   = 0.0f; // up down angle in normalizedvalue value between 0 and 1, 0 means top down view (0 deg or 0 rad) and 1 means bottom up view (180 deg or PI rad)
             float32 zoomVal = 1.0f; // radius of orbiting sphere
     };
+    
+    class FreeCameraController : public OrbitCameraController
+    {
+        using OrbitCameraController::OrbitCameraController;
+        bool onInputChange(const input::InputState& inputState, const timing::TimeStep& tick) override;
+        bool onTick(const input::InputState& inputState, const timing::TimeStep& tick) override;
+    };
 }

@@ -3,7 +3,7 @@
 #include <RenderBase/defines.h>
 #include <random>
 
-float32 randomFloat(float32 min, float32 max)
+float32 rb::random::randomFloat(float32 min, float32 max)
 {
     std::random_device rd;
     std::default_random_engine eng(rd());

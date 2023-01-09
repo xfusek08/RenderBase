@@ -1,8 +1,9 @@
 
 #include <RenderBase/core/graphics/Shader.h>
-
 #include <RenderBase/tools/logging.h>
 
+#include <string>
+#include <iterator>
 #include <fstream>
 
 using namespace std;

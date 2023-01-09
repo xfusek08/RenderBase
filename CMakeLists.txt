@@ -49,6 +49,8 @@ add_subdirectory(vendor/glad)
 add_subdirectory(vendor/glm)
 add_subdirectory(vendor/SDL2)
 
+include_directories(vendor/SDL2/include)
+
 add_library(${PROJECT_NAME}
     ${SOURCES}
     # ${IMGUI_HEADERS}
@@ -63,7 +65,7 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-    src
+    src/
     # ${IMGUI_DIR}
 )
 

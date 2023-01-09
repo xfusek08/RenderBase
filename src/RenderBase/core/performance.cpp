@@ -37,7 +37,7 @@ void PerformenceAnalyzer::perPeriodReport(std::chrono::microseconds periodLength
 }
 
 FrameReport PerformenceAnalyzer::frame() {
-    lastFrameReport.end = high_resolution_clock::now();
+    lastFrameReport.end = steady_clock::now();
 
     auto lastFrameDuration = lastFrameReport.duration();
 
@@ -56,6 +56,6 @@ FrameReport PerformenceAnalyzer::frame() {
         }
     }
 
-    lastFrameReport.begin = high_resolution_clock::now();
+    lastFrameReport.begin = steady_clock::now();
     return lastFrameReport;
 }

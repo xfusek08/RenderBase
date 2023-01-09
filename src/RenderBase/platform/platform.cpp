@@ -10,7 +10,7 @@ using namespace rb;
 // Module interface functions
 // #########################################################################
 
-void *getGlProcAddressFunction() {
+GLADloadproc getGlProcAddressFunction() {
     #ifdef PLATFORM_WINDOW_SDL
         return SDL_GL_GetProcAddress;
     #endif // try another window lib
@@ -21,7 +21,7 @@ bool rb::platform::loadOpenGlFunctions() {
     #ifdef PLATFORM_GL_GLAD
         auto functionPointer = getGlProcAddressFunction();
         if (functionPointer != nullptr) {
-            if (gladLoadGLLoader((GLADloadproc)getGlProcAddressFunction())) {
+            if (gladLoadGLLoader(getGlProcAddressFunction())) {
                 return true;
             }
             cout << "Failed to initialize GLAD" << endl; // Todo: use logger

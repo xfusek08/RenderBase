@@ -1,6 +1,7 @@
 
-#include <RenderBase/platform/sdl.h>
+#include <string>
 
+#include <RenderBase/platform/sdl.h>
 #include <RenderBase/core/event.h>
 
 using namespace std;

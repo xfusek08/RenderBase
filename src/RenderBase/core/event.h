@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace rb {
 
     enum class EventType {
@@ -10,9 +12,9 @@ namespace rb {
     };
 
     struct MouseButtons {
-        bool left   = false;
-        bool right  = false;
-        bool middle = false;
+        bool left;
+        bool right;
+        bool middle;
     };
 
     struct MouseMoveEvent {

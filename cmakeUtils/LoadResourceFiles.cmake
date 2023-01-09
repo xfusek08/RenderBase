@@ -2,12 +2,10 @@ cmake_minimum_required (VERSION 3.18)
 
 if(NOT DEFINED ${${PROJECT_NAME}_RESOURCES})
     if(NOT DEFINED ${DEFAULT_RESOERCES_PATH})
-        set(DEFAULT_RESOERCES_PATH "${CMAKE_CURRENT_LIST_DIR}/resources")
+        set(DEFAULT_RESOERCES_PATH "${PROJECT_SOURCE_DIR}/resources")
     endif()
-    set(${PROJECT_NAME}_RESOURCES  "${DEFAULT_RESOERCES_PATH}" CACHE PATH "Relative or absolute path to Application resources.")
+    set(${PROJECT_NAME}_RESOURCES  "${DEFAULT_RESOERCES_PATH}")
 endif()
-
-message(${${PROJECT_NAME}_RESOURCES}/)
 
 # generate resource definitions from RESOURCE_FILES based on their location
 set(RESOURCES_DEBUG_COMPILE_DEFINITIONS )
@@ -18,10 +16,10 @@ foreach(relative_file_name ${RESOURCE_FILES})
 
     # find full name of resource file
     find_file(resource_file
-        ${relative_file_name}
-        HINTS ${${PROJECT_NAME}_RESOURCES}/
+        NAMES "${relative_file_name}"
+        PATHS "${${PROJECT_NAME}_RESOURCES}"
     )
-
+        
     # create shader definition string
     string(REPLACE "/" "_" definition_name ${relative_file_name})
     string(REPLACE "\\" "_" definition_name ${definition_name})
@@ -40,7 +38,7 @@ foreach(relative_file_name ${RESOURCE_FILES})
     # message(
     #     "\"RESOURCE_" ${definition_name} "=\\\"" ${resource_file} "\\\"\","
     # )
-
+    
     message(${resource_definition})
     message(${resource_definition_release})
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <RenderBase/core/Window.h>
-#include <SDL.h>
+#include <SDL2/include/SDL.h>
 
 namespace rb {
     namespace platform {

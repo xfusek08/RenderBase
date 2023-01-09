@@ -3,9 +3,6 @@ project (RenderBase)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(SDL2 REQUIRED)
-find_package(glm REQUIRED)
-
 set(SOURCES
     src/RenderBase/rb.h
 
@@ -49,6 +46,8 @@ set(SOURCES
 # )
 
 add_subdirectory(vendor/glad)
+add_subdirectory(vendor/glm)
+add_subdirectory(vendor/SDL2)
 
 add_library(${PROJECT_NAME}
     ${SOURCES}

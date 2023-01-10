@@ -1,50 +1,49 @@
 cmake_minimum_required (VERSION 3.18)
 
-if(NOT DEFINED ${${PROJECT_NAME}_RESOURCES})
-    if(NOT DEFINED ${DEFAULT_RESOERCES_PATH})
-        set(DEFAULT_RESOERCES_PATH "${PROJECT_SOURCE_DIR}/resources")
-    endif()
-    set(${PROJECT_NAME}_RESOURCES  "${DEFAULT_RESOERCES_PATH}")
-endif()
-
-# generate resource definitions from RESOURCE_FILES based on their location
-set(RESOURCES_DEBUG_COMPILE_DEFINITIONS )
-set(RESOURCES_RELEASE_COMPILE_DEFINITIONS )
-foreach(relative_file_name ${RESOURCE_FILES})
-
-    unset(resource_file CACHE)
-
-    # find full name of resource file
-    find_file(resource_file
-        NAMES "${relative_file_name}"
-        PATHS "${${PROJECT_NAME}_RESOURCES}"
+function(LOAD_RESOURCE_DEFINITIONS RESOURCE_DIR OUT_DEBUG_DEFINITIONS OUT_RELEASE_DEFINITIONS)
+    file(GLOB_RECURSE
+        RESOURCE_LIST
+        RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/${RESOURCE_DIR}
+        "${RESOURCE_DIR}/*"
     )
-        
-    # create shader definition string
-    string(REPLACE "/" "_" definition_name ${relative_file_name})
-    string(REPLACE "\\" "_" definition_name ${definition_name})
-    string(REGEX REPLACE "\\..*" "" definition_name ${definition_name})
-    string(TOUPPER ${definition_name} definition_name)
-
-    string(CONCAT resource_definition
-        "RESOURCE_" ${definition_name} "=\"" ${resource_file} "\""
-    )
-
-    string(CONCAT resource_definition_release
-        "RESOURCE_" ${definition_name} "=\"resources/" ${relative_file_name} "\""
-    )
-
-    # json configuration print out for vs code
-    # message(
-    #     "\"RESOURCE_" ${definition_name} "=\\\"" ${resource_file} "\\\"\","
-    # )
     
-    message(${resource_definition})
-    message(${resource_definition_release})
+    set(DEBUG_LIST )
+    set(RELEASE_LIST )
+    foreach(resource_file ${RESOURCE_LIST})
+    
+        # generate files definition name
+        string(REGEX REPLACE "^\/" "" definition_name ${resource_file})
+        string(REPLACE "/" "_" definition_name ${definition_name})
+        string(REPLACE "\\" "_" definition_name ${definition_name})
+        string(REPLACE "." "_" definition_name ${definition_name})
+        string(TOUPPER ${definition_name} definition_name)
+        
+        # find files full path
+        unset(resource_file_fullname CACHE)
+        find_file(resource_file_fullname
+            ${resource_file}
+            HINTS ${CMAKE_CURRENT_SOURCE_DIR}/${RESOURCE_DIR}
+        )
+        
+        # define files fill path as debug definition
+        string(CONCAT resource_definition
+            "RESOURCE_" ${definition_name} "=\"${resource_file_fullname}\""
+        )
 
-    # message(${resource_definition_release})
+        # define file relative path as release definition
+        string(CONCAT resource_definition_release
+            "RESOURCE_" ${definition_name} "=\"${RESOURCE_DIR}/${resource_file}\""
+        )
 
-    # add resource_definition to RESOURCES_DEBUG_COMPILE_DEFINITIONS list
-    list(APPEND RESOURCES_DEBUG_COMPILE_DEFINITIONS ${resource_definition})
-    list(APPEND RESOURCES_RELEASE_COMPILE_DEFINITIONS ${resource_definition_release})
-endforeach()
+        # # print out json valid configuration for vscode
+        # message(
+        #     "\"RESOURCE_" ${definition_name} "=\\\"${resource_file_fullname}\\\"\","
+        # )
+        
+        list(APPEND DEBUG_LIST ${resource_definition})
+        list(APPEND RELEASE_LIST ${resource_definition_release})
+    endforeach()
+    
+    set(${OUT_DEBUG_DEFINITIONS} ${DEBUG_LIST} PARENT_SCOPE)
+    set(${OUT_RELEASE_DEFINITIONS} ${RELEASE_LIST} PARENT_SCOPE)
+endfunction()

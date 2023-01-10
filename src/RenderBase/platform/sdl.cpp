@@ -43,6 +43,9 @@ SDLWindow::SDLWindow(const string &title, uint32_t width, uint32_t height) {
         SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL
     );
 
+    // Make the window not resizable
+    SDL_SetWindowResizable(sdlWindow, SDL_FALSE);
+    
     // init opengl context
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
@@ -60,7 +63,7 @@ int SDLWindow::showVirtual() {
 
     while (open) {
         SDL_Event sdlEvent;
-        if (SDL_PollEvent(&sdlEvent)) {
+        while (SDL_PollEvent(&sdlEvent)) {
             if (sdlEvent.type == SDL_QUIT) {
                 open = false;
             }

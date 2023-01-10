@@ -69,20 +69,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     # ${IMGUI_DIR}
 )
 
-if (NOT DEFINED COMPILE_DEFINITIONS)
-    set(COMPILE_DEFINITIONS
-        "PROJECT_NAME=\"${PROJECT_NAME}\""
-        "DEBUG"
-        # $<$<CONFIG:Debug>:
-        #     "DEBUG"
-        # >
-        # $<$<CONFIG:Release>: >
-    )
-endif()
-
-message(" ")
-message("====== ${PROJECT_NAME} compile definitions =======")
-message(${COMPILE_DEFINITIONS})
-message("==================================================")
-message(" ")
-target_compile_definitions(${PROJECT_NAME} PUBLIC ${COMPILE_DEFINITIONS})
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+    "PROJECT_NAME=\"${PROJECT_NAME}\""
+    $<$<CONFIG:Debug>:DEBUG >
+    $<$<CONFIG:Release>:NDEBUG >
+)

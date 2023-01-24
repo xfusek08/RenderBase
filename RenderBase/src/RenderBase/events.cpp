@@ -29,7 +29,7 @@ struct EventSubscription {
     void* listener;
     EventCallback callback;
 };
-    
+
 /**
  * Internal dispatcher state
  *

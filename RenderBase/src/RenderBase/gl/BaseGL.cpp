@@ -12,7 +12,7 @@
         std::vector<GLenum> errs;
         GLenum err;
         while((err = glGetError()) != GL_NO_ERROR) {
-            RB_FATAL("Openg GL error: " << err);
+            RB_FATAL("Open GL error: " << err);
             errs.push_back(err);
         }
         

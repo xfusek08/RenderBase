@@ -32,10 +32,6 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
-    $<$<CONFIG:Debug>:
-        "DEBUG"
-    >
-    $<$<CONFIG:Release>:
-        "RELEASE" "NO_ASSERT" "NO_LOGS"
-    >
+    $<$<CONFIG:Debug>:DEBUG>
+    $<$<CONFIG:Release>:RELEASE NO_ASSERT NO_LOG>
 )

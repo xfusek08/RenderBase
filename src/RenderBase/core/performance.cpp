@@ -10,10 +10,10 @@ using namespace rb;
 using namespace chrono;
 
 
-PerformenceAnalyzer::PerformenceAnalyzer() {
+PerformanceAnalyzer::PerformanceAnalyzer() {
 }
 
-void PerformenceAnalyzer::capFPS(uint32_t fpsCap) {
+void PerformanceAnalyzer::capFPS(uint32_t fpsCap) {
     this->fpsCap = fpsCap;
     if (fpsCap == 0) {
         usPerFrame = 0s;
@@ -23,7 +23,7 @@ void PerformenceAnalyzer::capFPS(uint32_t fpsCap) {
     }
 }
 
-void PerformenceAnalyzer::perPeriodReport(std::chrono::microseconds periodLength, const periodReportCallback_t& callback) {
+void PerformanceAnalyzer::perPeriodReport(std::chrono::microseconds periodLength, const periodReportCallback_t& callback) {
 
     auto item = make_shared<PeriodReportItem>(periodLength, callback);
 
@@ -36,7 +36,7 @@ void PerformenceAnalyzer::perPeriodReport(std::chrono::microseconds periodLength
     }
 }
 
-FrameReport PerformenceAnalyzer::frame() {
+FrameReport PerformanceAnalyzer::frame() {
     lastFrameReport.end = steady_clock::now();
 
     auto lastFrameDuration = lastFrameReport.duration();

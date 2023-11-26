@@ -31,10 +31,10 @@ namespace rb {
                     void parseEvent(const SDL_Event &sdlEvent, rb::Event *event);
             };
 
-            class SDLPerformenceAnalyzer : public PerformenceAnalyzer
+            class SDLPerformanceAnalyzer : public PerformanceAnalyzer
             {
                 public:
-                    using PerformenceAnalyzer::PerformenceAnalyzer;
+                    using PerformanceAnalyzer::PerformanceAnalyzer;
             };
 
         }

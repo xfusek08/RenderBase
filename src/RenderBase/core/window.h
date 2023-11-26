@@ -17,8 +17,8 @@ namespace rb {
             void onEvent(const eventCallback_t& callback);
             void onDraw(const drawCallback_t& callback);
 
-            void setPerformanceAnalyzer(std::shared_ptr<PerformenceAnalyzer> analyzer) { this->analyzer = analyzer; }
-            inline std::shared_ptr<PerformenceAnalyzer> getPerformanceAnalyzer() const { return analyzer; }
+            void setPerformanceAnalyzer(std::shared_ptr<PerformanceAnalyzer> analyzer) { this->analyzer = analyzer; }
+            inline std::shared_ptr<PerformanceAnalyzer> getPerformanceAnalyzer() const { return analyzer; }
 
             int  show();
 
@@ -28,7 +28,7 @@ namespace rb {
             virtual uint32_t    getHeight() const = 0;
 
         protected:
-            std::shared_ptr<PerformenceAnalyzer> analyzer = nullptr;
+            std::shared_ptr<PerformanceAnalyzer> analyzer = nullptr;
 
             virtual int  showVirtual() = 0;
             virtual void onEventVirtual(const eventCallback_t& callback) = 0;

@@ -37,9 +37,9 @@ shared_ptr<rb::Window> platform::createWindow(const string& title, uint32_t widt
     return nullptr;
 }
 
-shared_ptr<PerformenceAnalyzer> platform::createPerformanceAnalyzer() {
+shared_ptr<PerformanceAnalyzer> platform::createPerformanceAnalyzer() {
     #ifdef PLATFORM_WINDOW_SDL
-        return make_shared<platform::sdl::SDLPerformenceAnalyzer>();
+        return make_shared<platform::sdl::SDLPerformanceAnalyzer>();
     #endif // try another window lib
     return nullptr;
 }

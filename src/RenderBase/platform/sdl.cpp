@@ -142,5 +142,5 @@ void SDLWindow::parseEvent(const SDL_Event &sdlEvent, rb::Event *event) {
 }
 
 // #########################################################################
-// SDLPerformenceAnalyzer implementation
+// SDLPerformanceAnalyzer implementation
 // #########################################################################

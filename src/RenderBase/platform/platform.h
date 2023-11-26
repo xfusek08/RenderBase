@@ -19,6 +19,6 @@ namespace rb {
     namespace platform {
         bool loadOpenGlFunctions();
         std::shared_ptr<rb::Window>          createWindow(const std::string& title, uint32_t width, uint32_t height);
-        std::shared_ptr<PerformenceAnalyzer> createPerformanceAnalyzer();
+        std::shared_ptr<PerformanceAnalyzer> createPerformanceAnalyzer();
     }
 }
